@@ -1,0 +1,180 @@
+Exercise - 2: Projec Information 
+
+//Entitiy Class//
+package com.week1Exercise;
+
+public class Project {
+	
+	int projectId, noOfResources;
+	String projectName, projectHead;
+	/**
+	 * @return the projectId
+	 */
+	public int getProjectId() {
+		return projectId;
+	}
+	/**
+	 * @param projectId the projectId to set
+	 */
+	public void setProjectId(int projectId) {
+		this.projectId = projectId;
+	}
+	/**
+	 * @return the noOfResources
+	 */
+	public int getNoOfResources() {
+		return noOfResources;
+	}
+	/**
+	 * @param noOfResources the noOfResources to set
+	 */
+	public void setNoOfResources(int noOfResources) {
+		this.noOfResources = noOfResources;
+	}
+	/**
+	 * @return the projectName
+	 */
+	public String getProjectName() {
+		return projectName;
+	}
+	/**
+	 * @param projectName the projectName to set
+	 */
+	public void setProjectName(String projectName) {
+		this.projectName = projectName;
+	}
+	/**
+	 * @return the projectHead
+	 */
+	public String getProjectHead() {
+		return projectHead;
+	}
+	/**
+	 * @param projectHead the projectHead to set
+	 */
+	public void setProjectHead(String projectHead) {
+		this.projectHead = projectHead;
+	}
+	
+}
+
+//Main Class//
+package com.week1Exercise;
+
+public class ProjectTest {
+
+public static void main(String[] args) {
+	
+	Project proj = new  Project();
+	
+//* assigning the object to the variables *//
+	proj.setProjectId(1234);
+    proj.setProjectName("Java Training");
+    proj.setProjectHead("Ashok");
+    proj.setNoOfResources(20);
+    
+                          
+       System.out.printf("Project Id: %s\nProject Name: %s\nProject Head: %s\nNo of Resources", proj.getProjectId(), 
+    		       proj.getProjectName(),proj.getProjectHead(),proj.getNoOfResources());
+		
+       
+      } 	
+}
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Exercise - 3: String Service Provider
+package com.week1Exercise;
+
+//Entity Class for String Service Provider//
+
+package com.week1Exercise;
+public class StringServiceProvider {
+	
+	public static void reverseMeth() {
+          String GivenName = "Java Training";
+		 
+		 char[] namearry = GivenName.toCharArray();
+		 
+		   for (int i = namearry.length-1; i>=0; i--)
+	            System.out.print(namearry[i]);
+	}
+	
+	public static  void replaceMeth() {
+		
+		String repl = "My Name is Hema Hema";
+		String outrepl;
+		
+		if (repl.contains("Hema")) {
+			outrepl = repl.replaceAll("Hema", "Sri");
+		     System.out.println(outrepl);
+		}
+		else
+		System.out.println("string not matched");
+ 	}
+	
+	
+   public static  boolean  linearMeth(String value1, String value2) {
+	  boolean flag = false;   
+	 	if (value1.indexOf(value2) > 0)   
+	 	flag = true;   
+	 	return flag;
+ 
+   }
+}
+
+//Main Class for String Service provider//
+package com.week1Exercise;
+
+public class StringServiceProviderTest {
+	
+	public static void main(String[] args) {
+		
+		StringServiceProvider obj = new StringServiceProvider();
+			
+		System.out.println("Reverese of a string - ");
+		obj.reverseMeth();
+		System.out.printf("%n");
+		System.out.println("Replace of a string: - "+"\t");
+	 	obj.replaceMeth();
+	 	System.out.println(obj.linearMeth("I do work in an Information and Technolgoy","work")); 
+	}
+}
+ 
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Exercise - 4: Bank Account Java program
+
+//Entity Class//
+
+package com.week1Exercise;
+
+public class BankAccount {
+
+	  String accountNo, accountName;
+	  double accountBalance = 1000;
+	
+	public BankAccount(String accountNo, String accountName) {
+		super();
+		this.accountNo = accountNo;
+		this.accountName = accountName;
+    }
+ }
+
+//Main Class//
+
+package com.week1Exercise;
+
+public class BankAccountTest {
+	
+ 	public static void main(String[] args) {
+ 		
+ 	// Creating object based on the construction in the entity class //
+ 		
+ 		BankAccount  obj = new  BankAccount("12345XYZ", "PNC Bank Checking Account"  );
+ 		 
+ 	 
+ 	 System.out.println("Account Number is - " + obj.accountNo + "\n" + "Account Name is - " + obj.accountName + "\n" + 
+	                     "Account Balance is - " +  obj.accountBalance);
+		
+	}
+}
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
