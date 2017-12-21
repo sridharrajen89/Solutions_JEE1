@@ -1,4 +1,4 @@
-package com.htc.CoreJavaExercise;
+package com.htc.week1;
 
 public class Project extends Object{
 private int projectID;
