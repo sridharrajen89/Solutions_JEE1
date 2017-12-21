@@ -265,16 +265,7 @@ public class Company implements ICompanyServiceProvider {
 
 	@Override
 	public boolean createEmployee(Employee pEmpObj) throws DuplicateEmployeeIDException {
-		boolean isEmpCreated = false;
-
-		for (Employee empObj : empList) {
-			if (empObj.getEmployeeId() == pEmpObj.getEmployeeId()) {
-				throw new DuplicateEmployeeIDException("Duplicate Employee found ");
-			} else {
-				new Employee(pEmpObj.getEmployeeId(),empObj.getEmployeeName(),empObj.getEmployeeSalary());
-				isEmpCreated = true;
-			}
-		}
+		boolean isEmpCreated = empList.add(pEmpObj);
 		return isEmpCreated;
 	}
 
@@ -284,6 +275,7 @@ public class Company implements ICompanyServiceProvider {
 		for (Employee empObj : empList) {
 			if (empObj.getEmployeeId() == pEmployeeId) {
 				tmpEmpObj = empObj;
+				break;
 			} else
 				throw new EmployeeNotFoundException("Employee is not found ");
 		}
@@ -297,6 +289,7 @@ public class Company implements ICompanyServiceProvider {
 			if (empObj.getEmployeeId() == pEmployeeId) {
 				empObj.setEmployeeSalary(newSalary);
 				isUpdated = true;
+				break;
 			} else
 				throw new EmployeeNotFoundException("Employee is not found ");
 		}
@@ -309,7 +302,7 @@ public class Company implements ICompanyServiceProvider {
 		boolean isDeleted = false;
 		for (Employee empObj : empList) {
 			if (empObj.getEmployeeId() == pEmployeeId) {
-				empObj = null;
+				empList.remove(empObj);
 				isDeleted = true;
 			} else
 				throw new EmployeeNotFoundException("Employee is not found ");
@@ -318,6 +311,7 @@ public class Company implements ICompanyServiceProvider {
 
 	}
 }
+
 
 -----------------------------------------------------------------------------------------------------------------------------
 
@@ -338,26 +332,27 @@ public class MainEmployeeExercise {
 				
 			//Adding First Employee record
 			employee = new Employee(12345, "Prabakaran", 1000.00);
-			empList.add(employee);
-			
+			//Call createEmployee method to add an Employee Record
+			company.createEmployee(employee);
+
 			//Adding Second Employee record
 			employee = new Employee(45678, "Ramasamy", 2000.00);
 			
 			//Call createEmployee method to add an Employee Record
-			System.out.println(company.createEmployee(employee));
-			
-			System.out.println(company);
+			company.createEmployee(employee);
 			
 			//Call readEmployee method to read an Employee Record
-			System.out.println(company.readEmployee(12345));
+			System.out.println("Reading " +company.readEmployee(12345));
 			
 			//Call updateEmployee method to update a salary of an Employee
 			company.updateEmployee(12345, 2000.000);
 			
-			System.out.println(company.readEmployee(12345));
+			System.out.println("Updated Record " + company.readEmployee(12345));
 			
 			//Call deleteEmployee method to delete an Employee Record
-			company.deleteEmployee(12345);
+			if(company.deleteEmployee(12345)){
+				System.out.println("Record deleted successfully");
+			}
 			
 			System.out.println(company.readEmployee(12345));
 
