@@ -42,7 +42,7 @@ public	Trainee trainee[];
 
 
 
-public Trainee getTrainee (int traineeID) //throws TraineeNotFoundException {
+public Trainee getTrainee (int traineeID)  {
 {
 	return null;
 
