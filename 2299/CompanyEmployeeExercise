@@ -1,0 +1,377 @@
+package gfs.test.employee.exercise;
+
+public class Employee {
+
+	private int employeeId;
+	private String employeeName;
+	private double employeeSalary;
+
+	public Employee(int employeeId, String employeeName, double employeeSalary) {
+		super();
+		this.employeeId = employeeId;
+		this.employeeName = employeeName;
+		this.employeeSalary = employeeSalary;
+	}
+
+	/**
+	 * @return the employeeId
+	 */
+	public int getEmployeeId() {
+		return employeeId;
+	}
+
+	/**
+	 * @return the employeeName
+	 */
+	public String getEmployeeName() {
+		return employeeName;
+	}
+
+	/**
+	 * @return the employeeSalary
+	 */
+	public double getEmployeeSalary() {
+		return employeeSalary;
+	}
+
+	/**
+	 * @param employeeId
+	 *            the employeeId to set
+	 */
+	public void setEmployeeId(int employeeId) {
+		this.employeeId = employeeId;
+	}
+
+	/**
+	 * @param employeeName
+	 *            the employeeName to set
+	 */
+	public void setEmployeeName(String employeeName) {
+		this.employeeName = employeeName;
+	}
+
+	/**
+	 * @param employeeSalary
+	 *            the employeeSalary to set
+	 */
+	public void setEmployeeSalary(double employeeSalary) {
+		this.employeeSalary = employeeSalary;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "Employee [employeeId=" + employeeId + ", employeeName=" + employeeName + ", employeeSalary="
+				+ employeeSalary + "]";
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + employeeId;
+		result = prime * result + ((employeeName == null) ? 0 : employeeName.hashCode());
+		long temp;
+		temp = Double.doubleToLongBits(employeeSalary);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		return result;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Employee other = (Employee) obj;
+		if (employeeId != other.employeeId)
+			return false;
+		if (employeeName == null) {
+			if (other.employeeName != null)
+				return false;
+		} else if (!employeeName.equals(other.employeeName))
+			return false;
+		if (Double.doubleToLongBits(employeeSalary) != Double.doubleToLongBits(other.employeeSalary))
+			return false;
+		return true;
+	}
+
+}
+-----------------------------------------------------------------------------------------------------------------------------
+
+package gfs.test.employee.exercise;
+
+public class DuplicateEmployeeIDException extends Exception {
+
+	private static final long serialVersionUID = -5209769626271723057L;
+
+	private String errorMessage;
+
+	public DuplicateEmployeeIDException(String errorMessage) {
+		super();
+		this.errorMessage = errorMessage;
+	}
+
+	public String getErrorMessage() {
+		return errorMessage;
+	}
+
+}
+-----------------------------------------------------------------------------------------------------------------------------
+
+package gfs.test.employee.exercise;
+
+public class EmployeeNotFoundException extends Exception {
+
+	private static final long serialVersionUID = -5209769626271723057L;
+
+	private String errorMessage;
+
+	public EmployeeNotFoundException(String errorMessage) {
+		super();
+		this.errorMessage = errorMessage;
+	}
+
+	public String getErrorMessage() {
+		return errorMessage;
+	}
+
+}
+-----------------------------------------------------------------------------------------------------------------------------
+package gfs.test.employee.exercise;
+
+public interface ICompanyServiceProvider {
+
+	public boolean createEmployee(Employee obj) throws DuplicateEmployeeIDException;
+
+	public Employee readEmployee(int employeeId) throws EmployeeNotFoundException;
+
+	public boolean updateEmployee(int employeeId, double newSalary) throws EmployeeNotFoundException;
+
+	public boolean deleteEmployee(int employeeId) throws EmployeeNotFoundException;
+
+}
+-----------------------------------------------------------------------------------------------------------------------------
+import java.util.ArrayList;
+
+public class Company implements ICompanyServiceProvider {
+
+	private int companyId;
+	private String companyName;
+	private String companyEmailId;
+	private ArrayList<Employee> empList;
+
+	public Company(int companyId, String companyName, String companyEmailId, ArrayList<Employee> empList) {
+		super();
+		this.companyId = companyId;
+		this.companyName = companyName;
+		this.companyEmailId = companyEmailId;
+		this.empList = empList;
+	}
+
+	public int getCompanyId() {
+		return companyId;
+	}
+
+	public String getCompanyName() {
+		return companyName;
+	}
+
+	public String getCompanyEmailId() {
+		return companyEmailId;
+	}
+
+	public ArrayList<Employee> getEmpList() {
+		return empList;
+	}
+
+	public void setCompanyId(int companyId) {
+		this.companyId = companyId;
+	}
+
+	public void setCompanyName(String companyName) {
+		this.companyName = companyName;
+	}
+
+	public void setCompanyEmailId(String companyEmailId) {
+		this.companyEmailId = companyEmailId;
+	}
+
+	public void setEmpList(ArrayList<Employee> empList) {
+		this.empList = empList;
+	}
+
+	@Override
+	public String toString() {
+		return "Company [companyId=" + companyId + ", companyName=" + companyName + ", companyEmailId="
+				+ companyEmailId + ", empList=" + empList + "]";
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((companyEmailId == null) ? 0 : companyEmailId.hashCode());
+		result = prime * result + companyId;
+		result = prime * result + ((companyName == null) ? 0 : companyName.hashCode());
+		result = prime * result + ((empList == null) ? 0 : empList.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Company other = (Company) obj;
+		if (companyEmailId == null) {
+			if (other.companyEmailId != null)
+				return false;
+		} else if (!companyEmailId.equals(other.companyEmailId))
+			return false;
+		if (companyId != other.companyId)
+			return false;
+		if (companyName == null) {
+			if (other.companyName != null)
+				return false;
+		} else if (!companyName.equals(other.companyName))
+			return false;
+		if (empList == null) {
+			if (other.empList != null)
+				return false;
+		} else if (!empList.equals(other.empList))
+			return false;
+		return true;
+	}
+
+	@Override
+	public boolean createEmployee(Employee pEmpObj) throws DuplicateEmployeeIDException {
+		boolean isEmpCreated = false;
+
+		for (Employee empObj : empList) {
+			if (empObj.getEmployeeId() == pEmpObj.getEmployeeId()) {
+				throw new DuplicateEmployeeIDException("Duplicate Employee found ");
+			} else {
+				new Employee(pEmpObj.getEmployeeId(),empObj.getEmployeeName(),empObj.getEmployeeSalary());
+				isEmpCreated = true;
+			}
+		}
+		return isEmpCreated;
+	}
+
+	@Override
+	public Employee readEmployee(int pEmployeeId) throws EmployeeNotFoundException {
+		Employee tmpEmpObj = null;
+		for (Employee empObj : empList) {
+			if (empObj.getEmployeeId() == pEmployeeId) {
+				tmpEmpObj = empObj;
+			} else
+				throw new EmployeeNotFoundException("Employee is not found ");
+		}
+		return tmpEmpObj;
+	}
+
+	@Override
+	public boolean updateEmployee(int pEmployeeId, double newSalary) throws EmployeeNotFoundException {
+		boolean isUpdated = false;
+		for (Employee empObj : empList) {
+			if (empObj.getEmployeeId() == pEmployeeId) {
+				empObj.setEmployeeSalary(newSalary);
+				isUpdated = true;
+			} else
+				throw new EmployeeNotFoundException("Employee is not found ");
+		}
+		return isUpdated;
+
+	}
+
+	@Override
+	public boolean deleteEmployee(int pEmployeeId) throws EmployeeNotFoundException {
+		boolean isDeleted = false;
+		for (Employee empObj : empList) {
+			if (empObj.getEmployeeId() == pEmployeeId) {
+				empObj = null;
+				isDeleted = true;
+			} else
+				throw new EmployeeNotFoundException("Employee is not found ");
+		}
+		return isDeleted;
+
+	}
+}
+
+-----------------------------------------------------------------------------------------------------------------------------
+
+package gfs.test.employee.exercise;
+
+import java.util.ArrayList;
+
+public class MainEmployeeExercise {
+
+	public static void main(String[] args) {
+
+		ArrayList<Employee> empList = new ArrayList<Employee>();
+		
+		try {
+			Employee employee;
+			
+			Company company = new Company(9999, "HTC", "mail2htc@htcinc.com", empList);
+				
+			//Adding First Employee record
+			employee = new Employee(12345, "Prabakaran", 1000.00);
+			empList.add(employee);
+			
+			//Adding Second Employee record
+			employee = new Employee(45678, "Ramasamy", 2000.00);
+			
+			//Call createEmployee method to add an Employee Record
+			System.out.println(company.createEmployee(employee));
+			
+			System.out.println(company);
+			
+			//Call readEmployee method to read an Employee Record
+			System.out.println(company.readEmployee(12345));
+			
+			//Call updateEmployee method to update a salary of an Employee
+			company.updateEmployee(12345, 2000.000);
+			
+			System.out.println(company.readEmployee(12345));
+			
+			//Call deleteEmployee method to delete an Employee Record
+			company.deleteEmployee(12345);
+			
+			System.out.println(company.readEmployee(12345));
+
+		} catch (NullPointerException NP) {
+			NP.printStackTrace();
+		} catch (EmployeeNotFoundException ENF) {
+			ENF.printStackTrace();
+		} catch (DuplicateEmployeeIDException DEID) {
+			DEID.printStackTrace();
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		} finally {
+			empList.clear();
+		}
+	}
+
+}
