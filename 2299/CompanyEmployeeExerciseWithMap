@@ -1,0 +1,408 @@
+package gfs.test.employee.exercise;
+
+public class Employee {
+
+	private int employeeId;
+	private String employeeName;
+	private double employeeSalary;
+
+	public Employee(int employeeId, String employeeName, double employeeSalary) {
+		super();
+		this.employeeId = employeeId;
+		this.employeeName = employeeName;
+		this.employeeSalary = employeeSalary;
+	}
+
+	/**
+	 * @return the employeeId
+	 */
+	public int getEmployeeId() {
+		return employeeId;
+	}
+
+	/**
+	 * @return the employeeName
+	 */
+	public String getEmployeeName() {
+		return employeeName;
+	}
+
+	/**
+	 * @return the employeeSalary
+	 */
+	public double getEmployeeSalary() {
+		return employeeSalary;
+	}
+
+	/**
+	 * @param employeeId
+	 *            the employeeId to set
+	 */
+	public void setEmployeeId(int employeeId) {
+		this.employeeId = employeeId;
+	}
+
+	/**
+	 * @param employeeName
+	 *            the employeeName to set
+	 */
+	public void setEmployeeName(String employeeName) {
+		this.employeeName = employeeName;
+	}
+
+	/**
+	 * @param employeeSalary
+	 *            the employeeSalary to set
+	 */
+	public void setEmployeeSalary(double employeeSalary) {
+		this.employeeSalary = employeeSalary;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "Employee [employeeId=" + employeeId + ", employeeName=" + employeeName + ", employeeSalary="
+				+ employeeSalary + "]";
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + employeeId;
+		return result;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Employee other = (Employee) obj;
+		if (employeeId != other.employeeId)
+			return false;
+		return true;
+	}
+
+}
+
+---------------------------------------------------------------------------------------------------------------------------------------
+package gfs.test.employee.exercise;
+
+public class DuplicateEmployeeIDException extends Exception {
+
+	private static final long serialVersionUID = -5209769626271723057L;
+
+	private String errorMessage;
+
+	public DuplicateEmployeeIDException(String errorMessage) {
+		super();
+		this.errorMessage = errorMessage;
+	}
+
+	public String getErrorMessage() {
+		return errorMessage;
+	}
+
+}
+
+---------------------------------------------------------------------------------------------------------------------------------------
+package gfs.test.employee.exercise;
+
+public class EmployeeNotFoundException extends Exception {
+
+	private static final long serialVersionUID = -5209769626271723057L;
+
+	private String errorMessage;
+
+	public EmployeeNotFoundException(String errorMessage) {
+		super();
+		this.errorMessage = errorMessage;
+		System.out.println(errorMessage);
+	}
+
+	public String getErrorMessage() {
+		return errorMessage;
+	}
+
+}
+
+---------------------------------------------------------------------------------------------------------------------------------------
+package gfs.test.employee.exercise;
+
+public interface ICompanyServiceProvider {
+
+	public boolean createEmployee(Employee obj) throws DuplicateEmployeeIDException;
+
+	public Employee readEmployee(int employeeId) throws EmployeeNotFoundException;
+
+	public boolean updateEmployee(int employeeId, double newSalary) throws EmployeeNotFoundException;
+
+	public boolean deleteEmployee(int employeeId) throws EmployeeNotFoundException;
+
+}
+---------------------------------------------------------------------------------------------------------------------------------------
+
+
+package gfs.test.employee.exercise;
+
+import java.util.HashMap;
+import java.util.Map.Entry;
+
+public class CompanyWithMap implements ICompanyServiceProvider {
+
+
+
+	private int companyId;
+	private String companyName;
+	private String companyEmailId;
+	private HashMap<Integer, Employee> empMap;
+
+	public CompanyWithMap(int companyId, String companyName, String companyEmailId, HashMap<Integer, Employee> empMap) {
+		super();
+		this.companyId = companyId;
+		this.companyName = companyName;
+		this.companyEmailId = companyEmailId;
+		this.empMap = empMap;
+	}
+	
+	/**
+	 * @return the companyId
+	 */
+	public int getCompanyId() {
+		return companyId;
+	}
+
+	/**
+	 * @return the companyName
+	 */
+	public String getCompanyName() {
+		return companyName;
+	}
+
+	/**
+	 * @return the companyEmailId
+	 */
+	public String getCompanyEmailId() {
+		return companyEmailId;
+	}
+
+	/**
+	 * @return the empMap
+	 */
+	public HashMap<Integer, Employee> getEmpMap() {
+		return empMap;
+	}
+
+	/**
+	 * @param companyId
+	 *            the companyId to set
+	 */
+	public void setCompanyId(int companyId) {
+		this.companyId = companyId;
+	}
+
+	/**
+	 * @param companyName
+	 *            the companyName to set
+	 */
+	public void setCompanyName(String companyName) {
+		this.companyName = companyName;
+	}
+
+	/**
+	 * @param companyEmailId
+	 *            the companyEmailId to set
+	 */
+	public void setCompanyEmailId(String companyEmailId) {
+		this.companyEmailId = companyEmailId;
+	}
+
+	/**
+	 * @param empMap
+	 *            the empMap to set
+	 */
+	public void setEmpMap(HashMap<Integer, Employee> empMap) {
+		this.empMap = empMap;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + companyId;
+		result = prime * result + ((companyName == null) ? 0 : companyName.hashCode());
+		return result;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		CompanyWithMap other = (CompanyWithMap) obj;
+		if (companyId != other.companyId)
+			return false;
+		if (companyName == null) {
+			if (other.companyName != null)
+				return false;
+		} else if (!companyName.equals(other.companyName))
+			return false;
+		return true;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "CompanyWithMap [companyId=" + companyId + ", companyName=" + companyName + ", companyEmailId="
+				+ companyEmailId + ", empMap=" + empMap + "]";
+	}
+
+	@Override
+	public boolean createEmployee(Employee pEmpObj) throws DuplicateEmployeeIDException {
+
+		for (Integer key : empMap.keySet()) {
+			if (key == pEmpObj.getEmployeeId()) {
+				throw new DuplicateEmployeeIDException("Duplicate Employee found ");
+			}
+		}
+		empMap.put(pEmpObj.getEmployeeId(), pEmpObj);
+		return true;
+	}
+
+	@Override
+	public Employee readEmployee(int pEmployeeId) throws EmployeeNotFoundException {
+		Employee tmpEmpObj = null;
+		for (Entry<Integer, Employee> entry : empMap.entrySet())  {
+			if (entry.getKey() == pEmployeeId) {
+				tmpEmpObj = entry.getValue();
+				break;
+			}
+		}
+		if (tmpEmpObj != null) {
+			return tmpEmpObj;
+		} else {
+			throw new EmployeeNotFoundException("Employee not found");
+		}
+	}
+
+	@Override
+	public boolean updateEmployee(int pEmployeeId, double newSalary) throws EmployeeNotFoundException {
+		boolean isUpdated = false;
+		for (Entry<Integer, Employee> entry : empMap.entrySet()) {
+			if (entry.getKey() == pEmployeeId) {
+				entry.getValue().setEmployeeSalary(newSalary);
+				isUpdated = true;
+				break;
+			}
+		}
+		if (isUpdated) {
+			return isUpdated;
+		} else
+			throw new EmployeeNotFoundException("Employee not found ");
+	}
+
+	@Override
+	public boolean deleteEmployee(int pEmployeeId) throws EmployeeNotFoundException {
+		boolean isDeleted = false;
+		for (Integer key : empMap.keySet()) {
+			if (key == pEmployeeId) {
+				empMap.remove(key);
+				isDeleted = true;
+				break;
+			}
+		}
+		if (isDeleted) {
+			return isDeleted;
+		} else
+			throw new EmployeeNotFoundException("Employee not found ");
+	}
+
+}
+---------------------------------------------------------------------------------------------------------------------------------------
+
+package gfs.test.employee.exercise;
+
+import java.util.HashMap;
+
+public class MainEmployeeExerciseWithMap {
+
+	public static void main(String[] args) {
+
+		HashMap<Integer, Employee> empList = new HashMap<Integer, Employee>();
+		
+		try {
+			Employee employee;
+			
+			CompanyWithMap companyWithMap = new CompanyWithMap(9999, "HTC", "mail2htc@htcinc.com", empList);
+				
+			//Adding First Employee record
+			employee = new Employee(12345, "Prabakaran", 1000.00);
+			//Call createEmployee method to add an Employee Record
+			companyWithMap.createEmployee(employee);
+
+			//Adding Second Employee record
+			employee = new Employee(45678, "Ramasamy", 2000.00);
+			
+			//Call createEmployee method to add an Employee Record
+			companyWithMap.createEmployee(employee);
+			
+			System.out.println(companyWithMap);
+			
+			//Call readEmployee method to read an Employee Record
+			System.out.println("Reading " +companyWithMap.readEmployee(12345));
+			
+			//Call updateEmployee method to update a salary of an Employee
+			companyWithMap.updateEmployee(12345, 2000.000);
+			
+			System.out.println("Updated Record " + companyWithMap.readEmployee(12345));
+			
+			//Call deleteEmployee method to delete an Employee Record
+			if(companyWithMap.deleteEmployee(12345)){
+				System.out.println("Record deleted successfully");
+			}
+			
+			System.out.println(companyWithMap.readEmployee(12345));
+
+		} catch (NullPointerException NP) {
+			NP.printStackTrace();
+		} catch (EmployeeNotFoundException ENF) {
+			ENF.printStackTrace();
+		} catch (DuplicateEmployeeIDException DEID) {
+			DEID.printStackTrace();
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		} finally {
+			empList.clear();
+		}
+	}
+
+}
