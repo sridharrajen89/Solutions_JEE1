@@ -1,0 +1,243 @@
+Employee Class
+
+package com.htc.test1;
+
+public class Employee {
+
+	private int employeeId;
+	private String employeeName;
+	protected static double employeeSal;
+	
+	//constructor with variables - purpose of constructor is to initialize//
+	
+	public Employee(int employeeId, String employeeName, double employeeSal) {
+		super();
+		this.employeeId = employeeId;
+		this.employeeName = employeeName;
+		this.employeeSal = employeeSal;
+    }
+
+	//Getters and Setters Section for all the Employee Variables//
+	 
+	public  int getEmployeeId() {
+		return employeeId;     
+    }
+	 public void setEmployeeId(int employeeId) {
+		this.employeeId = employeeId;	
+	}
+	 public String getEmployeeName() {
+		return employeeName;
+	}
+ 	 public void setEmployeeName(String employeeName) {
+		this.employeeName = employeeName;
+	}
+ 	public double getEmployeeSal() {
+		return employeeSal;
+	}
+ 	public void setEmployeeSal(double employeeSal) {
+		this.employeeSal = employeeSal;
+	}
+ 	//End of Getters and Setters//
+
+	//toString method is starting here for all the Employee Variables//
+	@Override
+	public String toString() {
+		return "Employee [employeeId=" + employeeId + ", employeeName="
+				+ employeeName + ", employeeSal=" + employeeSal
+				+ ", getEmployeeId()=" + getEmployeeId()
+				+ ", getEmployeeName()=" + getEmployeeName()
+				+ ", getEmployeeSal()=" + getEmployeeSal() + "]";
+	}
+
+	//HashCode Method is starting here for all the Employee Variables//
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + employeeId;
+		 return result;
+	}
+
+	//Equals methods start here//  
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Employee other = (Employee) obj;
+		if (employeeId != other.employeeId)
+			return false;
+		 return true;
+	}
+ 	
+	public Employee() {
+	}
+ 	}
+ 
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Interface for all the CRUD Methods
+
+package com.htc.test1;
+
+public interface ICompanyServiceProvider {
+ 
+	public boolean createEmployee(Employee obj); //throws DuplicateEmployeeId ;
+	public Employee readEmployee(int employeeId); //throws  EmployeeNotFound;
+	public boolean updateEmployee(int employeeId, double newemploeeSal);
+	public boolean deleteEmployee(int employeeId);
+ 		 
+}
+ 
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+package com.htc.test1;
+
+import java.util.*;
+
+public class Company extends Employee implements ICompanyServiceProvider {
+	
+	 private int companyId;	 
+	 private String companyname;
+	 private String companyEmailId;
+	 
+	 private static ArrayList<Employee> empList = new ArrayList<Employee>();
+	 
+   //Constructors//
+	 public Company() { }	 
+	 
+    public Company(int employeeId, String employeeName, double employeeSal,
+			int companyId, String companyname, String companyEmailId,
+			ArrayList<Employee> empList) {
+		super(employeeId, employeeName, employeeSal);
+		this.companyId = companyId;
+		this.companyname = companyname;
+		this.companyEmailId = companyEmailId;
+		this.empList = empList;
+	}
+
+//To String Method//
+	@Override
+	public String toString() {
+		return "Company [companyId=" + companyId + ", companyname="
+				+ companyname + ", companyEmailId=" + companyEmailId
+				+ ", emplist=" + empList + "]";
+	}
+//Hash Code Method//
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+				+ ((companyEmailId == null) ? 0 : companyEmailId.hashCode());
+		result = prime * result + companyId;
+		result = prime * result
+				+ ((companyname == null) ? 0 : companyname.hashCode());
+		result = prime * result + ((empList == null) ? 0 : empList.hashCode());
+		return result;
+	}
+ //Equals Method//
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Company other = (Company) obj;
+		if (companyEmailId == null) {
+			if (other.companyEmailId != null)
+				return false;
+		} else if (!companyEmailId.equals(other.companyEmailId))
+			return false;
+		if (companyId != other.companyId)
+			return false;
+		if (companyname == null) {
+			if (other.companyname != null)
+				return false;
+		} else if (!companyname.equals(other.companyname))
+			return false;
+		if (empList == null) {
+			if (other.empList != null)
+				return false;
+		} else if (!empList.equals(other.empList))
+			return false;
+		return true;
+	}
+//Interface Methods Starts Here//
+	public boolean createEmployee(Employee empobj) throws DuplicateEmployeeId {
+		boolean flag = false;
+		
+	//	empobj.setEmployeeId(1234);
+	//	empobj.setEmployeeName("Ravi");
+	//	empobj.setEmployeeSal(300.00);
+		empList.add(empobj);
+		 flag = true;
+		
+		if (flag == false){ throw new DuplicateEmployeeId(); }
+		
+        return flag;
+ }
+ 	@Override
+	public Employee readEmployee(int employeeId) {
+ 	 
+ 		System.out.println("Employee List"+empList);
+ 		
+ 		return null;
+	}
+ 	@Override
+	public boolean updateEmployee(int employeeId, double employeeSal) {
+ 		
+		if (empList.equals(234)) {
+			
+			employeeSal = 300.00;
+			
+		}
+		return true;
+	}
+ 	@Override
+	public boolean deleteEmployee(int employeeId) {
+		
+	if (empList.equals(1234)) {
+			
+	    empList.remove(empList);
+		}
+		return true;
+		 
+	}
+	
+ 
+ public static void main(String[] args) {
+	
+try {
+	 Employee empobj = new Employee(1234,"Hema",300.00);
+	 Employee empobj2 = new Employee(5678,"Sri",250.00);
+	 Employee empobj3 = new Employee(9876,"Srinu",350.00);
+	 Company compobj = new Company();
+	  
+	 compobj.createEmployee(empobj);
+	  
+//	 compobj.createEmployee(compobj);
+	 compobj.readEmployee(1234);
+//	 compobj.updateEmployee(234, 350.00);
+}
+
+catch (DuplicateEmployeeId dei) {
+	    System.out.println("Duplicate Employee Id");
+	    dei.printStackTrace();
+}
+
+catch (Exception ex) {
+	System.out.println("general Exception");
+}
+
+finally { empList.clear(); }
+	 
+ }
+}
+
+
+
+ 
