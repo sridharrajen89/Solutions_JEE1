@@ -1,0 +1,161 @@
+package com.htc.CoreJavaExercise;
+import java.util.*;
+
+public class Employee {
+	private int employeeId;
+	private String employeeName;
+	private double employeeSalary;
+	
+	// default construtor 
+		public Employee(){
+			System.out.println("Default constructor is fired  ");
+			employeeId=0;
+			employeeName=" ";
+			employeeSalary= 00;
+		}
+		public Employee(int employeeId, String employeeName, double employeeSalary) {
+			super();
+			this.employeeId = employeeId;
+			this.employeeName = employeeName;
+			this.employeeSalary = employeeSalary;
+		} 
+// Getter and Setter
+		public String getEmployeeName() {
+			return employeeName;
+		}
+
+		public void setEmployeeId() {
+			this.employeeId=employeeId;
+		}
+
+		public void setEmployeeName() {
+			this.employeeName=employeeName;
+		}
+
+		
+		public void setEmployeeSalary() {
+			this.employeeSalary=employeeSalary;
+		}
+
+		
+		  // toString,equals
+		@Override
+		public String toString() {
+			return "Employee [employeeName=" + employeeName + ", employeeSalary=" + employeeSalary + ", employeeId=" + employeeId + "]";
+		}
+		// hashCode
+		@Override
+		public int hashCode() {
+			final int prime = 31;
+			int result=1;
+			result = prime * result + employeeId;
+			return result;
+		}
+	
+	// User defined exceptions
+
+	class EmployeeNotFoundException extends Exception{
+	  private String errorMessage;
+	  public EmployeeNotFoundException(String errorMessage) {
+			this.errorMessage=errorMessage;
+		}
+	  public String getErrorMessage() {
+			return errorMessage;
+	  
+	}
+
+	class DuplicateEmployeeIDException extends Exception{
+	  final String ERRORMESSAGE="Duplicate Employee Id, Consider new Id";
+	  public String getErrorMessage() {
+			return ERRORMESSAGE;
+		}
+	  
+	}
+
+
+	// interface for CRUD operation
+	public interface ICompanyServiceProvider{
+
+	  public boolean createEmployee(Employee obj) throws DuplicateEmployeeIDException;
+	  public Employee readEmployee(int employeeId) throws  EmployeeNotFoundException; 
+	  public boolean  updateEmployee(int employeeId,double newSalary) throws        EmployeeNotFoundException;
+	  public boolean deleteEmployee(int employeeId) throws  EmployeeNotFoundException;
+
+	}
+
+	class Company implements ICompanyServiceProvider {
+	   private int companyId;
+	   private String companyname;
+	   private String companyEmailId;
+	   private ArrayList<Employee> emplist;// has-A relation ship 
+	   // construtors
+	   // setters , getters 
+	   // hashCode,equals,toString 
+	
+	  @Override
+	  public boolean createEmployee(Employee empobj) throws DuplicateEmployeeIDException{
+	    
+	    emplist.add(empobj);
+//	    logics for handling DuplicateEmployeeIDException;
+
+	  }
+	  @Override
+	  public Employee readEmployee(int pemployeeId) throws  EmployeeNotFoundException{
+	      Employee empobj;
+		for (emplist : empobj){
+	        if(empobj.getEmployeeId()==pemployeeId)
+	           return empobj;
+	        else
+	        	return null; }
+	        	
+	   //    further logics for throw  new EmployeeNotFoundException("Employee is not found ");
+
+	      
+	  }
+	  @Override
+	  public boolean updateEmployee(int employeeId,double newSalary) throws                         EmployeeNotFoundException {
+	    
+	     for ( iterate the employee list ){
+	       if ( serach the employee Id in the list ) 
+	         update the list with new salary  // replace 
+	    
+
+	  }
+	  @Override
+	  public bolean deleteEmployee(int employeeId) throws  EmployeeNotFoundException{
+	      for ( iterate the emplist )
+	        if ( search the employee )
+	           delete the occurance from the list 
+	       further logics for thorw  new EmployeeNotFoundException("Employee is not found ");
+	 
+	  }
+
+	}
+
+
+	//  main method 
+
+	class exericise13{
+	   public static void main(string args[]){
+	   try{
+	        // create objects for Employee 
+	        // create object for  Company 
+	        // call the CRUD methods using comapny object   
+	       }
+	       catch(EmployeeNotFoundException ENF){
+	         ...
+	       }
+	       catch(DuplicateEmployeeIDException DEID){
+	          ...
+	       }
+	       catch(Exception ex){
+	         ...
+	       }
+	       finally{
+	          list.clear();
+	       }
+	}
+	   
+
+
+}
