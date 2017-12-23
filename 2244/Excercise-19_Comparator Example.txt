@@ -1,0 +1,79 @@
+Excercise - 19
+Create a Comparator<Product> object to sort the products in stores class with respect price. Display the sorted product
+-------------
+package com.htc.comparator;
+import java.io.*;
+import java.util.*;
+
+class Store implements Comparable<Store>{
+	private int productId;
+	private String productName;
+	private Double productPrice;
+	@Override
+	public int compareTo(Store s) {
+		 return this.productId - s.productId;
+	}
+	//Constructor
+	public Store(int productId, String productName, Double productPrice) {
+		super();
+		this.productId = productId;
+		this.productName = productName;
+		this.productPrice = productPrice;
+	}
+	//getters
+	public int getProductId() {
+		return productId;
+	}	
+	public String getProductName() {
+		return productName;
+	}
+	
+	public Double getProductPrice() {
+		return productPrice;
+	}
+	@Override
+	public String toString() {
+		return "Store [productId=" + productId + ", productName=" + productName + ", productPrice=" + productPrice
+				+ "]";
+	}
+		
+}
+-----------------------------------------------------------------------------------------------
+
+package com.htc.comparator;
+import java.util.*;
+
+public class StoreMain {
+
+	public static void main(String[] args) {
+		ArrayList<Store> list = new ArrayList<Store>();
+		list.add(new Store(100,"shuttle cork",11.05));
+        list.add(new Store(104,"Ball",111.05));
+        list.add(new Store(101,"Bat",130.05));
+        list.add(new Store(103,"Tennis bat",111.01));
+        list.add(new Store(102,"Shuttle Racket",130.01));
+        System.out.println("\nSorted by Product Price...");
+        PriceCompare priceCompare = new PriceCompare();
+        Collections.sort(list, priceCompare);
+        for (Store store: list)
+            System.out.println(store.getProductId() + " " +
+            				   store.getProductName() + " " +
+            				   store.getProductPrice());
+        System.out.println("\nSorted by Product ID...");
+        Collections.sort(list);
+        System.out.println(list);
+	}
+
+}
+-------------------------------Output------------------------------
+
+Sorted by Product Price...
+100 shuttle cork 11.05
+103 Tennis bat 111.01
+104 Ball 111.05
+102 Shuttle Racket 130.01
+101 Bat 130.05
+
+Sorted by Product ID...
+[Store [productId=100, productName=shuttle cork, productPrice=11.05], Store [productId=101, productName=Bat, productPrice=130.05], Store [productId=102, productName=Shuttle Racket, productPrice=130.01], Store [productId=103, productName=Tennis bat, productPrice=111.01], Store [productId=104, productName=Ball, productPrice=111.05]]
+

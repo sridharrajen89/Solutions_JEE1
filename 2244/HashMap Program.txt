@@ -1,0 +1,169 @@
+HashMap Example
+-------------------------
+package com.htc.javaweek2;
+
+import java.util.Collection;
+import java.util.HashMap;
+
+public class CompanyHashMap implements ICompanyServiceProvider{
+	   private int companyId;
+	   private String companyname;
+	   private String companyEmailId;
+	   private HashMap<Integer, Employee> emplist;
+	   //Constructor
+	public CompanyHashMap(int companyId, String companyname, String companyEmailId,HashMap<Integer, Employee> emplist) {
+		super();
+		this.companyId = companyId;
+		this.companyname = companyname;
+		this.companyEmailId = companyEmailId;
+		this.emplist = emplist;
+	}
+	//getters & setters
+	public int getCompanyId() {
+		return companyId;
+	}
+	public void setCompanyId(int companyId) {
+		this.companyId = companyId;
+	}
+	public String getCompanyname() {
+		return companyname;
+	}
+	public void setCompanyname(String companyname) {
+		this.companyname = companyname;
+	}
+	public String getCompanyEmailId() {
+		return companyEmailId;
+	}
+	public void setCompanyEmailId(String companyEmailId) {
+		this.companyEmailId = companyEmailId;
+	}
+	public HashMap<Integer, Employee> getEmplist() {
+		return emplist;
+	}
+	public void setEmplist(HashMap<Integer, Employee> emplist) {
+		this.emplist = emplist;
+	}
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + companyId;
+		return result;
+	}
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		CompanyHashMap other = (CompanyHashMap) obj;
+		if (companyId != other.companyId)
+			return false;
+		return true;
+	}
+	@Override
+	public boolean createEmployee(Employee obj) throws DuplicateEmployeeIDException {
+		boolean created = false;
+		Collection<Employee> emp = emplist.values();
+		for(Employee employee : emp) {
+			if(employee.getEmployeeId()==obj.getEmployeeId()) {
+				throw new DuplicateEmployeeIDException();
+			}else {
+				created = true;
+			}
+		}
+		return created;
+	}
+	@Override
+	public Employee readEmployee(int employeeId) throws EmployeeNotFoundException {
+		Collection<Employee> emp = emplist.values();
+		Employee emp1 = null;
+		for(Employee employee : emp) {
+			if(employee.getEmployeeId() == employeeId) {
+				emp1 = employee;
+				break;
+			}
+		}if(emp1 == null) {
+			throw new EmployeeNotFoundException("Employee not found for given ID ");
+		}			
+		return emp1;
+	}
+	@Override
+	public boolean updateEmployee(int employeeId, double newSalary) throws EmployeeNotFoundException {
+		Collection<Employee> emp = emplist.values();
+		boolean salaryUpdate = false;
+		for(Employee employee : emp) {
+			if(employee.getEmployeeId() == employeeId) {
+				employee.setEmployeeSalary(newSalary);
+				salaryUpdate = true;
+				break;
+			}
+		}if(emp == null) {
+			throw new EmployeeNotFoundException("Employee not found for given ID ");
+		}
+		return salaryUpdate;
+	}
+	@Override
+	public boolean deleteEmployee(int employeeId) throws EmployeeNotFoundException {
+		Collection<Employee> emp = emplist.values();
+		boolean deleted = false; 
+		Employee empp = null;
+		for(Employee employee : emp) {
+			if(employee.getEmployeeId() == employeeId) {
+				empp = employee;
+				deleted = true;
+				break;
+			}
+		}if(empp == null) {
+			throw new EmployeeNotFoundException("Employee not found for given ID ");
+		}
+		return deleted;
+	}
+	   
+}
+-----------------------------Main ----------------------
+
+package com.htc.javaweek2;
+
+import java.util.HashMap;
+
+public class CompanyNameHashMapMain {
+
+	public static void main(String[] args) throws EmployeeNotFoundException,DuplicateEmployeeIDException {
+		try {
+			HashMap<Integer, Employee> emplist = new HashMap<Integer, Employee>();
+			emplist.put(100, new Employee (100,"HashTest1",10000));
+			emplist.put(101, new Employee (101,"HashTest2",20000));
+			emplist.put(102, new Employee (102,"HashTest3",30000));
+			emplist.put(103, new Employee (103,"HashTest4",40000));
+			CompanyHashMap c = new CompanyHashMap(111,"HTC","htc@gmail.com",emplist);
+			System.out.println(emplist);
+			c.updateEmployee(100, 111111);
+			System.out.println("After Update.." + emplist);
+			System.out.println("Read Method.."+c.readEmployee(100));
+			if(c.createEmployee(new Employee(104,"HashTest5",50000))) {
+				emplist.put(104, new Employee(105,"HashTest6",60000));
+			}
+			System.out.println("After Create.." + emplist);
+			if(c.deleteEmployee(100)) {
+				emplist.remove(100);
+			}
+			System.out.println("After Delete.." + emplist);
+		} catch(EmployeeNotFoundException e1) {
+			e1.printStackTrace();
+		} catch(DuplicateEmployeeIDException e2) {
+			e2.printStackTrace();
+		} catch(Exception e3) {
+			e3.printStackTrace();
+		}
+	}
+}
+=============================Output-=======================
+{100=Employee [employeeId=100, employeeName=HashTest1, employeeSalary=10000.0], 101=Employee [employeeId=101, employeeName=HashTest2, employeeSalary=20000.0], 102=Employee [employeeId=102, employeeName=HashTest3, employeeSalary=30000.0], 103=Employee [employeeId=103, employeeName=HashTest4, employeeSalary=40000.0]}
+After Update..{100=Employee [employeeId=100, employeeName=HashTest1, employeeSalary=111111.0], 101=Employee [employeeId=101, employeeName=HashTest2, employeeSalary=20000.0], 102=Employee [employeeId=102, employeeName=HashTest3, employeeSalary=30000.0], 103=Employee [employeeId=103, employeeName=HashTest4, employeeSalary=40000.0]}
+Read Method..Employee [employeeId=100, employeeName=HashTest1, employeeSalary=111111.0]
+After Create..{100=Employee [employeeId=100, employeeName=HashTest1, employeeSalary=111111.0], 101=Employee [employeeId=101, employeeName=HashTest2, employeeSalary=20000.0], 102=Employee [employeeId=102, employeeName=HashTest3, employeeSalary=30000.0], 103=Employee [employeeId=103, employeeName=HashTest4, employeeSalary=40000.0], 104=Employee [employeeId=105, employeeName=HashTest6, employeeSalary=60000.0]}
+After Delete..{101=Employee [employeeId=101, employeeName=HashTest2, employeeSalary=20000.0], 102=Employee [employeeId=102, employeeName=HashTest3, employeeSalary=30000.0], 103=Employee [employeeId=103, employeeName=HashTest4, employeeSalary=40000.0], 104=Employee [employeeId=105, employeeName=HashTest6, employeeSalary=60000.0]}
+
