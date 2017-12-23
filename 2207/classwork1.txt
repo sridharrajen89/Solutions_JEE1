@@ -1,0 +1,212 @@
+PROBLEM
+package com.htc.oops;
+
+public class BankAccount {
+
+String accountNo;
+String accountName;
+int balance =1000;
+
+BankAccount(String aNo, String aName, int bal)
+
+{
+	this.accountNo = aNo;
+	this.accountName = aName;
+	this.balance = bal;
+				
+}
+
+BankAccount(String aNo, String aName)
+
+{
+	this.accountNo = aNo;
+	this.accountName = aName;
+					
+}
+
+public static void main(String[] args) {
+	// TODO Auto-generated method stub
+	
+	BankAccount obj1 = new BankAccount("8888810","FirstName LastName", 1999);  
+	System.out.println("Account Id:"+obj1.accountNo+"\nName: "+obj1.accountName +"\n" + "Balance:"+ obj1.balance +"\n");
+	
+//	@Overload
+	System.out.println("==============================");
+	BankAccount obj2 = new BankAccount("8888810","FirstName LastName"); 
+	System.out.println("After overload Account Id:"+obj2.accountNo+"\nAfter overload Name: "+obj1.accountName);
+	
+}
+}
+Problem =========================================== package com.htc.oops;
+
+class Question2 {
+
+private int projectId; private String projectName; private String projectHead; private int noOfResources;
+
+	//writing Getter methods for project ID
+	public int getprocjectID()
+		{
+				return projectId;
+		}
+
+	//writing Getter methods for projectName
+	public String getprojectName()
+	{
+			return projectName;
+	}
+	
+	//writing Getter methods for projectHead
+	public String getprojectHead()
+	{
+			return projectHead;
+	}
+	
+	//writing Getter methods for noOfResources
+	public int getnoOfResources()
+	{
+			return noOfResources;
+	}
+	
+	
+	//writing Setter methods for project ID
+	public void setprojectId(int runTimevalue)
+	
+	{
+		projectId = runTimevalue;
+	
+	}
+	
+	//writing Setter methods for projectName
+			public void setprojectName(String runTimevalue)
+			
+			{
+				projectName = runTimevalue;
+			
+			}
+			
+		
+	//writing Setter methods for projectHead
+			public void setprojectHead(String runTimevalue)
+			
+			{
+				projectHead = runTimevalue;
+			
+			}
+			
+		
+			//writing Setter methods for noOfResources
+			public void setnoOfResources(int runTimevalue)
+			
+			{
+				noOfResources = runTimevalue;
+			
+			}
+}
+
+public class Projectsample {
+
+public static void main(String[] args) {
+	// TODO Auto-generated method stub
+	
+	Question2 objQ = new Question2 ();
+	
+	objQ.setprojectId(116);
+	objQ.setprojectName("HTC JAVA Training Part 1");
+	objQ.setprojectHead("TRAINER ASHOK");
+	objQ.setnoOfResources(20);
+	
+	System.out.println("Output Display:");
+	System.out.println("\n");
+	System.out.println("Project ID : 				 " + objQ.getprocjectID());
+	System.out.println("\n");
+	System.out.println("Project Name : 				 " + objQ.getprojectName());
+	System.out.println("\n");
+	System.out.println("Project Head : 				 " + objQ.getprojectHead());
+	System.out.println("\n");
+	System.out.println("Project no.of resources :	 	 " + objQ.getnoOfResources());
+	
+}
+}
+Problem============================================= package com.htc.oops;
+
+//Class of ReverseString ReverseString Question3 class ReverseString {
+
+public static void replaceString() {
+
+StringBuilder str = new StringBuilder("Java Training for Beginners at HTC");
+System.out.println("Original string = " + str);
+
+// replace substring from index 5 to index 10
+str.replace(5, 10, "LEARN");
+
+// prints the StringBuilder after replacing
+System.out.println("After replacing here is the string output: " + str);
+}
+
+public static void main(String[] args) { String inputQuestion3 = "HTC Java Training by Ashok";
+
+ StringBuilder inputString = new StringBuilder();
+
+ // append a string into StringBuilder input1
+ inputString.append(inputQuestion3);
+
+ // reverse StringBuilder input1
+ inputString = inputString.reverse();
+
+ // print reversed String
+ for (int i=0; i<inputString.length(); i++)
+     System.out.print(inputString.charAt(i));
+ 
+ System.out.println("\n");
+ 
+ 
+// ReverseString objR = new ReverseString();
+ ReverseString.replaceString();
+}
+
+}
+Problem================================================= package com.htc.oops;
+
+public class Trainee
+
+{
+
+private int traineeId;
+private String traineeName;
+private int contactNo;
+private String email;
+private String gender;
+private int age;
+}
+
+package com.htc.oops;
+
+import java.util.Date;
+
+public class Batch {
+
+private int batchCode;
+private Date startDate;
+private Date endDate;
+private Trainee[] trainee;
+
+public Trainee getTrainee(int traineeId) throws TraineeNotFoundException{
+	return null;
+	
+}
+
+
+public Trainee[] getTrainees(String gender) {
+	return trainee;
+	
+}
+ 
+
+public static void main(String[] args) {
+	// TODO Auto-generated method stub
+	
+
+}
+}
+
+===============================================================
