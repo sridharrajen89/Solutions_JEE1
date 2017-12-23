@@ -1,18 +1,17 @@
-package com.htcinc.oops;
+package com.htcinc.oops.day8;
 
-/*
- 4. Follow the given instructions and create an application using Java.   
- (i) Create a ‘BankAccount’ class with 3 data members, accountNo[use String], accountName and balance.   
- (ii) Overload the BankAccount constructor to accept only accountNo and accountName variables.   
- (iii) Initialize the balance with 1000. 
- */
+import java.io.Serializable;
 
-public class BankAccount {
+//BankAccount entity class
+
+public class BankAccount implements Serializable {
+
+	private static final long serialVersionUID = -7655948902289089652L;
+	
 	private String accountNo;
 	private String accountName;
 	private double balance;
 	
-
 	public BankAccount(String accountNo, String accountName, double balance) {
 		super();
 		this.accountNo = accountNo;
@@ -20,10 +19,14 @@ public class BankAccount {
 		this.balance = balance;
 	}
 
+	//Overloaded constructor
 	public BankAccount(String accountNo, String accountName) {
-		this(accountNo, accountName, 1000);
+		super();
+		this.accountNo = accountNo;
+		this.accountName = accountName;
+		this.balance = 1000;
 	}
-
+	
 	public String getAccountNo() {
 		return accountNo;
 	}
@@ -47,7 +50,37 @@ public class BankAccount {
 	public void setBalance(double balance) {
 		this.balance = balance;
 	}
-	
+
+	@Override
+	public String toString() {
+		return "Bank [accountNo=" + accountNo + ", accountName=" + accountName + ", balance=" + balance + "]";
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((accountNo == null) ? 0 : accountNo.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		BankAccount other = (BankAccount) obj;
+		if (accountNo == null) {
+			if (other.accountNo != null)
+				return false;
+		} else if (!accountNo.equals(other.accountNo))
+			return false;
+		return true;
+	}
+
 	
 	
 

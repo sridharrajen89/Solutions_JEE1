@@ -1,47 +1,132 @@
-package com.htcinc.oops;
-/*
- 
- 5. Follow the given instructions and create an application using Java.    
- (i) Create a Bank Class having an array of BankAccount as a data member, populate the array through setters. 
- 
- (ii) Introduce a static variable called lastAssignedNo(integer). This should be initialized to 0 in the beginning. While creating new bank accounts, the accountNo 
-       variable should not be supplied in the constructor parameter list. Instead it has to be computed as (lastAssignedNo + 1). Also modify the 
-       lastAssignedNo after creating a bank account. 
- 
- (iii) Create an IBankServiceProvider interface and declare the following methods:     
-	 (a) BankAccount checkAccount(String accountNo)   
-	 This checks whether the given account number is available in the array or not. 
-	 If exists, it should return the object of BankAccount class, else   return null. 
-	 Reuse this method in all the other methods given below.      
-	 (b) double getBalance( BankAccount account)   This will return the balance in an account for the given account      
-	 (c) boolean depositMoney(BankAccount account, double amount)   This deposits the given amount into the given account number after   
-	 verifying whether the given account is present in the array or not.     
-	(d) boolean withdrawMoney(BankAccount account, double amount)   
-	This will withdraw the given amount from the given account after   verifying the existence of account as well as balance.      
-	(e) boolean transferMoney(BankAccount fromAccount, BankAccount     toAccount amount)   
-	This transfers the money from one account to another account after  
-	 verifying both the accounts are existing or not as well as balance of the   ‘fromAccount’. 
-	 
- (iv) Bank class should implement IBankServiceProvider interface and override the    methods of the interface. 
- 
- */
+package com.htcinc.oops.day8;
 
-public class Bank {
-	
-	private BankAccount[] bankAccount;
-	private static int lastAssignedNo=0;
-	private static int index=0;
+import java.io.Serializable;
+import java.util.Arrays;
+
+// Entity Bank class
+public class Bank implements Serializable, IBankServiceProvider {
+
+	private static final long serialVersionUID = 5327763625575170334L;
+
+	private BankAccount[] bankAccounts;
+	private static int lastAssignedNo;
 	
 	public Bank() {
 		super();
-		
-		this.bankAccount = bankAccount;
+		this.bankAccounts=null;
+		lastAssignedNo=0;
 	}
+	
+	
+
+	public boolean addBankAccount(BankAccount bankAccount) {
+		bankAccounts[lastAssignedNo++]=bankAccount;
+		return true;
+	}
+
 	
 
 	
+	@Override
+	public String toString() {
+		return "Bank [bankAccount=" + Arrays.toString(bankAccounts) + "]";
+	}
+
 	
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + Arrays.hashCode(bankAccounts);
+		return result;
+	}
+
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Bank other = (Bank) obj;
+		if (!Arrays.equals(bankAccounts, other.bankAccounts))
+			return false;
+		return true;
+	}
+
+	@Override
+	public BankAccount checkAccount(String accountNo) {
+		// TODO Auto-generated method stub
+		for(BankAccount bAccount: bankAccounts ) {
+			if ((bAccount.getAccountNo()).equals(accountNo))
+				return bAccount;	
+		}
+		return null;
+	}
+
+
+	@Override
+	public double getBalance(BankAccount account) {
+		// TODO Auto-generated method stub
+		BankAccount bAccount=checkAccount(account.getAccountNo());
+		if (bAccount != null)
+			return bAccount.getBalance();
+		else
+			return 0;
+	}
 	
+	@Override
+	public boolean depositMoney(BankAccount account, double amount) {
+		// TODO Auto-generated method stub
+		
+		 if (amount > 0) {
+			BankAccount bAccount=checkAccount(account.getAccountNo());
+			if (bAccount != null) {
+				bAccount.setBalance(bAccount.getBalance() + amount);
+				return true;
+			}
+		 }
+			return false;
+		
+	}
+
+
+	@Override
+	public boolean withdrawMoney(BankAccount account, double amount) {
+		// TODO Auto-generated method stub
+		 if (amount > 0) {
+			BankAccount bAccount=checkAccount(account.getAccountNo());
+			if (bAccount != null) {
+				bAccount.setBalance(bAccount.getBalance() - amount);
+				return true;
+			}
+		 }
+			return false;
+		
+	}
+
+
+	@Override
+	public boolean transferMoney(BankAccount fromAccount, BankAccount toAccount, double amount) {
+		// TODO Auto-generated method stub
+		
+		 if (amount > 0) {
+			BankAccount fromBankAccount=checkAccount(fromAccount.getAccountNo());
+			BankAccount toBankAccount=checkAccount(toAccount.getAccountNo());
+			
+			if ((fromBankAccount != null)  && (toBankAccount != null)) {
+				
+				fromBankAccount.setBalance(fromBankAccount.getBalance() - amount);
+				toBankAccount.setBalance(toBankAccount.getBalance() + amount);
+				return true;
+			}
+		 }
+			return false;
+	}
+
 	
 	
 
