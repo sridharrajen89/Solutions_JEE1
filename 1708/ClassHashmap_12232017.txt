@@ -1,0 +1,315 @@
+package com.htc.CoreJavaExercise;
+import java.util.*;
+
+//import com.htc.CoreJavaExercise.EmployeeNotFoundException.DuplicateEmployeeIDException;
+
+class EmployeeHash  {
+	private int employeeId;
+	private String employeeName;
+	private double employeeSalary;
+	
+	// default construtor 
+		public EmployeeHash(){
+			System.out.println("Default constructor is fired  ");
+			employeeId=0;
+			employeeName=" ";
+			employeeSalary= 00;
+		}
+		public EmployeeHash(int employeeId, String employeeName, double employeeSalary) {
+			super();
+			this.employeeId = employeeId;
+			this.employeeName = employeeName;
+			this.employeeSalary = employeeSalary;
+		} 
+// Getter and Setter
+		public int getEmployeeId() {
+			return employeeId;
+		}
+		public String getEmployeeName() {
+			return employeeName;
+		}
+		
+		public double getEmployeeSalary() {
+			return employeeSalary;
+		}
+
+		public void setEmployeeId(int employeeId) {
+			this.employeeId=employeeId;
+		}
+
+		public void setEmployeeName(String employeeName) {
+			this.employeeName=employeeName;
+		}
+
+		
+		public void setEmployeeSalary(double employeeSalary) {
+			this.employeeSalary=employeeSalary;
+		}
+
+		@Override
+		public boolean equals(Object obj) {
+			if (this == obj)
+				return true;
+			if (obj == null)
+				return false;
+			if (getClass() != obj.getClass())
+				return false;
+			EmployeeHash other = (EmployeeHash) obj;
+			if (employeeId != other.employeeId)
+				return false;
+			return true;
+		}
+		
+		  // toString,equals
+		@Override
+		public String toString() {
+			return "Employee [employeeName=" + employeeName + ", employeeSalary=" + employeeSalary + ", employeeId=" + employeeId + "]";
+		}
+		// hashCode
+		@Override
+		public int hashCode() {
+			final int prime = 31;
+			int result=1;
+			result = prime * result + employeeId;
+			return result;
+		}
+}
+	
+		  
+	// User defined exceptions
+
+		 class EmployeeNotFoundException_V1 extends Exception{
+		  private String errorMessage;
+		  public EmployeeNotFoundException_V1(String errorMessage) {
+				this.errorMessage=errorMessage;
+			}
+		  public String getErrorMessage() {
+				return errorMessage;
+		  
+		}
+
+		static class DuplicateEmployeeIDException_V1 extends Exception{
+		  final String ERRORMESSAGE="Duplicate Employee Id, Consider new Id";
+		  public String getErrorMessage() {
+				return ERRORMESSAGE;
+			}
+		  
+		}
+		
+	// interface for CRUD operation
+		interface ICompanyServiceProvider{
+
+		  public boolean createEmployeeHash(EmployeeHash obj) throws DuplicateEmployeeIDException_V1;
+		  public EmployeeHash readEmployeeHash(int employeeId) throws  EmployeeNotFoundException_V1; 
+		  public boolean  updateEmployeeHash(int employeeId,double newSalary) throws        EmployeeNotFoundException_V1;
+		  public boolean deleteEmployeeHash(int employeeId) throws  EmployeeNotFoundException_V1;
+
+		}
+
+	public static final class CompanyHash implements ICompanyServiceProvider {
+	   private int companyId;
+	   private String companyName;
+	   private String companyEmailId;
+	   private HashMap<Integer,EmployeeHash> emplist;// has-A relation ship 
+	   public CompanyHash(){
+			super();
+			this.companyId = 0;
+			this.companyName = "";
+			this.companyEmailId = "";
+			this.emplist = null;
+		}
+	   
+	   /**
+		 * @param companyId
+		 * @param companyname
+		 * @param companyEmailId
+		 * @param emplist
+	 * @return 
+		 */
+	   public CompanyHash(int companyId, String companyName, String companyEmailId,HashMap<Integer, EmployeeHash> emplist) {
+			super();
+			this.companyId = companyId;
+			this.companyName = companyName;
+			this.companyEmailId = companyEmailId;
+			this.emplist = emplist;
+		}
+		
+	   // construtors
+	   // setters , getters 
+	   // hashCode,equals,toString 
+		
+		public int getCompanyId() {
+			return companyId;
+		}
+	   public String getCompanyName() {
+			return companyName;
+		}
+	   public String getCompanyEmailID() {
+			return companyEmailId;
+		}
+	   public HashMap<Integer, EmployeeHash> getempList() {
+			return emplist;
+		}
+	   public void setCompanyId(int companyId) {
+			this.companyId = companyId;
+		}
+	   public void setCompanyName(String companyName) {
+			this.companyName=companyName;
+		}
+	   public void setCompanyEmailID(String companyEmailId ) {
+			this.companyEmailId=companyEmailId;
+		}
+	   public void setempList(HashMap<Integer, EmployeeHash> emplist) {
+			this.emplist= emplist;
+		}
+	
+		@Override
+		public int hashCode() {
+			final int prime = 31;
+			int result=1;
+			result = prime * result + companyId;
+			return result;
+		}
+		@Override
+		public String toString() {
+			return "Company [companyId=" + companyId + "companyName=" + companyName + ", companyEmailId=" + companyEmailId + ", emplist=" + emplist + "]";
+		}
+		@Override 
+		public boolean equals(Object obj) {
+			if (this == obj)
+				return true;
+			if (obj == null) 
+				return false;
+			
+			if (getClass() != obj.getClass()) 
+				return false;
+			CompanyHash other = (CompanyHash) obj;
+			if (companyId != other.companyId)
+				return false;
+			return true;
+		}
+
+	
+		@Override
+		  public boolean createEmployeeHash(EmployeeHash empObj) throws DuplicateEmployeeIDException_V1{
+			  Collection<EmployeeHash> emp = emplist.values();
+			for (EmployeeHash emp1:emp) {
+			   if (emp1.getEmployeeId() == empObj.getEmployeeId()) {
+					   throw  new DuplicateEmployeeIDException_V1();
+				   }
+			  }
+	//	 	  Employee emp = new Employee(empObj);
+			  ((Collection<EmployeeHash>) emplist).add(empObj);
+			  return true;
+		  }
+		
+		@Override
+		  public EmployeeHash readEmployeeHash(int pEmployeeId) throws  EmployeeNotFoundException_V1{
+			Collection<EmployeeHash> emp = emplist.values();
+			for (EmployeeHash emp1:emp) {
+				   if (emp1.getEmployeeId() == pEmployeeId) 
+		              return emp1;
+			  }
+			  throw  new EmployeeNotFoundException_V1("Employee is not found ");
+  
+		  }
+	   //    further logics for throw  new EmployeeNotFoundException("Employee is not found ");
+
+	      
+	  
+	@Override
+	  public boolean updateEmployeeHash(int pEmployeeId,double newSalary) throws EmployeeNotFoundException_V1 {
+		Collection<EmployeeHash> emp = emplist.values();
+		for (EmployeeHash emp1:emp) {
+			   if (emp1.getEmployeeId() == pEmployeeId) {
+	              emp1.setEmployeeSalary(newSalary);
+			      return true;
+			   }
+		  }
+		  throw  new EmployeeNotFoundException_V1("Employee is not found ");
+
+	}
+	@Override
+	  public boolean deleteEmployeeHash(int pEmployeeId) throws  EmployeeNotFoundException_V1{
+		Collection<EmployeeHash> emp = emplist.values();
+		for (EmployeeHash emp1:emp) {
+			   if (emp1.getEmployeeId() == pEmployeeId) {
+				   emplist.remove(emp);
+				   return true;
+			   }
+		   
+		  }  
+	       throw  new EmployeeNotFoundException_V1("Employee is not found ");
+	 
+	 }
+	
+
+		}
+		}
+
+		
+		//  main method 
+
+
+/**
+ * 
+ */
+package com.htc.CoreJavaExercise;
+import java.util.*;
+import java.io.*;
+
+import com.htc.CoreJavaExercise.*;
+//import com.htc.CoreJavaExercise.EmployeeNotFoundException.DuplicateEmployeeIDException;
+import com.htc.CoreJavaExercise.EmployeeNotFoundException_V1;
+import com.htc.CoreJavaExercise.EmployeeNotFoundException_V1.CompanyHash;
+import com.htc.CoreJavaExercise.EmployeeNotFoundException_V1.DuplicateEmployeeIDException_V1;
+
+
+/**
+ * @author Nishant Kumar
+ *
+ */
+public class TestList2 {
+
+	public static void main(String[] args) {
+		System.out.println("Test Core Java");
+		
+		EmployeeHash e1;
+	
+		HashMap<Integer,EmployeeHash> emplist = new HashMap<Integer,EmployeeHash>();
+	    try {
+	       e1 = new EmployeeHash();
+	       emplist.put(100,new EmployeeHash (200,"RamTest1",1000.00));
+	       emplist.put(101, new EmployeeHash (201,"TOMTest2",2000.00));
+		   emplist.put(102, new EmployeeHash (202,"AbhishekTest3",3000.00));
+		   emplist.put(103, new EmployeeHash (203,"DavidTest4",4000.05));
+	       
+	       CompanyHash c2 = new CompanyHash(100,"HTC","test@htcinc.com", emplist);
+	       if(c2.createEmployeeHash(e1))
+	    	   System.out.println("Create Successful");
+	       System.out.println(c2.readEmployeeHash(002));
+	       if(c2.updateEmployeeHash(005, 9999))
+	    	   System.out.println("Update Successful");
+	       System.out.println(c2.readEmployeeHash(003));
+	       if (c2.deleteEmployeeHash(006))
+	       		System.out.println("Delete Successful");
+	       System.out.println(c2.readEmployeeHash(001));
+	    }
+	   catch(EmployeeNotFoundException_V1 ENF ){
+	    	System.out.println("In EmployeeNotFoundException");
+	    ENF.printStackTrace();
+	       }
+	    catch(DuplicateEmployeeIDException_V1 DEID){
+	    	System.out.println("In DuplicateEmployeeIDException");
+	    	DEID.printStackTrace();
+	       }
+	    catch(Exception ex){
+	    	System.out.println("In Exception");
+	    	ex.printStackTrace();
+	       }
+	    finally {
+	    	System.out.println("In Finally");
+	    //	emplist.clear();
+	    }
+	}
+}
