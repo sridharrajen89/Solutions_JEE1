@@ -1,3 +1,5 @@
+package ArrayListExample;
+
 public class EmployeeNotFoundException extends Exception {
     private String errorMessage;
 

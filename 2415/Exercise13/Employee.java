@@ -1,3 +1,5 @@
+package ArrayListExample;
+
 import java.io.Serializable;
 
 public class Employee implements Serializable {
@@ -60,7 +62,7 @@ public class Employee implements Serializable {
 
     @Override
     public String toString() {
-        return "Employee{" +
+        return "ArrayListExample.Employee{" +
                 "employeeID=" + employeeID +
                 ", employeeName='" + employeeName + '\'' +
                 ", salary=" + salary +
