@@ -1,0 +1,377 @@
+Employee:
+========
+
+package htc.test;
+
+import java.io.Serializable;
+
+public class Employee extends Object implements Serializable{
+
+	  
+	private int employeeId;
+	private String employeeName;
+	private double employeeSalary;
+	    
+	public Employee(int employeeId, String employeeName, double employeeSalary) {
+		super();
+		this.employeeId = employeeId;
+		this.employeeName = employeeName;
+		this.employeeSalary = employeeSalary;
+	}
+	  
+	  public int getEmployeeId() {
+		return employeeId;
+	}
+
+
+	public void setEmployeeId(int employeeId) {
+		this.employeeId = employeeId;
+	}
+
+
+	public String getEmployeeName() {
+		return employeeName;
+	}
+
+
+	public void setEmployeeName(String employeeName) {
+		this.employeeName = employeeName;
+	}
+
+
+	public double getEmployeeSalary() {
+		return employeeSalary;
+	}
+
+
+	public void setEmployeeSalary(double employeeSalary) {
+		this.employeeSalary = employeeSalary;
+	}
+
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + employeeId;
+		return result;
+	}
+
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Employee other = (Employee) obj;
+		if (employeeId != other.employeeId)
+			return false;
+		return true;
+	}
+
+	
+
+	
+	@Override
+	public String toString() {
+		return "Employee [employeeId=" + employeeId + ", employeeName=" + employeeName + ", employeeSalary="
+				+ employeeSalary + "]";
+	}
+	
+	  
+	  
+	}
+
+===============================================================================================================
+DuplicateEmployeeIDException
+============================
+package htc.test;
+
+public class DuplicateEmployeeIDException extends Exception{
+	
+	final String ERRORMESSAGE="Duplicate Employee Id, Consider new Id";
+
+	public String getERRORMESSAGE() {
+		return ERRORMESSAGE;
+	}
+
+}
+
+===============================================================================================================
+
+EmployeeNotFoundException
+package htc.test;
+
+public class EmployeeNotFoundException extends Exception{
+
+	private String errorMessage;
+
+	public EmployeeNotFoundException(String errorMessage) { 
+
+		super(); 
+		this.errorMessage = errorMessage; 
+	} 
+
+	public String getErrorMessage() { 
+		return errorMessage; 
+	} 
+
+	
+}
+
+===============================================================================================================
+
+ICompanyServiceProvider
+package htc.test;
+
+public interface ICompanyServiceProvider {
+	
+	 public boolean createEmployee(Employee obj) throws DuplicateEmployeeIDException;
+	 public Employee readEmployee(int employeeId) throws  EmployeeNotFoundException; 
+	 public boolean  updateEmployee(int employeeId,double newSalary) throws EmployeeNotFoundException;
+	 public boolean deleteEmployee(int employeeId) throws  EmployeeNotFoundException;
+
+}
+
+===============================================================================================================
+
+Company
+package htc.assignments;
+
+import java.util.Collection;
+import java.util.HashMap;
+
+public class Company implements ICompanyServiceProvider {
+
+	private int companyId;
+	private String companyname;
+	private String companyEmailId;
+	private HashMap<Integer, Employee> emplist;// has-A relation ship 
+
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + companyId;
+		return result;
+	}
+
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Company other = (Company) obj;
+		if (companyId != other.companyId)
+			return false;
+		return true;
+	}
+
+
+	public Company(int companyId, String companyname, String companyEmailId, HashMap<Integer, Employee> emplist) {
+	
+		this.companyId = companyId;
+		this.companyname = companyname;
+		this.companyEmailId = companyEmailId;
+		this.emplist = emplist;
+	}
+
+//	public Company(int companyId2, String companyname2, String companyEmailId2, HashMap<Integer, Employee> empList2) {
+//		// TODO Auto-generated constructor stub
+//	}
+
+
+	public int getCompanyId() {
+		return companyId;
+	}
+
+
+	public void setCompanyId(int companyId) {
+		this.companyId = companyId;
+	}
+
+
+	public String getCompanyname() {
+		return companyname;
+	}
+
+
+	public void setCompanyname(String companyname) {
+		this.companyname = companyname;
+	}
+
+
+	public String getCompanyEmailId() {
+		return companyEmailId;
+	}
+
+
+	public void setCompanyEmailId(String companyEmailId) {
+		this.companyEmailId = companyEmailId;
+	}
+
+
+	public HashMap<Integer, Employee> getEmplist() {
+		return emplist;
+	}
+
+
+	public void setEmplist(HashMap<Integer, Employee> emplist) {
+		this.emplist = emplist;
+	}
+
+	@Override
+	public String toString() {
+		return "Company [companyId=" + companyId + ", companyname=" + companyname + ", companyEmailId=" + companyEmailId
+				+ ", emplist=" + emplist + "]";
+	}
+
+	public boolean createEmployee(Employee obj) throws DuplicateEmployeeIDException {
+
+		boolean created = false;
+
+		Collection<Employee> emp = emplist.values();
+
+		for(Employee employee : emp) {
+			if(employee.getEmployeeId()==obj.getEmployeeId()) {
+				throw new DuplicateEmployeeIDException();
+			}else {
+				created = true;
+			}
+		}
+		return created;
+	} 
+
+
+	
+	public Employee readEmployee(int Empnum) throws EmployeeNotFoundException { 
+		Collection<Employee> emp = emplist.values();
+		
+		for(Employee employee : emp) { 
+			if (employee.getEmployeeId() == Empnum) 
+			return employee; 
+		} 
+ 			throw new EmployeeNotFoundException("Employee not found for given ID "); 
+
+	} 
+		
+	public boolean updateEmployee(int EmpUpdate, double salary) throws EmployeeNotFoundException { 
+		boolean newSalary = false;
+		Collection<Employee> emp = emplist.values();
+
+		for(Employee employee : emp) {
+			if (employee.getEmployeeId() == EmpUpdate)  
+			{
+				employee.setEmployeeSalary(salary);
+				newSalary=true;
+				break;
+			}
+			
+		}
+		if(emp == null) { 
+ 			throw new EmployeeNotFoundException("Employee not found for given ID "); 
+ 		}
+		return newSalary; 
+
+
+	} 
+//
+	public boolean deleteEmployee(int employeeId) throws EmployeeNotFoundException { 
+	 		boolean deleted = false; 
+			Collection<Employee> emp = emplist.values();
+			Employee empp = null;
+			
+			for(Employee employee : emp) { 
+	 			if(employee.getEmployeeId()==employeeId) { 
+	 				empp = employee;
+	 				break; 
+	 			} 
+	 		} 
+	 		if(empp == null) { 
+	 			throw new EmployeeNotFoundException("Employee not found for given ID "); 
+	  		} 
+	 		return deleted; 
+	 	}
+
+
+
+}
+
+==========================================================================================================================================
+Main program - Exercise 13
+
+package htc.assignments;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+
+public class exericise13 {
+
+	public static void main(String[] args) {
+
+
+		try
+		{
+		
+			HashMap<Integer, Employee> empList = new HashMap<Integer, Employee>(); 
+
+			
+			empList.put(01, new Employee (100,"Smith",65000));
+			empList.put(02, new Employee (101,"Bravo",70000));
+			empList.put(03, new Employee (102,"Chris",73000));
+			empList.put(04, new Employee (103,"Mary",90000));
+			empList.put(05, new Employee (104,"Jeff",75000));
+			
+			Employee Test1 = new Employee (1090,"Sunny",100000);
+			Company comp = new Company (001,"Organization", "Test@mail.com", empList); 
+
+			System.out.println(comp);
+			System.out.println(empList);
+			if (comp.createEmployee(Test1))
+				{
+					empList.put(06, Test1);
+					System.out.println(empList);
+				}
+
+			System.out.println("Create Successful");
+
+			comp.readEmployee(104);
+
+			System.out.println("Read successful"); 
+//
+			comp.updateEmployee(103, 98123);
+//
+			System.out.println("Update successful"); 
+			System.out.println("Employee list before deleting --"+ empList);
+			if (comp.deleteEmployee(10000));
+			{
+				empList.remove(01);
+			}
+		
+			System.out.println("Employee list after deleting --"+ empList);
+
+		}	
+		catch (DuplicateEmployeeIDException e) {
+			// TODO Auto-generated catch block
+			//		e.printStackTrace();
+			System.out.println("Duplicate Employee Id found");
+		}
+		catch (EmployeeNotFoundException e) {
+//			e.printStackTrace();
+			System.out.println("Employee Not found");
+		}
+		finally
+		{	
+			System.out.println("test complete");
+		}
+	}
+}
+
