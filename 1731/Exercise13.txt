@@ -1,4 +1,5 @@
 Employee:
+========
 
 package htc.test;
 
@@ -84,8 +85,9 @@ public class Employee extends Object implements Serializable{
 	  
 	}
 
-
-Duplicate Employee Id exception:
+===============================================================================================================
+DuplicateEmployeeIDException
+============================
 package htc.test;
 
 public class DuplicateEmployeeIDException extends Exception{
@@ -98,7 +100,9 @@ public class DuplicateEmployeeIDException extends Exception{
 
 }
 
-Employee Not found exception:
+===============================================================================================================
+
+EmployeeNotFoundException
 package htc.test;
 
 public class EmployeeNotFoundException extends Exception{
@@ -118,7 +122,9 @@ public class EmployeeNotFoundException extends Exception{
 	
 }
 
+===============================================================================================================
 
+ICompanyServiceProvider
 package htc.test;
 
 public interface ICompanyServiceProvider {
@@ -130,7 +136,10 @@ public interface ICompanyServiceProvider {
 
 }
 
-Company class:
+===============================================================================================================
+
+Company:
+
 package htc.test;
 
 import java.util.ArrayList;
@@ -223,11 +232,12 @@ public class Company implements ICompanyServiceProvider {
 	@Override
 	public boolean createEmployee(Employee obj) throws DuplicateEmployeeIDException { 
 		boolean created = false; 
+		boolean first=true;
 		int No =obj.getEmployeeId();
 		int check = No+1;
 		
 		for (Employee employee : emplist) { 
-			if(employee.getEmployeeId()==check) { 
+			if(employee.getEmployeeId() == check) { 
 				throw new DuplicateEmployeeIDException(); 
 			}else { 
 				created=true; 
@@ -237,35 +247,70 @@ public class Company implements ICompanyServiceProvider {
 			emplist.add(obj); 
 		} 
 		return created; 
-	} 
-	
-	public Employee readEmployee(Employee obj) throws EmployeeNotFoundException { 
-			int EmpNum = 1001;
-			
-			for (Employee emp:emplist) { 
-				if (emp.getEmployeeId() == EmpNum)  
-					return emp; 
-			} 
-			throw  new EmployeeNotFoundException("Employee is not found "); 
 
-		} 
+				
+}	
 	
-	@override
-	public Employee updateEmployee(Employee obj) throws EmployeeNotFoundException { 
-		int EmpNum = 1001;
+	public Employee readEmployee(int Empnum) throws EmployeeNotFoundException { 
 		
 		for (Employee emp:emplist) { 
-			if (emp.getEmployeeId() == EmpNum)  
+			if (emp.getEmployeeId() == Empnum)  
 				return emp; 
 		} 
-		throw  new EmployeeNotFoundException("Employee is not found "); 
+ 			throw new EmployeeNotFoundException("Employee not found for given ID "); 
 
 	} 
+	
+	@override
+
+	public boolean updateEmployee(int EmpUpdate, double salary) throws EmployeeNotFoundException { 
+		boolean newSalary = false;
+		Employee employee = null;
+		
+		for (Employee emp:emplist) { 
+			if (emp.getEmployeeId() == EmpUpdate)  
+			{
+				emp.setEmployeeSalary(salary);
+				newSalary=true;
+				employee = emp;
+				break;
+			}
+			
+		}
+		if(employee == null) { 
+ 			throw new EmployeeNotFoundException("Employee not found for given ID "); 
+ 		}
+		return newSalary; 
+
+
+	} 
+
+	@Override 
+	 	public boolean deleteEmployee(int employeeId) throws EmployeeNotFoundException { 
+	 		boolean deleted = false; 
+	 		Employee emp = null; 
+	 		for (Employee employee : emplist) { 
+	 			if(employee.getEmployeeId()==employeeId) { 
+	 				emp = employee; 
+	 				break; 
+	 			} 
+	 		} 
+	 		if(emp == null) { 
+	 			throw new EmployeeNotFoundException("Employee not found for given ID "); 
+	 		} else { 
+	 			emplist.remove(emp); 
+	 			deleted = true; 
+	 		} 
+	 		return deleted; 
+	 	} 
+	 	  
 
 
 }
 
-Main method:
+
+===============================================================================================================
+Eecrise13:
 package htc.test;
 
 import java.util.ArrayList;
@@ -274,66 +319,51 @@ public class exericise13 {
 
 	public static void main(String[] args) {
 
+
+		try
+		{
 			Employee emp1;
 			ArrayList<Employee> empList = new ArrayList<Employee>(); 
-		
-				emp1 = new Employee(1001,"Smith",75000); 
-				empList.add(emp1); 
-				emp1 = new Employee(1002,"Aaron",89000);    
-				empList.add(emp1); 
-				emp1 = new Employee(1003,"David",95000); 
-				empList.add(emp1); 
-				emp1 = new Employee(1004,"Chris",60000); 
-				empList.add(emp1); 
-				emp1 = new Employee(1005,"Trump",54000); 
-				empList.add(emp1); 
-				
-				Company comp = new Company (001,"Organization","test@gmail.com",empList); 
-				try {
-					if(comp.createEmployee(emp1));
-				} catch (DuplicateEmployeeIDException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				System.out.println("Create Successful");; 
-				
-				try {
-					comp.readEmployee(emp1);
-				} catch (EmployeeNotFoundException e) {
-					e.printStackTrace();
-				}
-				System.out.println("Read successful"); 
-				
-				try {
-					comp.updateEmployee(emp1);
-				} catch (EmployeeNotFoundException e) {
-					e.printStackTrace();
-				}
-				System.out.println("Read successful"); 
 
-//				if(c1.updateEmployee(002, 9999)) 
-//						System.out.println("Update Successful"); 
-//					System.out.println(c1.readEmployee(002)); 
-//					if (c1.deleteEmployee(001)); 
-//					System.out.println("Delete Successful"); 
-//					System.out.println(c1.readEmployee(001)); 
+			emp1 = new Employee(1001,"Smith",75000); 
+			empList.add(emp1); 
+			emp1 = new Employee(1002,"Aaron",89000);    
+			empList.add(emp1); 
+			emp1 = new Employee(1003,"David",95000); 
+			empList.add(emp1); 
+			emp1 = new Employee(1004,"Chris",60000); 
+			empList.add(emp1); 
+			emp1 = new Employee(1005,"Trump",54000); 
+			empList.add(emp1); 
 
-				
-//				 System.out.println(empList);
-				 
-				 
-				//			 Company cmp = new Company(100, "State", "Test", emp);
-				//		
-				//			cmp.createEmployee(emp);
+			Company comp = new Company (001,"Organization","test@gmail.com",empList); 
 
-				// call the CRUD methods using comapny object   
-	
-			//		       catch(EmployeeNotFoundException ENF){
-			//		
-			//		       }
-			//		       catch(DuplicateEmployeeIDException DEID){
-			//	
-			//		       }
+			if(comp.createEmployee(emp1));
 
-	}	
+			System.out.println("Create Successful");; 
+
+			comp.readEmployee(1001);
+
+			System.out.println("Read successful"); 
+
+			comp.updateEmployee(1002, 98123);
+
+			System.out.println("Update successful"); 
+			System.out.println("Employee list before deleting --"+ empList);
+			comp.deleteEmployee(1002);
+			System.out.println("Employee list after deleting --"+ empList);
+
+		}	
+		catch (DuplicateEmployeeIDException e) {
+			// TODO Auto-generated catch block
+			//		e.printStackTrace();
+		}
+		catch (EmployeeNotFoundException e) {
+			e.printStackTrace();
+		}
+		finally
+		{	
+			System.out.println("test complete");
+		}
 	}
+}
