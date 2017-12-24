@@ -229,15 +229,14 @@ public class Company implements ICompanyServiceProvider {
 				+ ", emplist=" + emplist + "]";
 	}
 
+	
 	@Override
 	public boolean createEmployee(Employee obj) throws DuplicateEmployeeIDException { 
 		boolean created = false; 
-		boolean first=true;
-		int No =obj.getEmployeeId();
-		int check = No+1;
+
 		
 		for (Employee employee : emplist) { 
-			if(employee.getEmployeeId() == check) { 
+			if(employee.getEmployeeId() == obj.getEmployeeId()) { 
 				throw new DuplicateEmployeeIDException(); 
 			}else { 
 				created=true; 
@@ -245,6 +244,7 @@ public class Company implements ICompanyServiceProvider {
 		} 
 		if(created) { 
 			emplist.add(obj); 
+			System.out.println(emplist);
 		} 
 		return created; 
 
@@ -307,10 +307,9 @@ public class Company implements ICompanyServiceProvider {
 
 
 }
-
-
 ===============================================================================================================
 Eecrise13:
+
 package htc.test;
 
 import java.util.ArrayList;
@@ -338,9 +337,11 @@ public class exericise13 {
 
 			Company comp = new Company (001,"Organization","test@gmail.com",empList); 
 
+			emp1 = new Employee(1020,"NewEmploye",10000); 
+			
 			if(comp.createEmployee(emp1));
 
-			System.out.println("Create Successful");; 
+			System.out.println("Create Successful");
 
 			comp.readEmployee(1001);
 
@@ -350,13 +351,13 @@ public class exericise13 {
 
 			System.out.println("Update successful"); 
 			System.out.println("Employee list before deleting --"+ empList);
-			comp.deleteEmployee(1002);
+			comp.deleteEmployee(1003);
 			System.out.println("Employee list after deleting --"+ empList);
 
 		}	
 		catch (DuplicateEmployeeIDException e) {
 			// TODO Auto-generated catch block
-			//		e.printStackTrace();
+					e.printStackTrace();
 		}
 		catch (EmployeeNotFoundException e) {
 			e.printStackTrace();
