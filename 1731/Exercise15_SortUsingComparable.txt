@@ -1,0 +1,88 @@
+Exercise 15:
+
+/*Create a class stores with an array list <product> as its ony field, initialize the list in the constructor
+of stores. Create a method in the stores class that returns the sorted list.*/
+
+package htc.comparator;
+
+import java.util.ArrayList;
+import java.util.Collections;
+
+public class Exercise15_SortComparable {
+
+	public static void main(String[] args) {
+
+		{
+			ArrayList<Product> prod = new ArrayList<Product>();
+
+			prod.add(new Product(1234, "Pantene", 25));
+			prod.add(new Product(2345, "Dove", 22));
+			prod.add(new Product(45676, "Patanjali", 15));
+			prod.add(new Product(786, "Hamam", 10));
+
+			Collections.sort(prod);
+
+			System.out.println("Products list after sorting : ");
+			for (Product product: prod)
+			{
+				System.out.println(product.getProductName() + " " +
+						product.getProductId() + " " +
+						product.getProductPrice());
+			}
+		}
+
+	}
+}
+
+
+
+======================================================================================================
+Product class:
+
+package htc.comparator;
+
+class Product implements Comparable<Product>{
+
+	private int productId;
+	private String productName;
+	private int productPrice;		
+	
+	public Product(int productId, String productName, int productPrice) {
+		super();
+		this.productId = productId;
+		this.productName = productName;
+		this.productPrice = productPrice;
+	}
+	
+	// Used to sort Product by name 
+	  @Override 
+	  public int compareTo(Product p) 
+	  { 
+	 	 return p.productId-this.productId; 
+	      
+	  } 
+	  
+	public int getProductId() {
+		return productId;
+	}
+
+	public void setProductId(int productId) {
+		this.productId = productId;
+	}
+
+	public String getProductName() {
+		return productName;
+	}
+
+	public void setProductName(String productName) {
+		this.productName = productName;
+	}
+
+	public int getProductPrice() {
+		return productPrice;
+	}
+
+	public void setProductPrice(int productPrice) {
+		this.productPrice = productPrice;
+	}
+}
