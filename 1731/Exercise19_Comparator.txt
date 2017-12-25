@@ -32,9 +32,10 @@ public class Exercise19_Stores {
 		
 		Collections.sort(prod, price);
 		for (Product product: prod) 
-		System.out.println(product.price() + " " + product.productId() + " " + product.productName()); 
+		System.out.println(product.price + " " + product.productId + " " + product.productName); 
 	}
 }
+
 ___________________________________________________________________________________________________________________________________
 
 Product class:
@@ -42,15 +43,14 @@ Product class:
 
 package htc.assignments;
 
-import java.io.*; 
-import java.util.*; 
-
 
 	class Product implements Comparable <Product>{
 
-	private int productId;
-	private String productName;
-	private int price;
+	
+
+	public int productId;
+	public String productName;
+	public int price;
 
 	// Used to sort products by price
 	public int compareTo(Product p) {
@@ -64,10 +64,34 @@ import java.util.*;
 		this.price = price;
 	}
 
-//	getter methods for accessing private data 
-	 public int productId() { return productId; } 
-	 public String productName()   {  return productName; } 
-	 public int price()      {  return price;  }	
+	public int getProductId() {
+		return productId;
+	}
+
+
+	public void setProductId(int productId) {
+		this.productId = productId;
+	}
+
+
+	public String getProductName() {
+		return productName;
+	}
+
+
+	public void setProductName(String productName) {
+		this.productName = productName;
+	}
+
+
+	public int getPrice() {
+		return price;
+	}
+
+
+	public void setPrice(int price) {
+		this.price = price;
+	}
 
 	
 }
@@ -87,8 +111,8 @@ import java.util.Comparator;
 	
 	  public int compare(Product p1, Product p2) 
 	  { 
-		  if (p1.price() < p2.price()) return -1; 
-	       if (p1.price() > p2.price()) return 1; 
+		  if (p1.price < p2.price) return -1; 
+	       if (p1.price > p2.price) return 1; 
 	       else return 0;
 	  } 
 	}
