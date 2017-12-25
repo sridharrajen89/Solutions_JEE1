@@ -1,0 +1,19 @@
+package Exercise15;
+
+import java.util.ArrayList;
+
+public class ProductMain {
+    public static void main(String[] args){
+        ArrayList<Product> prodList = new ArrayList<Product>();
+        prodList.add(new Product(102,"Paste", 50));
+        prodList.add(new Product(103,"Brush", 10));
+        prodList.add(new Product(101,"Cap", 75));
+
+        System.out.println("Before Sorting:" + prodList);
+        Stores str;
+        str= new Stores(prodList);
+        str.sortProduct(prodList);
+        System.out.println("After Sorting:" + prodList);
+    }
+
+}
