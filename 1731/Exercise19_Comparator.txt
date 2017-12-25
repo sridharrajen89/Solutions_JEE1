@@ -1,0 +1,96 @@
+Exercise 19:
+
+Create a Comparator<Product> object to sort the products in stores class with respect to price. Display te sorted products.
+
+
+Main Module:
+___________
+
+package htc.assignments;
+
+import java.util.ArrayList;
+import java.util.Collections;
+
+public class Exercise19_Stores {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+
+		ArrayList<Product> prod = new ArrayList<Product>();
+		
+		prod.add(new Product(100,"Prod1",1000));
+		prod.add(new Product(200,"Prod2",2000));
+		prod.add(new Product(300,"Prod3",3000));
+		prod.add(new Product(400,"Prod4",4000));
+		prod.add(new Product(500,"Prod5",5000));
+		
+		// Sort by price : (1) Create an object of Product 
+		//                  (2) Call Collections.sort 
+		//                  (3) Print Sorted list 
+		System.out.println("Sorted by price"); 
+		PriceCompare price = new PriceCompare(); 
+		
+		Collections.sort(prod, price);
+		for (Product product: prod) 
+		System.out.println(product.price() + " " + product.productId() + " " + product.productName()); 
+	}
+}
+___________________________________________________________________________________________________________________________________
+
+Product class:
+--------------
+
+package htc.assignments;
+
+import java.io.*; 
+import java.util.*; 
+
+
+	class Product implements Comparable <Product>{
+
+	private int productId;
+	private String productName;
+	private int price;
+
+	// Used to sort products by price
+	public int compareTo(Product p) {
+		return this.price - p.price; 
+	}
+
+
+	public Product(int productId, String productName, int price) {
+		this.productId = productId;
+		this.productName = productName;
+		this.price = price;
+	}
+
+//	getter methods for accessing private data 
+	 public int productId() { return productId; } 
+	 public String productName()   {  return productName; } 
+	 public int price()      {  return price;  }	
+
+	
+}
+
+
+___________________________________________________________________________________________________________________________________
+
+Price Compare class:
+--------------------
+package htc.assignments;
+
+import java.util.Comparator; 
+
+//Class to compare Product by price 
+	public class PriceCompare implements Comparator<Product>
+	{
+	
+	  public int compare(Product p1, Product p2) 
+	  { 
+		  if (p1.price() < p2.price()) return -1; 
+	       if (p1.price() > p2.price()) return 1; 
+	       else return 0;
+	  } 
+	}
+
+
