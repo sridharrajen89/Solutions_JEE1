@@ -1,0 +1,42 @@
+package htc.bank.exercise;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class Bank {
+
+	ArrayList<Integer> bankAccount = new ArrayList<Integer>();
+	private static int lastAssignedNo = 0;
+
+	public List<Integer> getBankAccount() {
+		return bankAccount;
+	}
+
+	public void setBankAccount(ArrayList<Integer> bankAccount) {
+		this.bankAccount = bankAccount;
+	}
+
+	public int createBankAccout() {
+		lastAssignedNo = lastAssignedNo + 1;
+		bankAccount.add(lastAssignedNo);
+		return lastAssignedNo;
+	}
+
+}
+----------------------------------------------------------------------------------------------------------------------------------------
+
+package htc.bank.exercise;
+
+public class BankExercise {
+
+	public static void main(String[] args) {
+
+		Bank bank = new Bank();
+		System.out.println(bank.createBankAccout());
+		System.out.println(bank.createBankAccout());
+		System.out.println(bank.createBankAccout());
+		System.out.println(bank.createBankAccout());
+
+	}
+
+}
