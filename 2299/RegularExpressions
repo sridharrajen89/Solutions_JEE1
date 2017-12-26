@@ -1,0 +1,32 @@
+import java.util.regex.Pattern;
+
+public class RegularExpressions {
+
+	public static void main(String[] args) {
+
+		String eMail = "rprabaakaran@gmail.com";
+		String password = "Welcome#123";
+		String creditCard = "1234-4569-9843-3652";
+
+		String eMailPattern = "[a-zA-Z0-9@.]*";
+		String passwordPattern = "[a-zA-Z0-9#]*";
+		String creditCardPattern = "[0-9]{4,4}-[0-9]{4,4}-[0-9]{4,4}-[0-9]{4,4}";
+
+		if (Pattern.matches(eMailPattern, eMail)) {
+			System.out.println("It is a valid E Mail Address");
+		} else
+			System.out.println("Invalid Email");
+
+		if (Pattern.matches(passwordPattern, password)) {
+			System.out.println("It is a valid password");
+		} else
+			System.out.println("Invalid Password");
+
+		if (Pattern.matches(creditCardPattern, creditCard)) {
+			System.out.println("It is a valid Credit Card");
+		} else
+			System.out.println("Invalid Credit Card");
+
+	}
+
+}
