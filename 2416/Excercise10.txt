@@ -1,0 +1,38 @@
+package com.htc.excercise1;
+
+import java.util.Scanner;
+import java.util.regex.Pattern;
+
+public class MainProgram10 {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		System.out.println("Enter the Email-ID");
+		Scanner sc=new Scanner(System.in);
+		String emailId = sc.nextLine();
+		
+		System.out.println("Enter the password");
+		String password = sc.nextLine();
+		
+		System.out.println("Enter the credit card number in format XXXX-XXXX-XXXX-XXXX");
+		String creditCardNum = sc.nextLine();
+		
+		//Validation of Email-id
+		//length should be between 10 and 15
+		if(!Pattern.matches("[a-zA-Z0-9@.]{10,15}", emailId))
+			System.out.println("Email id length should be from 10 to 15");
+		
+		//should end with m or n
+		if(!Pattern.matches(".*m", emailId)&&!Pattern.matches(".*n", emailId))
+			System.out.println("Email ID should end with m or n");
+		
+		//Email should have @ symbol
+		if(!Pattern.matches(".*@.*", emailId))
+			System.out.println("Email ID should have @ symbol");
+		
+		//Validation of credit card
+		if(!Pattern.matches("[0-9]{4}-[0-9]{4}-[0-9]{4}-[0-9]{4}", creditCardNum))
+			System.out.println("Credit card number format is not valid");
+	}
+
+}

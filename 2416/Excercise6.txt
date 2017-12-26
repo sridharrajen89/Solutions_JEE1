@@ -1,0 +1,394 @@
+//*******************************
+//       BankAccount class
+//*******************************
+
+package com.htc.excercise1;
+import java.io.Serializable;
+
+public class BankAccount implements Serializable{
+	
+	//Data members
+	private int accountNo;
+	private String accountName;
+	private double balance;
+	private static int lastAssignedNo = 0;
+	
+	//Default constructor
+	public BankAccount() {
+		accountNo = 0;
+		accountName = "";
+		balance = 1000.00;
+	}
+
+	//Method overload constructor
+	public BankAccount(String accountName, double balance) {
+		super();
+		this.lastAssignedNo = this.lastAssignedNo + 1;
+		this.accountNo = this.lastAssignedNo;
+		this.accountName = accountName;
+		this.balance = balance;
+	}
+
+	//Setters and Getters
+	public int getAccountNo() {
+		return accountNo;
+	}
+
+	public void setAccountNo(int accountNo) {
+		this.accountNo = accountNo;
+	}
+
+	public String getAccountName() {
+		return accountName;
+	}
+
+	public void setAccountName(String accountName) {
+		this.accountName = accountName;
+	}
+
+	public double getBalance() {
+		return balance;
+	}
+
+	public void setBalance(double balance) {
+		this.balance = balance;
+	}
+
+	//hashCode method override
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + accountNo;
+		return result;
+	}
+
+	//equals method override
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		BankAccount other = (BankAccount) obj;
+	if (accountNo != other.accountNo)
+			return false;
+		return true;
+	}
+
+	//toString method override
+	@Override
+	public String toString() {
+		return "BankAccount [accountNo=" + accountNo + ", accountName=" + accountName + ", balance=" + balance + "]";
+	}
+}
+
+//**********************************************************
+//       BankAccountNotFoundException class for Exception
+//**********************************************************
+package com.htc.excercise1;
+
+public class BankAccountNotFoundException extends Exception{
+	private String errorMessage;
+	
+	public BankAccountNotFoundException(String errorMessage) {
+		super();
+		this.errorMessage = errorMessage;
+	}
+	
+	public String getErrorMessage()
+	{
+		return errorMessage;
+	}
+
+}
+
+//**********************************************************
+//       InvalidAmountException class for Exception
+//**********************************************************
+package com.htc.excercise1;
+
+public class InvalidAmountException extends Exception {
+
+	private String errorMessage;
+	
+	public InvalidAmountException(String errorMessage) {
+		this.errorMessage = errorMessage;
+	}
+	
+	public String getErrorMessage() {
+		return errorMessage;
+	}
+
+}
+
+//**********************************************************
+//       InsufficientFundException class for Exception
+//**********************************************************
+package com.htc.excercise1;
+
+public class InsufficientFundException extends Exception {
+	private String errorMessage;
+	
+	public InsufficientFundException(String errorMessage) {
+		super();
+		this.errorMessage = errorMessage;
+	}
+	
+	public String getErrorMessage() {
+		return errorMessage;
+	}
+}
+
+//**********************************************************
+//       IBankServiceProvider interface
+//**********************************************************
+package com.htc.excercise1;
+
+public interface IBankServiceProvider {
+
+	public BankAccount checkAccount(int AccountNo); 
+	public double getBalance(BankAccount bankAccount) throws BankAccountNotFoundException;
+	public boolean depositMoney(BankAccount bankAccount, double amount) 
+			throws BankAccountNotFoundException, InvalidAmountException;
+	public boolean withdrawMoney(BankAccount bankAccount, double amount) 
+			throws BankAccountNotFoundException, InvalidAmountException, InsufficientFundException;
+	public boolean transferMoney(BankAccount fromBankAccount, BankAccount toBankAccount, double amount) 
+			throws BankAccountNotFoundException, InvalidAmountException, InsufficientFundException;
+}
+
+
+//*******************************
+//       Bank class
+//*******************************
+package com.htc.excercise1;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+
+public class Bank implements IBankServiceProvider{
+
+	//Data memebers
+	private ArrayList<BankAccount> bankAccountList = new ArrayList<BankAccount>();
+
+	//Default constructor
+	public Bank() {
+		super();
+	}
+	
+	//Method overload constructor
+	public Bank(ArrayList<BankAccount> bankAccountList) {
+		super();
+		this.bankAccountList = bankAccountList;
+	}
+	
+	//Override toString method
+	@Override
+	public String toString() {
+		return "Bank [bankAccountList=" + bankAccountList + "]";
+	}
+
+	//Setter
+	public void setBankAccountList(ArrayList<BankAccount> bankAccountList) {
+		this.bankAccountList = bankAccountList;
+	} 
+	
+	//Check the bank account exist or not, if exists then return the Bank account
+	@Override
+	public BankAccount checkAccount(int accountNo) {
+		for(BankAccount bankAccount : bankAccountList)
+		{
+			if(bankAccount.getAccountNo() == accountNo)
+				return bankAccount;
+		}
+		
+		return null;
+	}
+	
+	//Get the account balance from the given account
+	@Override
+	public double getBalance(BankAccount bankAccount) throws BankAccountNotFoundException {
+		BankAccount bankAct;
+		bankAct = checkAccount(bankAccount.getAccountNo());
+		if(bankAct!=null)
+			return bankAct.getBalance();
+		else
+			throw new BankAccountNotFoundException("Bank account is not found");
+	}
+	
+	//Deposit money
+	@Override
+	public boolean depositMoney(BankAccount bankAccount, double amount) 
+			throws BankAccountNotFoundException, InvalidAmountException {
+		if(amount <= 0)
+			throw new InvalidAmountException("Invalid amount to deposit");
+		else
+		{
+			BankAccount bankAct;
+			bankAct = checkAccount(bankAccount.getAccountNo());
+			if(bankAct!=null)
+			{
+				bankAct.setBalance(bankAct.getBalance()+amount);
+				return true;
+			}
+			else
+				throw new BankAccountNotFoundException("Bank account is not found");
+		}
+	}
+	
+	//Withdraw money
+	@Override
+	public boolean withdrawMoney(BankAccount bankAccount, double amount) 
+			throws BankAccountNotFoundException, InvalidAmountException, InsufficientFundException {
+		if(amount <= 0)
+			throw new InvalidAmountException("Amount is invalid to withdraw");
+		else
+		{
+			BankAccount bankAct;
+			bankAct = checkAccount(bankAccount.getAccountNo());
+			if(bankAct!=null)
+			{
+				if(bankAct.getBalance()<amount)
+					throw new InsufficientFundException("Insufficient funds in the account");
+				else
+				{
+					bankAct.setBalance(bankAct.getBalance()-amount);
+					return true;
+				}
+			}
+			else
+				throw new BankAccountNotFoundException("Bank account is not found");
+		}
+	}
+	
+	
+	
+	//Transfer money
+	@SuppressWarnings("unused")
+	@Override
+	public boolean transferMoney(BankAccount fromBankAccount, BankAccount toBankAccount, double amount) 
+			throws BankAccountNotFoundException, InvalidAmountException, InsufficientFundException{
+		if(amount<=0)
+			throw new InvalidAmountException("Invalid amount to transfer");
+		else
+		{
+			BankAccount bankAct1;
+			BankAccount bankAct2;
+			bankAct1 = checkAccount(fromBankAccount.getAccountNo());
+			if(bankAct1==null)
+				throw new BankAccountNotFoundException("From bank account is not found");
+						
+			bankAct2 = checkAccount(toBankAccount.getAccountNo());
+			if(bankAct2==null)
+				throw new BankAccountNotFoundException("To bank account is not found");
+			
+			if(bankAct1.getBalance()<amount)
+				throw new InsufficientFundException("Funds not sufficient in from account");
+			else
+			{
+				bankAct1.setBalance(bankAct1.getBalance()-amount);
+				bankAct2.setBalance(bankAct2.getBalance()+amount);
+				return true;
+			}
+		}
+		
+	}
+	
+}
+
+//**********************************************************
+//       Main program
+//**********************************************************
+package com.htc.excercise1;
+
+import java.util.ArrayList;
+
+public class MainProgram5 {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+
+		ArrayList<BankAccount> bankAccountList = new ArrayList<BankAccount>(); 
+		BankAccount bankAct1;
+		
+		//loading the value into the bank account collection
+		bankAct1 = new BankAccount("Acct1", 1001);
+		bankAccountList.add(bankAct1);
+		
+		bankAct1 = new BankAccount("Acct2", 1002);
+		bankAccountList.add(bankAct1);
+
+		bankAct1 = new BankAccount("Acct3", 1003);
+		bankAccountList.add(bankAct1);
+
+		bankAct1 = new BankAccount("Acct4", 1004);
+		bankAccountList.add(bankAct1);
+
+		bankAct1 = new BankAccount("Acct5", 1005);
+		bankAccountList.add(bankAct1);
+
+		Bank bank = new Bank(bankAccountList);
+		
+		BankAccount bankAct2 = new BankAccount();
+
+		//Get the account balance from the given account
+		try {
+			bankAct2.setAccountNo(4);
+			double balance = bank.getBalance(bankAct2);
+			System.out.println("Balance amount is: "+balance);
+			
+		}catch(BankAccountNotFoundException e) {
+			e.printStackTrace();
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		System.out.println(bank.toString());
+		
+		//deposit the money to existing account
+		try {
+			bankAct2.setAccountNo(5);
+			if(bank.depositMoney(bankAct2,500))
+				System.out.println("Money is deposited to the account");
+		}catch(BankAccountNotFoundException e) {
+			e.printStackTrace();
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		System.out.println(bank.toString());
+		
+		//withdraw the money
+		try {
+			bankAct2.setAccountNo(3);
+			if(bank.withdrawMoney(bankAct2,500))
+				System.out.println("Money is withdrawn from the account");
+		}catch(BankAccountNotFoundException e) {
+			e.printStackTrace();
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		System.out.println(bank.toString());	
+
+		//Transfer the money
+		try {
+			bankAct2.setAccountNo(1);
+			BankAccount bankAct3 = new BankAccount();
+			bankAct3.setAccountNo(2);
+			if(bank.transferMoney(bankAct2,bankAct3,500))
+				System.out.println("Money is transferred from one account to other account");
+		}catch(BankAccountNotFoundException e) {
+			e.printStackTrace();
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		System.out.println(bank.toString());	
+		
+
+	}
+
+}

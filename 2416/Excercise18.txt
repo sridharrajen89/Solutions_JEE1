@@ -1,0 +1,268 @@
+//*******************************
+//       Product class
+//*******************************
+package com.htc.excercise1;
+
+public class Product {
+	
+	//Data members
+	private int productId;
+	private String productName;
+	private double price;
+	private int quantityOnHand;
+	private boolean reorderLevel;
+	private int reorderQuantity;
+	
+	//Default constructor
+	public Product( ) {
+		super();
+		productId = 0;
+		productName = "";
+		price = 0;
+		quantityOnHand = 0;
+		reorderLevel = false;
+		reorderQuantity = 0;
+	}
+
+	//Method overload constructor
+	public Product(int productId, String productName, double price, int quantityOnHand, boolean reorderLevel,
+			int reorderQuantity) {
+		super();
+		this.productId = productId;
+		this.productName = productName;
+		this.price = price;
+		this.quantityOnHand = quantityOnHand;
+		this.reorderLevel = reorderLevel;
+		this.reorderQuantity = reorderQuantity;
+	}
+
+	//Setters and Getters
+	public int getProductId() {
+		return productId;
+	}
+
+	public void setProductId(int productId) {
+		this.productId = productId;
+	}
+
+	public String getProductName() {
+		return productName;
+	}
+
+	public void setProductName(String productName) {
+		this.productName = productName;
+	}
+
+	public double getPrice() {
+		return price;
+	}
+
+	public void setPrice(double price) {
+		this.price = price;
+	}
+
+	public int getQuantityOnHand() {
+		return quantityOnHand;
+	}
+
+	public void setQuantityOnHand(int quantityOnHand) {
+		this.quantityOnHand = quantityOnHand;
+	}
+
+	public boolean isReorderLevel() {
+		return reorderLevel;
+	}
+
+	public void setReorderLevel(boolean reorderLevel) {
+		this.reorderLevel = reorderLevel;
+	}
+
+	public int getReorderQuantity() {
+		return reorderQuantity;
+	}
+
+	public void setReorderQuantity(int reorderQuantity) {
+		this.reorderQuantity = reorderQuantity;
+	}
+
+	//hashCode method override
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + productId;
+		return result;
+	}
+	
+	//equals method override
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Product other = (Product) obj;
+		if (productId != other.productId)
+			return false;
+		return true;
+	}
+
+	//toString method override
+	@Override
+	public String toString() {
+		return "Product [productId=" + productId + ", productName=" + productName + ", price=" + price
+				+ ", quantityOnHand=" + quantityOnHand + ", reorderLevel=" + reorderLevel + ", reorderQuantity="
+				+ reorderQuantity + "]";
+	}
+
+	
+}
+//***************************************
+//       ProductNotFoundException class
+//***************************************
+package com.htc.excercise1;
+
+public class ProductNotFoundException extends Exception {
+	
+	private String errorMessage;
+	
+	public ProductNotFoundException(String errorMessage) {
+		this.errorMessage = errorMessage;
+	}
+	
+	public String getErrorMessage( ) {
+		return errorMessage;
+	}
+
+}
+
+//*******************************************
+//       IProductServiceProvider interface 
+//*******************************************
+package com.htc.excercise1;
+
+public interface IProductServiceProvider {
+	
+	public double sellItem(int productCode, int qtyRequired) throws ProductNotFoundException; 
+
+}
+
+//*******************************
+//       Stores class
+//*******************************
+package com.htc.excercise1;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+
+public class Stores implements IProductServiceProvider {
+	
+	HashMap<Integer, Product> productMap = new HashMap<Integer, Product>();
+	
+	//Default constructor
+	public Stores() {
+		super();
+		productMap = null;
+	}
+	
+	//Method overload constructor
+	public Stores(HashMap<Integer, Product> productMap) {
+		super();
+		this.productMap = productMap;
+	}
+	
+	//toString method Override
+	@Override
+	public String toString() {
+		return "Stores [productMap=" + productMap + "]";
+	}
+
+	//sellItem method
+	public double sellItem(int productCode, int qtyRequired) throws ProductNotFoundException 
+	{
+		if(productMap.get(productCode) == null)
+			throw new ProductNotFoundException("Product is not found");
+		else
+		{
+			int qtyHand = productMap.get(productCode).getQuantityOnHand();
+			qtyHand = qtyHand - qtyRequired;
+			productMap.get(productCode).setQuantityOnHand(qtyHand);
+			if(qtyHand <= 10)
+			{
+				productMap.get(productCode).setReorderLevel(true);
+				productMap.get(productCode).setReorderQuantity(50);
+				System.out.println("Purchase order is made");
+			}
+			return productMap.get(productCode).getPrice() * qtyRequired;
+		}
+		
+	}
+	
+	// updateStock method
+	public void updateStock(int productCode, int arrivedQty) throws ProductNotFoundException {
+		if(productMap.get(productCode) == null)
+			throw new ProductNotFoundException("Product is not found");
+		else
+		{
+			int qtyHand = productMap.get(productCode).getQuantityOnHand();
+			qtyHand = qtyHand + arrivedQty;
+			productMap.get(productCode).setQuantityOnHand(qtyHand);
+			productMap.get(productCode).setReorderLevel(false);
+			productMap.get(productCode).setReorderQuantity(0);
+		}
+	}
+}
+
+
+//*******************************************
+//       Main class 
+//*******************************************
+package com.htc.excercise1;
+
+import java.util.HashMap;
+
+public class MainProgram18 {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		
+		HashMap<Integer, Product> productMap = new HashMap<Integer, Product>();
+		
+		productMap.put(1, new Product(100,"Product100",49,150,false,0));
+		productMap.put(2, new Product(105,"Product105",69,55,false,0));
+		productMap.put(3, new Product(103,"Product103",79,76,false,0));
+		productMap.put(4, new Product(110,"Product110",99,33,false,0));
+		productMap.put(5, new Product(120,"Product120",109,64,false,0));
+		
+		Stores stores = new Stores(productMap);
+		
+		System.out.println(stores.toString());
+		
+		//sell item 
+		try {
+			double amount = 0;
+			amount = stores.sellItem(2, 5);
+			System.out.println("Total amount : "+amount);
+		} catch(ProductNotFoundException pn) {
+			pn.printStackTrace();
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		System.out.println(stores.toString());
+		
+		//update the stock
+		try {
+			stores.updateStock(3,100);
+		} catch(ProductNotFoundException pn) {
+			pn.printStackTrace();
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		System.out.println(stores.toString());
+	}
+
+}
