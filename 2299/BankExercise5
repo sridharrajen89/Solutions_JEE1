@@ -1,42 +1,244 @@
-package htc.bank.exercise;
+public class BankAccount {
 
-import java.util.ArrayList;
-import java.util.List;
+	private String accountNo;
+	private String accountName;
+	private double amount;
 
-public class Bank {
-
-	ArrayList<Integer> bankAccount = new ArrayList<Integer>();
 	private static int lastAssignedNo = 0;
 
-	public List<Integer> getBankAccount() {
+	public BankAccount(String accountNo, String accountName, double amount) {
+		super();
+		lastAssignedNo = lastAssignedNo + 1;
+		this.accountNo = Integer.toString(lastAssignedNo);
+		this.accountName = accountName;
+		this.amount = amount;
+	}
+	
+	//Overloaded Constructor
+	public BankAccount(String accountName, double amount) {
+		super();
+		lastAssignedNo = lastAssignedNo + 1;
+		this.accountNo = Integer.toString(lastAssignedNo);
+		this.accountName = accountName;
+		this.amount = amount;
+	}
+
+	/**
+	 * @return the accountNo
+	 */
+	public String getAccountNo() {
+		return accountNo;
+	}
+
+	/**
+	 * @return the accountName
+	 */
+	public String getAccountName() {
+		return accountName;
+	}
+
+	/**
+	 * @return the amount
+	 */
+	public double getAmount() {
+		return amount;
+	}
+
+	/**
+	 * @param accountNo
+	 *            the accountNo to set
+	 */
+	public void setAccountNo(String accountNo) {
+		this.accountNo = accountNo;
+	}
+
+	/**
+	 * @param accountName
+	 *            the accountName to set
+	 */
+	public void setAccountName(String accountName) {
+		this.accountName = accountName;
+	}
+
+	/**
+	 * @param amount
+	 *            the amount to set
+	 */
+	public void setAmount(double amount) {
+		this.amount = amount;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((accountName == null) ? 0 : accountName.hashCode());
+		result = prime * result + ((accountNo == null) ? 0 : accountNo.hashCode());
+		long temp;
+		temp = Double.doubleToLongBits(amount);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		return result;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		BankAccount other = (BankAccount) obj;
+		if (accountName == null) {
+			if (other.accountName != null)
+				return false;
+		} else if (!accountName.equals(other.accountName))
+			return false;
+		if (accountNo == null) {
+			if (other.accountNo != null)
+				return false;
+		} else if (!accountNo.equals(other.accountNo))
+			return false;
+		if (Double.doubleToLongBits(amount) != Double.doubleToLongBits(other.amount))
+			return false;
+		return true;
+	}
+
+	@Override
+	public String toString() {
+		return "BankAccount [accountNo=" + accountNo + ", accountName=" + accountName + ", amount=" + amount + "]";
+	}
+
+	
+}
+
+----------------------------------------------------------------------------------------------------------------------------------------
+
+public class Bank implements IBankServiceProvider {
+
+	BankAccount[] bankAccount = new BankAccount[10];
+	
+	public BankAccount[] getBankAccount() {
 		return bankAccount;
 	}
 
-	public void setBankAccount(ArrayList<Integer> bankAccount) {
+	public void setBankAccount(BankAccount[] bankAccount) {
 		this.bankAccount = bankAccount;
 	}
 
-	public int createBankAccout() {
-		lastAssignedNo = lastAssignedNo + 1;
-		bankAccount.add(lastAssignedNo);
-		return lastAssignedNo;
+	@Override
+	public BankAccount checkAccountNo(String accountNo) {
+		BankAccount tempBank = null;
+		for (BankAccount bankAcc : bankAccount) {
+			if (accountNo.equals(bankAcc.getAccountNo())) {
+				tempBank = bankAcc;
+				break;
+			}
+		}
+		if (tempBank != null)
+			return tempBank;
+		else
+			return null;
+	}
+
+	@Override
+	public double getBalance(BankAccount accountNo) {
+		BankAccount bankAcc = checkAccountNo(accountNo.getAccountNo());
+		double bankBalance = 0;
+		if (bankAcc != null) {
+			bankBalance = bankAcc.getAmount();
+		}
+		return bankBalance;
+	}
+
+	@Override
+	public boolean depositMoney(BankAccount accountNo, double deptAmount) {
+		BankAccount bankAcc = checkAccountNo(accountNo.getAccountNo());
+		boolean isDeposited = false;
+		if (bankAcc != null) {
+			bankAcc.setAmount(bankAcc.getAmount() + deptAmount);
+			isDeposited = true;
+		}
+		return isDeposited;
+	}
+
+	@Override
+	public boolean withdrawMoney(BankAccount accountNo, double deptAmount) {
+		BankAccount bankAcc = checkAccountNo(accountNo.getAccountNo());
+		boolean isWithdrawn = false;
+		if (bankAcc != null) {
+			bankAcc.setAmount(bankAcc.getAmount() - deptAmount);
+			isWithdrawn = true;
+		}
+		return isWithdrawn;
+
+	}
+
+	@Override
+	public boolean transferMoney(BankAccount fromAccountNo, BankAccount toAccountNo, double trnfrAmount) {
+		BankAccount fromBankAcc = checkAccountNo(fromAccountNo.getAccountNo());
+		BankAccount toBankAcc = checkAccountNo(toAccountNo.getAccountNo());
+		boolean isMoneyTransferred = false;
+		if (fromBankAcc != null && toBankAcc != null && fromBankAcc.getAmount() >= trnfrAmount) {
+			fromBankAcc.setAmount(fromBankAcc.getAmount() - trnfrAmount);
+			toBankAcc.setAmount(toBankAcc.getAmount() + trnfrAmount);
+			isMoneyTransferred = true;
+		}
+
+		return isMoneyTransferred;
 	}
 
 }
+
 ----------------------------------------------------------------------------------------------------------------------------------------
 
-package htc.bank.exercise;
+public interface IBankServiceProvider {
+	
+	public BankAccount checkAccountNo(String accountNo);
+	public double getBalance(BankAccount accountNo);
+	public boolean depositMoney(BankAccount accountNo, double deptAmount);
+	public boolean withdrawMoney(BankAccount accountNo, double deptAmount);
+	public boolean transferMoney(BankAccount fromAccountNo, BankAccount toAccountNo, double trnfrAmount);
+	
 
-public class BankExercise {
+}
+
+----------------------------------------------------------------------------------------------------------------------------------------
+
+public class BankTest {
 
 	public static void main(String[] args) {
-
+		
+		BankAccount[] bankAccount = new BankAccount[3];
 		Bank bank = new Bank();
-		System.out.println(bank.createBankAccout());
-		System.out.println(bank.createBankAccout());
-		System.out.println(bank.createBankAccout());
-		System.out.println(bank.createBankAccout());
+		
+		bankAccount[0] = new BankAccount("Prabakaran", 10.0);
+		bankAccount[1] = new BankAccount("Ramasamy", 20.0);
+		bankAccount[2] = new BankAccount("Ishanth", 30.0);
+		
+		bank.setBankAccount(bankAccount);
 
+		System.out.println("Account 2 Balance: " + bank.getBalance(bankAccount[2]));
+		
+		bank.depositMoney(bankAccount[2],50.00);
+		
+		System.out.println("Account 2 Balance after depositing $50.00: " +bank.getBalance(bankAccount[2]));
+		
+		bank.withdrawMoney(bankAccount[2], 30.00);
+		
+		System.out.println("Account 2 Balance after withdrawing $30.00: " +bank.getBalance(bankAccount[2]));
+		
+		bank.transferMoney(bankAccount[2], bankAccount[1], 10.00);
+		
+		System.out.println("Account 2 Balance after transferring $10.00 to Account 1: " +bank.getBalance(bankAccount[2]));
+		System.out.println("Account 1 Balance after the transfer: " +bank.getBalance(bankAccount[1]));
 	}
 
 }
+
