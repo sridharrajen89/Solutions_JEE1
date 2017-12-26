@@ -1,0 +1,444 @@
+package com.project13;
+
+import java.io.*;
+import java.util.*;
+
+public class Company implements Serializable, ICompanyServiceProvider{
+	
+		private static final long serialVersionUID = 2L;
+		private int companyId;
+	    private String companyName;
+	    private String companyEmailId;
+	    private HashMap<Integer,Employee> empMap = new HashMap<Integer,Employee>();// has-A relationship
+		
+	    
+	    public Company(int companyId, String companyName, String companyEmailId, HashMap<Integer, Employee> empMap) {
+			super();
+			this.companyId = companyId;
+			this.companyName = companyName;
+			this.companyEmailId = companyEmailId;
+			this.empMap = empMap;
+		}
+
+
+		public Company() {
+			super();
+			// TODO Auto-generated constructor stub
+			this.companyId = 0;
+			this.companyName = "";
+			this.companyEmailId = "";
+			this.empMap = null;
+		}
+
+
+		public int getCompanyId() {
+			return companyId;
+		}
+
+
+		public void setCompanyId(int companyId) {
+			this.companyId = companyId;
+		}
+
+
+		public String getCompanyName() {
+			return companyName;
+		}
+
+
+		public void setCompanyName(String companyName) {
+			this.companyName = companyName;
+		}
+
+
+		public String getCompanyEmailId() {
+			return companyEmailId;
+		}
+
+
+		public void setCompanyEmailId(String companyEmailId) {
+			this.companyEmailId = companyEmailId;
+		}
+
+
+		public HashMap<Integer, Employee> getEmpMap() {
+			return empMap;
+		}
+
+
+		public void setEmpMap(HashMap<Integer, Employee> empMap) {
+			this.empMap = empMap;
+		}
+
+
+		@Override
+		public int hashCode() {
+			final int prime = 31;
+			int result = 1;
+			result = prime * result + ((companyEmailId == null) ? 0 : companyEmailId.hashCode());
+			result = prime * result + companyId;
+			result = prime * result + ((companyName == null) ? 0 : companyName.hashCode());
+			result = prime * result + ((empMap == null) ? 0 : empMap.hashCode());
+			return result;
+		}
+
+
+		@Override
+		public boolean equals(Object obj) {
+			if (this == obj)
+				return true;
+			if (obj == null)
+				return false;
+			if (getClass() != obj.getClass())
+				return false;
+			Company other = (Company) obj;
+			if (companyEmailId == null) {
+				if (other.companyEmailId != null)
+					return false;
+			} else if (!companyEmailId.equals(other.companyEmailId))
+				return false;
+			if (companyId != other.companyId)
+				return false;
+			if (companyName == null) {
+				if (other.companyName != null)
+					return false;
+			} else if (!companyName.equals(other.companyName))
+				return false;
+			if (empMap == null) {
+				if (other.empMap != null)
+					return false;
+			} else if (!empMap.equals(other.empMap))
+				return false;
+			return true;
+		}
+
+
+	/*	public static long getSerialversionuid() {
+			return serialVersionUID;
+		} */
+	    
+			    
+		/* (non-Javadoc)
+		 * @see java.lang.Object#toString()
+		 */
+		@Override
+		public String toString() {
+			return "Company [companyId=" + companyId + ", companyName=" + companyName + ", companyEmailId="
+					+ companyEmailId + ", empMap=" + empMap + "]";
+		}
+
+
+		@Override
+		  public boolean createEmployee(Employee empObj) throws DuplicateEmployeeIDException{
+			  if (empMap.get(empObj.getEmployeeId()) != null)
+			     throw  new DuplicateEmployeeIDException();
+			  empMap.put(empObj.getEmployeeId(),empObj);
+			  return true;
+		  }
+
+
+		@Override
+		  public Employee readEmployee(int pEmployeeId) throws  EmployeeNotFoundException{
+			  if (empMap.get(pEmployeeId) != null)
+				  return empMap.get(pEmployeeId);
+			  else 
+			     throw  new EmployeeNotFoundException("Employee is not found ");
+    
+		  }
+		  @Override
+		  public boolean updateEmployee(int pEmployeeId,double newSalary) throws EmployeeNotFoundException {
+			  if (empMap.get(pEmployeeId) != null) {
+				  empMap.get(pEmployeeId).setEmployeeSalary(newSalary);
+				  return true;
+			  }
+			  throw  new EmployeeNotFoundException("Employee is not found ");
+
+		  }
+		  @Override
+		  public boolean deleteEmployee(int pEmployeeId) throws  EmployeeNotFoundException{
+			  if (empMap.get(pEmployeeId) != null) {
+				  empMap.remove(pEmployeeId);
+				  return true;
+			  }
+		      throw  new EmployeeNotFoundException("Employee is not found ");
+		 
+		  }
+	    
+	    
+		
+	    
+}
+
+
+=========================================================================================================
+package com.project13;
+
+import java.io.*;
+import java.util.*;
+
+
+public class Employee implements Serializable{
+	
+		
+	
+		private int employeeId;
+		private String employeeName;
+		private double employeeSalary;
+		private static final long serialVersionUID = 2L;
+		
+		
+		public Employee(int employeeId, String employeeName, double employeeSalary) {
+			super();
+			this.employeeId = employeeId;
+			this.employeeName = employeeName;
+			this.employeeSalary = employeeSalary;
+		}
+
+
+		
+		
+
+		
+		public Employee(Employee employee) {
+			super();
+			this.employeeId = employee.getEmployeeId();
+			this.employeeName = employee.getEmployeeName();
+			this.employeeSalary = employee.getEmployeeSalary();
+		  }
+		
+		
+		 public Employee() {
+				super();
+				this.employeeId = 0;
+				this.employeeName = "";
+				this.employeeSalary = 0;
+			  }
+
+
+		public int getEmployeeId() {
+			return employeeId;
+		}
+
+
+
+		public void setEmployeeId(int employeeId) {
+			this.employeeId = employeeId;
+		}
+
+
+
+		public String getEmployeeName() {
+			return employeeName;
+		}
+
+
+
+		public void setEmployeeName(String employeeName) {
+			this.employeeName = employeeName;
+		}
+
+
+
+		public double getEmployeeSalary() {
+			return employeeSalary;
+		}
+
+
+
+		public void setEmployeeSalary(double employeeSalary) {
+			this.employeeSalary = employeeSalary;
+		}
+
+
+
+		
+		@Override
+		public int hashCode() {
+			final int prime = 31;
+			int result = 1;
+			result = prime * result + employeeId;
+			result = prime * result + ((employeeName == null) ? 0 : employeeName.hashCode());
+			long temp;
+			temp = Double.doubleToLongBits(employeeSalary);
+			result = prime * result + (int) (temp ^ (temp >>> 32));
+			return result;
+		}
+
+
+
+		@Override
+		public boolean equals(Object obj) {
+			if (this == obj)
+				return true;
+			if (obj == null)
+				return false;
+			if (getClass() != obj.getClass())
+				return false;
+			Employee other = (Employee) obj;
+			if (employeeId != other.employeeId)
+				return false;
+			if (employeeName == null) {
+				if (other.employeeName != null)
+					return false;
+			} else if (!employeeName.equals(other.employeeName))
+				return false;
+			if (Double.doubleToLongBits(employeeSalary) != Double.doubleToLongBits(other.employeeSalary))
+				return false;
+			return true;
+		}
+
+		
+		/* (non-Javadoc)
+		 * @see java.lang.Object#toString()
+		 */
+		@Override
+		public String toString() {
+			return "Employee [employeeId=" + employeeId + ", employeeName=" + employeeName + ", employeeSalary="
+					+ employeeSalary + "]";
+		}
+		
+		
+
+}
+
+====================================================================================================================
+
+package com.project13;
+
+import java.io.*;
+import java.util.*;
+import java.util.Map.Entry;
+
+
+public class Question13HashMap {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		
+		Employee employee;
+		HashMap<Integer,Employee> empMap = new HashMap<Integer,Employee>();
+		
+		
+	    
+	    try {
+	    	employee = new Employee(100,"tester1",75000);
+	       empMap.put(100,employee);
+	       	       
+	       
+	       employee = new Employee(101,"developer1",80000);   
+	       empMap.put(101,employee);
+	       	       
+		    
+	       employee = new Employee(102,"Architect1",44444);
+	       empMap.put(102,employee);
+	       employee = new Employee(103,"DBA",90000);
+	       empMap.put(103,employee);
+	       employee = new Employee(104,"Scrum",100000);
+	       empMap.put(104,employee);
+	       
+	       //To create a new employee
+	       //and also change the input 105 to an existing employee id (100,101,102,103 ) to generate a duplicate 
+	       ///emp id exception.
+	       
+	       employee = new Employee(105,"Scrum1",100000);
+	       
+	    //   System.out.println("values"+ empMap.values());
+	     //  System.out.println("employee ID values"+empMap.keySet());
+	       
+	       System.out.println("Existing EMPLOYEE KEY ID:");
+	         Set set = empMap.entrySet();
+	         Iterator iterator = set.iterator();
+	         while(iterator.hasNext()) {
+	               Map.Entry me = (Map.Entry)iterator.next();
+	               System.out.print(me.getKey() + ", ");
+	             //  System.out.println(me.getValue());
+	         }
+	         
+	         /// Write a logic to check the key value for duplicate and if any value is matching exit the program.
+	         
+
+	       Company company = new Company (1000,"JAVA Company","testprogram@google.com",empMap);
+	       if(company.createEmployee(employee))
+	    	   System.out.println("\nemployee Successfully created");
+	       System.out.println(company.readEmployee(105));
+	       if(company.updateEmployee(102, 88888))
+	    	   System.out.println("Update employee Successful");
+	       System.out.println(company.readEmployee(102));
+	       if (company.deleteEmployee(104));
+	       		System.out.println("Delete employee Successful");
+	       System.out.println(company.readEmployee(104));
+	    }
+	    catch(EmployeeNotFoundException EmpNotfound){
+	    	System.out.println("In EmployeeNotFoundException");
+	    	EmpNotfound.printStackTrace();
+	       }
+	    catch(DuplicateEmployeeIDException duplicateemployee){
+	    	System.out.println("In DuplicateEmployeeIDException");
+	    	duplicateemployee.printStackTrace();
+	       }
+	    catch(Exception ex){
+	    	System.out.println("In Exception");
+	    	ex.printStackTrace();
+	       }
+	    
+	   finally {
+	    	
+	    	empMap.clear();
+	    } 
+		
+		
+
+	}
+
+}
+=================================================================================================================
+package com.project13;
+
+public interface ICompanyServiceProvider {
+				   
+	public boolean createEmployee(Employee obj) throws DuplicateEmployeeIDException;
+	public Employee readEmployee(int employeeId) throws  EmployeeNotFoundException; 
+	public boolean  updateEmployee(int employeeId,double newSalary) throws  EmployeeNotFoundException;
+	public boolean deleteEmployee(int employeeId) throws  EmployeeNotFoundException;
+	 
+}
+
+=================================================================================================================
+
+package com.project13;
+
+public class DuplicateEmployeeIDException extends Exception{
+	
+	final String ERRORMESSAGE="Duplicate employee ID found, Please choose new employeeId";
+	/**
+	 * @return the eRRORMESSAGE
+	 */
+	public String getERRORMESSAGE() {
+		return ERRORMESSAGE;
+	}
+
+}
+
+========================================================
+package com.project13;
+
+public class EmployeeNotFoundException extends Exception{
+	
+	private String errorMessage;
+    
+	/**
+	 * @param errorMessage
+	 */
+	public EmployeeNotFoundException(String errorMessage) {
+		super();
+		this.errorMessage = errorMessage;
+	}
+
+	/**
+	 * @return the errorMessage
+	 */
+	public String getErrorMessage() {
+		return errorMessage;
+	}
+
+}
