@@ -1,0 +1,43 @@
+Regular Expression
+package com.htc.javaweek3;
+
+import java.util.regex.Pattern;
+
+public class RegularExpressionDemo {
+	
+	public static void main(String args[]){  
+		System.out.println("Email ID Validation..");
+		System.out.println(Pattern.matches("([A-Za-z0-9+_.-]){10,15}+@([A-Za-z0-9.]+[MmNn])","123456789012345@g.in"));
+		System.out.println(Pattern.matches("([A-Za-z0-9+_.-]){10,15}+@([A-Za-z0-9.]+[MmNn])","123456789-ab@gmail.com"));
+		System.out.println(Pattern.matches("([A-Za-z0-9+_.-]){10,15}+@([A-Za-z0-9.]+[MmNn])","123456789_ab@gmail.in"));
+		System.out.println("Email ID Not ends with M/m or N/n..");
+		System.out.println(Pattern.matches("([A-Za-z0-9+_.-]){10,15}+@([A-Za-z0-9.]+[MmNn])","123456789-ab@gmail.co"));
+		System.out.println(Pattern.matches("([A-Za-z0-9+_.-]){10,15}+@([A-Za-z0-9.]+[MmNn])","123456789_1234@gmail.i"));
+		System.out.println("Check minimum length for length - 10 and input - 123456789@gmail.in ");
+		System.out.println(Pattern.matches("([A-Za-z0-9+_.-]){10,15}+@([A-Za-z0-9.]+[MmNn])","123456789@gmail.in"));
+		System.out.println("Check Maximum length for length - 15 and input -1234567890123456@gmail.com ");
+		System.out.println(Pattern.matches("([A-Za-z0-9+_.-]){10,15}+@([A-Za-z0-9.]+[MmNn])","1234567890123456@gmail.com"));
+		System.out.println("Password ID Validation..");
+		System.out.println(Pattern.matches("[a-z|A-Z|0-9@!*$&]{8,}","12aA@978"));
+		System.out.println("CreditCard ID Validation..");
+		System.out.println(Pattern.matches("[0-9]{4,4}-[0-9]{4,4}-[0-9]{4,4}-[0-9]{4,4}", "1234-1234-1234-1234"));  
+		System.out.println(Pattern.matches("[0-9]{4,4}-[0-9]{4,4}-[0-9]{4,4}-[0-9]{4,4}", "13245-5678-9012-123"));
+ }
+}
+-------------output
+Email ID Validation..
+true
+true
+true
+Email ID Not ends with M/m or N/n..
+false
+false
+Check minimum length for length - 10 and input - 123456789@gmail.in 
+false
+Check Maximum length for length - 15 and input -1234567890123456@gmail.com 
+false
+Password ID Validation..
+true
+CreditCard ID Validation..
+true
+false
