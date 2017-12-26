@@ -1,0 +1,275 @@
+package com.htc.interfaces;
+
+public interface IBankServiceProvider {
+	public BankAccount checkAccount(int accountNo);
+	public double getBalance(BankAccount account) throws InsufficientFundException,InvalidAmountException;
+	public boolean depositMoney(BankAccount account,double amount) throws InvalidAmountException;
+	public boolean withdrawMoney(BankAccount account,double amount) throws InvalidAmountException,InsufficientFundException;
+	public boolean transferMoney(BankAccount fromAccount,BankAccount toAccount,double amount) throws InvalidAmountException,InsufficientFundException;
+}
+
+----------------Bank.java
+package com.htc.interfaces;
+
+public class Bank implements IBankServiceProvider {
+	BankAccount bankAccounts[] = new BankAccount[3];//array of BankAccount
+	private static int lastAssignedNo;
+	Boolean flag;
+	
+	public Bank() {
+		super();
+		this.bankAccounts=null;
+		lastAssignedNo=0;
+	}
+	//Constructor
+	public Bank(BankAccount[] bankAccounts) {
+		super();
+		this.bankAccounts = bankAccounts;
+	}
+	//getters and setters
+	public BankAccount[] getBankAccounts() {
+		return bankAccounts;
+	}
+
+	public void setBankAccounts(BankAccount[] bankAccounts) {
+		this.bankAccounts = bankAccounts;
+	}
+
+	public static int getLastAssignedNo() {
+		return lastAssignedNo;
+	}
+
+	public static void setLastAssignedNo(int lastAssignedNo) {
+		Bank.lastAssignedNo = lastAssignedNo;
+	}
+
+	@Override
+	public BankAccount checkAccount(int accountNo) {	
+		for (BankAccount bankobj :bankAccounts) {
+			if (bankobj.getAccountNo() == accountNo) {
+				return bankobj;
+			}
+		}
+		return null;
+	}
+	@Override
+	public double getBalance(BankAccount account) throws InvalidAmountException {
+		BankAccount bankobj = checkAccount(account.getAccountNo());				
+			if (bankobj != null) {
+				if (bankobj.getAmount() > 0) 
+					return bankobj.getAmount();
+				else 
+					throw new InvalidAmountException("Enter Valid amount..");
+			}
+			else
+				return 0;
+	}
+	@Override
+	public boolean depositMoney(BankAccount account, double amount) throws InvalidAmountException{
+		if (amount > 0) {
+			BankAccount bankobj = checkAccount(account.getAccountNo());
+			if (bankobj != null) {
+				bankobj.setAmount((bankobj.getAmount() + amount));
+				return true;
+			}
+			else
+				return false;
+		 } 
+		throw new InvalidAmountException("Enter Valid amount..");
+	
+	}
+	@Override
+	public boolean withdrawMoney(BankAccount account, double amount) throws InvalidAmountException,InsufficientFundException   {
+		flag = false;
+		if (amount > 0) {			
+			BankAccount bankobj=checkAccount(account.getAccountNo());
+			if ((bankobj != null) && (getBalance(bankobj)>= amount)) {
+				bankobj.setAmount(bankobj.getAmount() - amount);
+				flag = true;
+				return flag;
+			}
+			else
+				throw new InsufficientFundException("Insufficent Fund...sorry..");
+		 }
+		throw new InvalidAmountException("Enter Valid amount..");
+	}
+	@Override
+	public boolean transferMoney(BankAccount fromAccount, BankAccount toAccount, double amount) throws InvalidAmountException,InsufficientFundException {
+		flag = false;
+		if (amount > 0) {
+			BankAccount fromBankAccount=checkAccount(fromAccount.getAccountNo());
+			BankAccount toBankAccount=checkAccount(toAccount.getAccountNo());
+			if ((fromBankAccount != null)  && (toBankAccount != null) && (getBalance(fromAccount)>= amount)) {
+				fromBankAccount.setAmount(fromBankAccount.getAmount() - amount);
+				toBankAccount.setAmount(toBankAccount.getAmount() + amount);
+				flag = true;
+				return flag;
+			}else
+				throw new InsufficientFundException("Insufficent Fund...sorry..");
+		 }
+		throw new InvalidAmountException("Enter Valid amount..");
+	}
+		
+}
+-------------------------------BankAccount.java
+package com.htc.interfaces;
+
+public class BankAccount {
+	private int accountNo;
+	private String accountName;
+	private double amount;
+	private int fromAccount;
+	private int toAccount;
+	private static int lastAssignedNo = 0;
+	//Constructor
+	public BankAccount(int accountNo, String accountName, double amount, int fromAccount, int toAccount) {
+		super();
+		this.accountNo = accountNo;
+		this.accountName = accountName;
+		this.amount = amount;
+		this.fromAccount = fromAccount;
+		this.toAccount = toAccount;
+	}
+	//Constructor
+		public BankAccount(int lastAssignedNo, String accountName, double amount) {
+			super();
+			this.accountName = accountName;
+			this.amount = amount;
+			this.accountNo = lastAssignedNo+1;
+		}
+	//default consructor
+	public BankAccount() {
+		super();
+	}
+
+	//getters and setters
+	public int getAccountNo() {
+		return accountNo;
+	}
+	public void setAccountNo(int accountNo) {
+		this.accountNo = accountNo;
+	}
+	public String getAccountName() {
+		return accountName;
+	}
+	public void setAccountName(String accountName) {
+		this.accountName = accountName;
+	}
+	public double getAmount() {
+		return amount;
+	}
+	public void setAmount(double amount) {
+		this.amount = amount;
+	}
+	public int getFromAccount() {
+		return fromAccount;
+	}
+	public void setFromAccount(int fromAccount) {
+		this.fromAccount = fromAccount;
+	}
+	public int getToAccount() {
+		return toAccount;
+	}
+	public void setToAccount(int toAccount) {
+		this.toAccount = toAccount;
+	}
+	@Override
+	public String toString() {
+		return "BankAccount [accountNo=" + accountNo + ", accountName=" + accountName + ", amount=" + amount+ "]";
+	}
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + accountNo;
+		return result;
+	}
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		BankAccount other = (BankAccount) obj;
+		if (accountNo != other.accountNo)
+			return false;
+		return true;
+	}
+	
+}
+--------------------------------------------------
+package com.htc.interfaces;
+
+public class InsufficientFundException extends Exception {
+	private String errorMessage;
+	//Constructor
+	public InsufficientFundException(String errorMessage) {
+		super();
+		this.errorMessage = errorMessage;
+	}
+	//getters
+	public String getErrorMessage() {
+		return errorMessage;
+	}
+}
+--------------------------------------------------
+package com.htc.interfaces;
+
+public class InvalidAmountException extends Exception{
+	private String errorMessage;
+	//Constructor
+	public InvalidAmountException(String errorMessage) {
+		super();
+		this.errorMessage = errorMessage;
+	}
+	//getters
+	public String getErrorMessage() {
+		return errorMessage;
+	}
+
+}
+--------------Main Program-------------
+package com.htc.interfaces;
+
+public class BankMain {
+
+	public static void main(String[] args) {
+		BankAccount bankAccounts[] = new BankAccount[3];//array of BankAccount
+		Bank bank = new Bank();
+		bankAccounts[0] = new BankAccount(0,"Raji",5000);
+		bankAccounts[1] = new BankAccount(1,"Vaithi",10000);
+		bankAccounts[2] = new BankAccount(2,"Gautham",15000);		
+		try {
+			System.out.println("setBankAccounts Method called..");
+			bank.setBankAccounts(bankAccounts);
+			System.out.println("Array List."+bankAccounts[0]+" " +bankAccounts[1]+" "+bankAccounts[2]);
+			System.out.println("checkAccount Method Called.. "+bank.checkAccount(1));
+			System.out.println("getBalance Method Called.. "+bank.getBalance(bankAccounts[0]));
+			System.out.println("depositMoney Method Called.. "+bank.depositMoney(bankAccounts[0],555.00));
+			System.out.println("Array List."+bankAccounts[0]);
+			System.out.println("transferMoney Method Called for 555.00.. "+bank.transferMoney(bankAccounts[0],bankAccounts[1],555.00));
+			System.out.println("Source account..."+bankAccounts[0]);
+			System.out.println("Target account..."+bankAccounts[1]);
+		} catch (InvalidAmountException e1) {
+			e1.printStackTrace();
+		}catch (InsufficientFundException e2) {
+			e2.printStackTrace();
+		}catch (Exception e3) {
+			e3.printStackTrace();
+		}
+	}
+
+}
+------------------output-----
+setBankAccounts Method called..
+Array List.BankAccount [accountNo=1, accountName=Raji, amount=5000.0] BankAccount [accountNo=2, accountName=Vaithi, amount=10000.0] BankAccount [accountNo=3, accountName=Gautham, amount=15000.0]
+checkAccount Method Called.. BankAccount [accountNo=1, accountName=Raji, amount=5000.0]
+getBalance Method Called.. 5000.0
+depositMoney Method Called.. true
+Array List.BankAccount [accountNo=1, accountName=Raji, amount=5555.0]
+transferMoney Method Called for 555.00.. true
+Source account...BankAccount [accountNo=1, accountName=Raji, amount=5000.0]
+Target account...BankAccount [accountNo=2, accountName=Vaithi, amount=10555.0]
+
