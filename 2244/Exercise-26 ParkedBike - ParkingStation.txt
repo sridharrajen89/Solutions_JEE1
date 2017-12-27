@@ -1,0 +1,109 @@
+-------------Exercise-26 ParkedBike & ParkingStation
+package com.htc.javaweek3;
+
+public class ParkedBike extends Bike{
+	private int bikeRegNo;
+	private String parkedDate;
+	private String deParkedDate;
+	private double parkingCharges;
+	//Constructor
+	public ParkedBike(int bikeRegNo, String parkedDate, String deParkedDate, double parkingCharges) {
+		super();
+		this.bikeRegNo = bikeRegNo;
+		this.parkedDate = parkedDate;
+		this.deParkedDate = deParkedDate;
+		this.parkingCharges = parkingCharges;
+	}
+	public int getBikeRegNo() {
+		return bikeRegNo;
+	}
+	public void setBikeRegNo(int bikeRegNo) {
+		this.bikeRegNo = bikeRegNo;
+	}
+	public String getParkedDate() {
+		return parkedDate;
+	}
+	public void setParkedDate(String parkedDate) {
+		this.parkedDate = parkedDate;
+	}
+	public String getDeParkedDate() {
+		return deParkedDate;
+	}
+	public void setDeParkedDate(String deParkedDate) {
+		this.deParkedDate = deParkedDate;
+	}
+	public double getParkingCharges() {
+		return parkingCharges;
+	}
+	public void setParkingCharges(double parkingCharges) {
+		this.parkingCharges = parkingCharges;
+	}
+	@Override
+	public String toString() {
+		return "ParkedBike [bikeRegNo=" + bikeRegNo + ", parkedDate=" + parkedDate + ", deParkedDate=" + deParkedDate
+				+ ", parkingCharges=" + parkingCharges + "]";
+	}
+	
+}
+----------------------------------------------------------------------------
+package com.htc.javaweek3;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class ParkingStation {
+	List<ParkedBike> pbike = new ArrayList<ParkedBike>();
+	//default Constructor
+	public ParkingStation() {
+		super();
+	}
+	//Constructor
+	public ParkingStation(List<ParkedBike> pbike) {
+		super();
+		this.pbike = pbike;
+	}
+	//setters & getters
+	public List<ParkedBike> getPbike() {
+		return pbike;
+	}
+	public void setPbike(List<ParkedBike> pbike) {
+		this.pbike = pbike;
+	}
+	public void parkBike(ParkedBike obj) {
+		if(obj!=null) {
+			pbike.add(obj);
+			System.out.println("Within parkBike method, add object is.."+obj);
+		}
+	}
+	public void deParkDate(ParkedBike obj) {
+		if(obj!=null) {	
+			System.out.println("Within deParkBike method, remove object is.."+obj);
+			pbike.remove(obj);			
+		}
+	}
+}
+-----------------------------------------------------------------------------
+package com.htc.javaweek3;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class ParkedBikeMainEx26 {
+
+	public static void main(String[] args) {
+		ParkingStation ps = new ParkingStation();
+		List<ParkedBike> pbike = new ArrayList<ParkedBike>();
+		ParkedBike pb = new ParkedBike(1,"12/25/2017","12/26/2017",5.0);
+		pbike.add(pb);
+		ps.parkBike(pb);
+		ParkedBike pb1 = new ParkedBike(2,"12/24/2017","12/26/2017",10.0);
+		pbike.add(pb1);
+		ps.parkBike(pb1);		
+		ps.deParkDate(pb1);
+	}
+
+}
+---------------------output
+Within parkBike method, add object is..ParkedBike [bikeRegNo=1, parkedDate=12/25/2017, deParkedDate=12/26/2017, parkingCharges=5.0]
+Within parkBike method, add object is..ParkedBike [bikeRegNo=2, parkedDate=12/24/2017, deParkedDate=12/26/2017, parkingCharges=10.0]
+Within deParkBike method, remove object is..ParkedBike [bikeRegNo=2, parkedDate=12/24/2017, deParkedDate=12/26/2017, parkingCharges=10.0]
