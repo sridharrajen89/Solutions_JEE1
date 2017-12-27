@@ -1,0 +1,32 @@
+package com.week2;
+
+import java.util.Scanner;
+import java.util.regex.Pattern;
+
+import javax.print.attribute.standard.PrinterLocation;
+
+import java.util.*;
+
+public class Validations {
+	
+	public static void main(String[] args) {
+		
+ 	Scanner sc = new Scanner(System.in);
+ //Email Validation//
+	System.out.println("enter your Email Address - ");
+	String emladd = sc.nextLine();  
+	System.out.println(Pattern.matches((
+      "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
+		+ "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{3,})$"), emladd));
+	
+	//Password Validation//
+	System.out.println("Enter your password -  ");  //Contains max 8 char, at least one digit, at least one special char - @#$%^&, does not contain space or tab//
+	String pwd = sc.nextLine();
+	System.out.println(Pattern.matches(("(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}"), pwd));
+
+	//Credit Card Number Validation//
+	System.out.println("Enter your Credit Card Number - ");  
+	String creditNo = sc.nextLine();
+	System.out.println(Pattern.matches(("(\\d{4}) (\\d{4}) (\\d{4}) (\\d{4})"), creditNo)); 	
+	}	 
+}
