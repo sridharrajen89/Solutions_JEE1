@@ -45,15 +45,11 @@ public class Stores {
         double total=0;
         for (Product prod: prodList) {
             if (prod.getProductId() == prodCode) {
-                //System.out.println(prod.getProductId());
                 if (prod.getQuantityOnHand()>=qtyRequired){
                     total = prod.getPrice()*qtyRequired;
-                    //System.out.println(total);
                     prod.setQuantityOnHand(prod.getQuantityOnHand()-qtyRequired);
                     if (prod.getQuantityOnHand()<=prod.getReorderLevel()) {
                         updateStock(prodCode,prod.getReorderQty());
-//                        prod.setQuantityOnHand(prod.getQuantityOnHand()+ prod.getReorderQty());
-//                        System.out.println("A Purchase order is Made for the Product: "+ prodCode);
                     }
                     return total;
                 }
