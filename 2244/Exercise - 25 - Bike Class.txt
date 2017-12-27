@@ -1,0 +1,84 @@
+------------Exercise - 25 - Bike Class
+
+package com.htc.javaweek3;
+
+public class Bike {
+	private int bikeRegNo;
+	private String bikeName;
+	private int maxSpeed;
+	private int currentSpeed;
+	private int currentGear;
+	//Default constructor
+	public Bike() {
+		super();
+	}
+	//Constructor
+	public Bike(int bikeRegNo, String bikeName) {
+		super();
+		this.bikeRegNo = bikeRegNo;
+		this.bikeName = bikeName;
+	}
+	public void addBike(int bikeRegNo,String bikeName) {
+	System.out.println(bikeRegNo+" "+bikeName);	
+	}
+	public void applyBreak() {
+		currentSpeed = 0;
+		currentGear = 1;
+		System.out.println("Inside applyBreak Method and reduced speed to "+currentSpeed);
+		System.out.println("Inside applyBreak Method and Current Gear "+currentGear);
+	}
+	public int accelarate(int speed) {
+		if (speed > 0 && speed < 10) {
+			System.out.println("Parameter speed is "+speed);
+			currentGear=1;
+			System.out.println("Input speed b/w 0 to 10 so current Gear --"+currentGear+" & " +"Accelerate Speed is "+speed);
+		} else if (speed >= 11 && speed <= 20) {
+			System.out.println("Parameter speed is "+speed);
+			currentGear=2;
+			System.out.println("Input speed b/w 11 to 20 so current Gear --"+currentGear+" & " +"Accelerate Speed is "+speed);
+		} else if (speed >= 21 && speed <= 40) {
+			System.out.println("Parameter speed is "+speed);
+			currentGear=3;
+			System.out.println("Input speed b/w 21 to 40 so current Gear --"+currentGear+" & " +"Accelerate Speed is "+speed);
+		}else if (speed > 40) {
+			System.out.println("Parameter speed is "+speed);
+			currentGear=4;
+			System.out.println("Input speed greater than 40 so current Gear --"+currentGear+" & " +"Accelerate Speed is "+speed);
+		}
+		return speed;
+	}
+	
+}
+------------------------------------Main
+package com.htc.javaweek3;
+
+public class BikeMainEx25 {
+
+	public static void main(String[] args) {
+		Bike bike = new Bike();
+		bike.addBike(1, "Hero");
+		bike.addBike(2, "Majestic");
+		bike.applyBreak();
+		bike.accelarate(5);
+		bike.accelarate(11);
+		bike.accelarate(21);
+		bike.accelarate(40);
+		bike.accelarate(41);
+	}
+
+}
+-------------output---------------------
+1 Hero
+2 Majestic
+Inside applyBreak Method and reduced speed to 0
+Inside applyBreak Method and Current Gear 1
+Parameter speed is 5
+Input speed b/w 0 to 10 so current Gear --1 & Accelerate Speed is 5
+Parameter speed is 11
+Input speed b/w 11 to 20 so current Gear --2 & Accelerate Speed is 11
+Parameter speed is 21
+Input speed b/w 21 to 40 so current Gear --3 & Accelerate Speed is 21
+Parameter speed is 40
+Input speed b/w 21 to 40 so current Gear --3 & Accelerate Speed is 40
+Parameter speed is 41
+Input speed greater than 40 so current Gear --4 & Accelerate Speed is 41
