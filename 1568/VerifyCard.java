@@ -33,6 +33,7 @@ public class VerifyCard {
     	System.out.println(Pattern.matches("[0-9]{4,4}-[0-9]{4,4}-[0-9]{4,4}-[0-9]{4,4}", "1111-2222-3333-4444"));
     	System.out.println(Pattern.matches("[0-9]{4,4}-[0-9]{4,4}-[0-9]{4,4}-[0-9]{4,4}", "aa12-1234-1234-1234"));
     	System.out.println(Pattern.matches("[0-9]{4,4}-[0-9]{4,4}-[0-9]{4,4}-[0-9]{4,4}", "1234 1234-1234-1234"));
+		System.out.println(Pattern.matches("[0-9]{4,4}-[0-9]{4,4}-[0-9]{4,4}-[0-9]{4,4}", "1111=2222-3333-4444"));
     
     	}
     
