@@ -3,8 +3,9 @@ import java.io.Serializable;
 
 public class Product implements Serializable {
 
-	private static final long serialVersionUID = 4926103944621199832L;
-	private int productId;
+	 private static final long serialVersionUID = 4926103944621199832L;
+	 
+	 private int productId;
 	 private String productName;
 	 private double price;
 	 private int quantityOnHand;
@@ -12,15 +13,14 @@ public class Product implements Serializable {
 	 private int reorderQty;
 	 
 	 
-	 public Product(int productId, String productName, double price, int quantityOnHand, int reorderLevel,
-			int reorderQty) {
+	 public Product(int productId, String productName, double price, int quantityOnHand) {
 		super();
 		this.productId = productId;
 		this.productName = productName;
 		this.price = price;
 		this.quantityOnHand = quantityOnHand;
-		this.reorderLevel = reorderLevel;
-		this.reorderQty = reorderQty;
+		this.reorderLevel = 10;
+		this.reorderQty = 50;
 	}
 
 

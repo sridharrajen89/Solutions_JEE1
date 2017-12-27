@@ -20,7 +20,7 @@ public class Bank implements Serializable, IBankServiceProvider {
 	
 
 	public boolean addBankAccount(BankAccount bankAccount) {
-		bankAccounts[lastAssignedNo++]=bankAccount;
+		bankAccounts[++lastAssignedNo]=bankAccount;
 		return true;
 	}
 
@@ -75,11 +75,11 @@ public class Bank implements Serializable, IBankServiceProvider {
 		if (bAccount != null)
 			return bAccount.getBalance();
 		else
-			return 0;
+			return -1;
 	}
 	
 	@Override
-	public boolean depositMoney(BankAccount account, double amount) {
+	public boolean depositMoney(BankAccount account, double amount) throws InvalidAmountException {
 		// TODO Auto-generated method stub
 		
 		 if (amount > 0) {
@@ -89,28 +89,32 @@ public class Bank implements Serializable, IBankServiceProvider {
 				return true;
 			}
 		 }
-			return false;
+			throw new InvalidAmountException();
 		
 	}
 
 
 	@Override
-	public boolean withdrawMoney(BankAccount account, double amount) {
+	public boolean withdrawMoney(BankAccount account, double amount) throws InvalidAmountException, InsufficientFundException{
 		// TODO Auto-generated method stub
 		 if (amount > 0) {
 			BankAccount bAccount=checkAccount(account.getAccountNo());
 			if (bAccount != null) {
-				bAccount.setBalance(bAccount.getBalance() - amount);
-				return true;
+				double balance=bAccount.getBalance() - amount;
+				if (balance >=0 ) {
+					bAccount.setBalance(balance);
+					return true;
+				}
+				else throw new InsufficientFundException();
 			}
 		 }
-			return false;
+			throw new InvalidAmountException();
 		
 	}
 
 
 	@Override
-	public boolean transferMoney(BankAccount fromAccount, BankAccount toAccount, double amount) {
+	public boolean transferMoney(BankAccount fromAccount, BankAccount toAccount, double amount) throws InvalidAmountException, InsufficientFundException{
 		// TODO Auto-generated method stub
 		
 		 if (amount > 0) {
@@ -118,13 +122,17 @@ public class Bank implements Serializable, IBankServiceProvider {
 			BankAccount toBankAccount=checkAccount(toAccount.getAccountNo());
 			
 			if ((fromBankAccount != null)  && (toBankAccount != null)) {
-				
-				fromBankAccount.setBalance(fromBankAccount.getBalance() - amount);
-				toBankAccount.setBalance(toBankAccount.getBalance() + amount);
-				return true;
+				double balance=fromBankAccount.getBalance() - amount;
+				if (balance >=0) {
+					fromBankAccount.setBalance(balance);
+					toBankAccount.setBalance(toBankAccount.getBalance() + amount);
+					return true;
+				}
+				else 
+					throw new InsufficientFundException();
 			}
 		 }
-			return false;
+			throw new InvalidAmountException();
 	}
 
 	
