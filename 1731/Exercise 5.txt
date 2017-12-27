@@ -12,29 +12,32 @@ public class Exercise5 {
 
 		public static void main(String args[]) {
 			
-			BankClass bankClass = new BankClass();
+		BankClass bankClass = new BankClass();
 			
-			BankAccount acct[] = new BankAccount[3];
+		BankAccount acct[] = new BankAccount[3];
 
-			acct[0] = new BankAccount("Smith", 100000);
-			acct[1] = new BankAccount("Jeff",200000);
-			acct[2] = new BankAccount("Chris", 300000);
-			
-			bankClass.setAcct(acct);
+		acct[0] = new BankAccount("Smith", 100000);
+		acct[1] = new BankAccount("Jeff",200000);
+		acct[2] = new BankAccount("Chris", 300000);
+		
+		bankClass.setAcct(acct);
 
-			int a=1;
-			double deposit=50000;
-			double withdraw=20000;
+		int a=1;
+		double deposit=50000;
+		double withdraw=20000;
 			
-			System.out.println("Check account  " + bankClass.checkAccount(a));
-			System.out.println("Balance for account " + a +" is "+ bankClass.getBalance(a));
-			System.out.println("Balance for account " + a +" is "+ bankClass.depositMoney(a, deposit));
-			System.out.println("Balance for account " + a +" is "+ bankClass.withdrawMoney(a, withdraw));
-			System.out.println("Balance for account " + a +" is "+ bankClass.transferMoney(1,2, 20000));
+		System.out.println("Check if account  " +a +" exists" + bankClass.checkAccount(a));
+		System.out.println("Balance for account " + a +" is "+ bankClass.getBalance(a));
+		System.out.println("Balance for account " + a +" is "+ bankClass.depositMoney(a, deposit));
+		System.out.println("Balance for account " + a +" is "+ bankClass.withdrawMoney(a, withdraw));
+		System.out.println("Balance for account " + a +" is "+ bankClass.transferMoney(1,2, 20000));
 		
 		}
 
 	}
+
+
+
 
 -------------------------------------------------------------------------------------------------------------
 
@@ -68,8 +71,6 @@ package htc.assignments;
 public class BankClass implements IBankServiceProvider {
 
 	private BankAccount acct[];
-	
-	
 	
 	public BankAccount[] getAcct() {
 		return acct;
@@ -119,7 +120,7 @@ public class BankClass implements IBankServiceProvider {
 			
 			{
 				balanceAfterDeposit = banAcc.getBalance() + amount;
-				System.out.println("Balance for Account " + accountNo + " after deposit is " + balanceAfterDeposit);
+				System.out.println("Balance for Account " + accountNo + " after deposit of " +amount + " is " + balanceAfterDeposit);
 			}
 			
 		}
@@ -170,6 +171,7 @@ public class BankClass implements IBankServiceProvider {
 		double balanceAfterTransferFromAccount = balanceFromAccount - amount;
 		
 		System.out.println("Balance of To account after adding " + amount + " is " + balanceAfterTransferToAccount);
+		System.out.println("Balance of To account after adding " + amount + " is " + balanceAfterTransferToAccount);
 		System.out.println("Balance of From account after transfer " + amount + " is " + balanceAfterTransferFromAccount);
 		
 		return true;
@@ -179,7 +181,6 @@ public class BankClass implements IBankServiceProvider {
 
 Bank Account
 ------------
-
 package htc.assignments;
 
 
@@ -191,12 +192,11 @@ public class BankAccount  {
 	public static int lastAssigned =0;
 
 	public BankAccount(String accountName, int balance) {
-//		super();
 		this.accountNo = ++lastAssigned;
 		this.accountName = accountName;
 		this.balance = balance;
 		
-//		System.out.println("Account no created is  " + accountNo);
+		System.out.println("Account no created is  " + accountNo);
 	}
 	
 	@Override
@@ -205,8 +205,6 @@ public class BankAccount  {
 				+ ", lastAssigned=" + lastAssigned + "]";
 	}
 
-	
-	
 	public String getAccountName() {
 		return accountName;
 	}
@@ -224,10 +222,6 @@ public class BankAccount  {
 	}
 
 
-
-	public BankAccount() {
-	}
-
 	public int getAccountNo() {
 		return accountNo;
 	}
@@ -236,15 +230,10 @@ public class BankAccount  {
 		this.accountNo = accountNo;
 	}
 
-	public int getLastAssigned() {
-		return lastAssigned;
-	}
-
-	public void setLastAssigned(int lastAssigned) {
-		this.lastAssigned = lastAssigned;
-	}
-
+	
 }
+
+
 
 
 ---------------------------------------------------------------------------------------------------------------------------
