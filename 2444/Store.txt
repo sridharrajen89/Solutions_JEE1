@@ -1,0 +1,85 @@
+Exercise 
+
+package com.week2;
+
+import java.util.*;
+
+class Product implements Comparable<Product>{
+
+	private int productId;
+	private String productName;
+	private int productPrice;		
+
+
+	public Product(int productId, String productName, int productPrice) {
+		super();
+		this.productId = productId;
+		this.productName = productName;
+		this.productPrice = productPrice;
+	}
+
+	
+
+	// Used to sort Product by name 
+
+	  @Override 
+
+	  public int compareTo(Product p)   {	
+             return p.productId-this.productId;  } 
+
+ 	public int getProductId() {
+	return productId;
+	}
+
+	public void setProductId(int productId) {
+		this.productId = productId;
+	}
+
+	public String getProductName() {
+		return productName;
+	}
+
+	public void setProductName(String productName) {
+		this.productName = productName;
+	}
+
+	public int getProductPrice() {
+		return productPrice;
+	}
+
+	public void setProductPrice(int productPrice) {
+		this.productPrice = productPrice;
+	}
+}
+ 	  
+ }
+------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+import java.util.ArrayList;
+
+import java.util.Collections;
+
+
+public class StoreTest{
+
+	public static void main(String[] args) {
+
+   	{
+			ArrayList<Product> prodList = new ArrayList<Product>();
+
+			prodList.add(new Product(1, "Hamam Soaps", 25));
+			prodList.add(new Product(2, "Dove Soaps", 35));
+			prodList.add(new Product(3, "Margo Soaps", 15));
+			prodList.add(new Product(4, "Detol", 36));
+
+			Collections.sort(prodList);
+
+			System.out.println("Products list after sorting : ");
+
+			for (Product product: prodList)
+
+			{  System.out.println(product.getProductName() + " " + product.getProductId() + " " +product.getProductPrice()); } 
+}
+	}
+
+}
