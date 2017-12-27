@@ -21,7 +21,7 @@ public class Stores {
 
 		double totalAmount;
 
-		if ( (prodMap.get(product.getProductId())!=null) ) {// && (prodMap.get(product.getQuantityOnHand()>=qtyRequired)) )  { 
+		if ( (prodMap.get(product.getProductId())!=null) ) {
 			
 			if (product.getReorderLevel()<10 && product.getQuantityOnHand()>qtyRequired ) {
 				
