@@ -1,0 +1,250 @@
+Exercise 5:
+
+//Create Application in Bank using Java 
+//Author Vijay Patil
+
+Main class:
+-----------
+
+package htc.assignments;
+
+public class Exercise5 {
+
+		public static void main(String args[]) {
+			
+			BankClass bankClass = new BankClass();
+			
+			BankAccount acct[] = new BankAccount[3];
+
+			acct[0] = new BankAccount("Smith", 100000);
+			acct[1] = new BankAccount("Jeff",200000);
+			acct[2] = new BankAccount("Chris", 300000);
+			
+			bankClass.setAcct(acct);
+
+			int a=1;
+			double deposit=50000;
+			double withdraw=20000;
+			
+			System.out.println("Check account  " + bankClass.checkAccount(a));
+			System.out.println("Balance for account " + a +" is "+ bankClass.getBalance(a));
+			System.out.println("Balance for account " + a +" is "+ bankClass.depositMoney(a, deposit));
+			System.out.println("Balance for account " + a +" is "+ bankClass.withdrawMoney(a, withdraw));
+			System.out.println("Balance for account " + a +" is "+ bankClass.transferMoney(1,2, 20000));
+		
+		}
+
+	}
+
+-------------------------------------------------------------------------------------------------------------
+
+IBankServiceProvider
+--------------------
+
+package htc.assignments;
+
+public interface IBankServiceProvider {
+	
+public BankAccount checkAccount(int accountNo);
+	
+public double getBalance(int accountNo);
+	
+public boolean depositMoney(int account, double amount);
+	
+public boolean withdrawMoney(int account, double amount);
+	
+public boolean transferMoney(int fromAccount, int toAccount, double amount);
+
+}
+
+-------------------------------------------------------------------------------------------------------------
+
+Bank Class
+----------
+
+package htc.assignments;
+
+
+public class BankClass implements IBankServiceProvider {
+
+	private BankAccount acct[];
+	
+	
+	
+	public BankAccount[] getAcct() {
+		return acct;
+	}
+
+	public void setAcct(BankAccount[] acct) {
+		this.acct = acct;
+	}
+
+	@Override
+	public BankAccount checkAccount(int accountNo) {
+		
+		for (BankAccount banAcc: acct)
+		{
+			if (banAcc.getAccountNo() == accountNo)
+			{
+			 return banAcc;	
+			}
+		}
+			
+		return null;
+	}
+
+	@Override
+	public double getBalance(int accountNo) {
+		double balance=0;
+		for (BankAccount banAcc: acct)
+		{
+			if (banAcc.getAccountNo() == accountNo)
+			
+			{
+				balance = banAcc.getBalance();
+			}
+			
+		}
+			
+		return balance;
+	}
+
+	@Override
+	public boolean depositMoney(int accountNo, double amount) {
+		double balanceAfterDeposit=0;
+		
+		for (BankAccount banAcc: acct)
+		{
+			if (banAcc.getAccountNo() == accountNo)
+			
+			{
+				balanceAfterDeposit = banAcc.getBalance() + amount;
+				System.out.println("Balance for Account " + accountNo + " after deposit is " + balanceAfterDeposit);
+			}
+			
+		}
+		return true;
+	}
+	
+//	@Override
+	public boolean withdrawMoney(int accountNo, double amount) {
+	double balanceAfterWithdrawl =0;
+		
+		for (BankAccount banAcc: acct)
+		{
+			if (banAcc.getAccountNo() == accountNo)
+			
+			{
+				balanceAfterWithdrawl = banAcc.getBalance() - amount;
+				
+				System.out.println("Balance for Account " + accountNo + " before deposit is " + banAcc.getBalance());
+				System.out.println("Balance for Account " + accountNo + " after withdrawl of "+ amount + " is " + balanceAfterWithdrawl);
+			}
+			
+		}
+		return true;
+	}
+
+	@Override
+	public boolean transferMoney(int fromAccount, int toAccount, double amount) {
+		double balanceFromAccount =0;
+		double balanceToAccount =0;
+		
+		for (BankAccount banAcc: acct)
+		{
+			if (banAcc.getAccountNo() == fromAccount)
+			{
+				balanceFromAccount = banAcc.getBalance();
+				System.out.println("Balance of From account is " + balanceFromAccount);
+			}
+			
+			if (banAcc.getAccountNo() == toAccount)
+			{
+				balanceToAccount = banAcc.getBalance();
+				System.out.println("Balance of To account is " + balanceToAccount);
+			}
+		}
+		
+		//Transfer Balance
+		double balanceAfterTransferToAccount = balanceToAccount + amount;
+		double balanceAfterTransferFromAccount = balanceFromAccount - amount;
+		
+		System.out.println("Balance of To account after adding " + amount + " is " + balanceAfterTransferToAccount);
+		System.out.println("Balance of From account after transfer " + amount + " is " + balanceAfterTransferFromAccount);
+		
+		return true;
+	}
+	}
+--------------------------------------------------------------------------------------------------------------------------------------------------
+
+Bank Account
+------------
+
+package htc.assignments;
+
+
+public class BankAccount  {
+	
+	private int accountNo;
+	private String accountName;
+	private int balance;
+	public static int lastAssigned =0;
+
+	public BankAccount(String accountName, int balance) {
+//		super();
+		this.accountNo = ++lastAssigned;
+		this.accountName = accountName;
+		this.balance = balance;
+		
+//		System.out.println("Account no created is  " + accountNo);
+	}
+	
+	@Override
+	public String toString() {
+		return "Bank [accountNo=" + accountNo + ", accountName=" + accountName + ", balance=" + balance
+				+ ", lastAssigned=" + lastAssigned + "]";
+	}
+
+	
+	
+	public String getAccountName() {
+		return accountName;
+	}
+
+	public void setAccountName(String accountName) {
+		this.accountName = accountName;
+	}
+
+	public int getBalance() {
+		return balance;
+	}
+
+	public void setBalance(int balance) {
+		this.balance = balance;
+	}
+
+
+
+	public BankAccount() {
+	}
+
+	public int getAccountNo() {
+		return accountNo;
+	}
+
+	public void setAccountNo(int accountNo) {
+		this.accountNo = accountNo;
+	}
+
+	public int getLastAssigned() {
+		return lastAssigned;
+	}
+
+	public void setLastAssigned(int lastAssigned) {
+		this.lastAssigned = lastAssigned;
+	}
+
+}
+
+
+---------------------------------------------------------------------------------------------------------------------------
