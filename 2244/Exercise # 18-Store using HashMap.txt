@@ -1,0 +1,216 @@
+-------Exercise # 18
+--Product.java
+package com.htc.exercise18;
+
+public class Product {
+	private int productId;
+	private String productName;
+	private double price;
+	private int qtyOnHand;
+	private int reorderLevel;
+	private int reorderQty;
+	//Constructor
+	public Product(int productId, String productName, double price, int qtyOnHand, int reorderLevel, int reorderQty) {
+		super();
+		this.productId = productId;
+		this.productName = productName;
+		this.price = price;
+		this.qtyOnHand = qtyOnHand;
+		this.reorderLevel = 10;
+		this.reorderQty = 50;
+	}
+	//getters & setters
+	public int getProductId() {
+		return productId;
+	}
+	public void setProductId(int productId) {
+		this.productId = productId;
+	}
+	public String getProductName() {
+		return productName;
+	}
+	public void setProductName(String productName) {
+		this.productName = productName;
+	}
+	public double getPrice() {
+		return price;
+	}
+	public void setPrice(double price) {
+		this.price = price;
+	}
+	public int getQtyOnHand() {
+		return qtyOnHand;
+	}
+	public void setQtyOnHand(int qtyOnHand) {
+		this.qtyOnHand = qtyOnHand;
+	}
+	public int getReorderLevel() {
+		return reorderLevel;
+	}
+	public void setReorderLevel(int reorderLevel) {
+		this.reorderLevel = reorderLevel;
+	}
+	public int getReorderQty() {
+		return reorderQty;
+	}
+	public void setReorderQty(int reorderQty) {
+		this.reorderQty = reorderQty;
+	}
+	@Override
+	public String toString() {
+		return "Product [productId=" + productId + ", productName=" + productName + ", price=" + price + ", qtyOnHand="
+				+ qtyOnHand + ", reorderLevel=" + reorderLevel + ", reorderQty=" + reorderQty + "]";
+	}
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + productId;
+		return result;
+	}
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Product other = (Product) obj;
+		if (productId != other.productId)
+			return false;
+		return true;
+	}
+	
+	
+}
+----------------------Store
+package com.htc.exercise18;
+
+import java.util.HashMap;
+
+public class Store {
+	private HashMap<Integer, Product> prodHashMap;
+	//Constructor
+	public Store(HashMap<Integer, Product> prodHashMap) {
+		super();
+		this.prodHashMap = prodHashMap;
+	}
+	//Default Constructor
+	public Store() {
+		super();
+	}
+	//getters & setters
+	public HashMap<Integer, Product> getProdHashMap() {
+		return prodHashMap;
+	}
+	public void setProdHashMap(HashMap<Integer, Product> prodHashMap) {
+		this.prodHashMap = prodHashMap;
+	}
+	
+	@Override
+	public String toString() {
+		return "Store [prodHashMap=" + prodHashMap + "]";
+	}
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((prodHashMap == null) ? 0 : prodHashMap.hashCode());
+		return result;
+	}
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Store other = (Store) obj;
+		if (prodHashMap == null) {
+			if (other.prodHashMap != null)
+				return false;
+		} else if (!prodHashMap.equals(other.prodHashMap))
+			return false;
+		return true;
+	}
+	
+	public double sellItem(int productCode, int qtyRequired) throws ProductNotFoundException {
+		if(prodHashMap.get(productCode)!=null) 
+		{
+			int qtyHand = prodHashMap.get(productCode).getQtyOnHand();
+			qtyHand = qtyHand - qtyRequired;
+			prodHashMap.get(productCode).setQtyOnHand(qtyHand);
+			if(qtyHand <= 10)
+			{
+				System.out.println("Purchase Order is made..");
+			}
+			return prodHashMap.get(productCode).getPrice() * qtyRequired;
+		}	else		  
+				  throw new ProductNotFoundException("Product is not found");
+		}
+	
+	public void updateStock(int productId, int arrivedQty) throws ProductNotFoundException {
+		if(prodHashMap.get(productId)!= null)			
+		{
+			int qtyHand = prodHashMap.get(productId).getQtyOnHand();
+			System.out.println("Quantity in Hand "+qtyHand);
+			qtyHand = qtyHand + arrivedQty;
+			prodHashMap.get(productId).setQtyOnHand(qtyHand);
+			prodHashMap.get(productId).setReorderQty(0);
+		} else
+				throw new ProductNotFoundException("Product not Found");
+		
+	}
+}
+----------------Main
+package com.htc.exercise18;
+
+import java.util.HashMap;
+
+public class ProductMainEx18 {
+
+		public static void main(String[] args) {	
+			HashMap<Integer, Product> productMap = new HashMap<Integer, Product>();
+			productMap.put(1, new Product(100,"Product#1",56,120,10,0));
+			productMap.put(2, new Product(101,"Product#2",49,65,9,0));
+			productMap.put(3, new Product(102,"Product#3",89,98,8,0));
+			Store store = new Store(productMap);
+			System.out.println(productMap.toString());	
+
+		//sell item 
+			try {
+					System.out.println("Selling Product #2 and sell Quantity:2");
+					double amount = 0;
+					amount = store.sellItem(2, 2);
+					System.out.println("Total amount : "+amount);
+					System.out.println(productMap.toString());	
+				} 	catch(ProductNotFoundException pn) {
+						pn.printStackTrace();
+				} 	catch(Exception e) {
+						e.printStackTrace();
+			}
+			
+		//update the stock
+			try {
+					System.out.println("Update Product #3 and by adding 2 items to existing stock");
+					store.updateStock(3,2);
+					System.out.println(store.toString());
+				} 	catch(ProductNotFoundException pn) {
+						pn.printStackTrace();
+				} 	catch(Exception e) {
+						e.printStackTrace();
+				}
+
+		}
+}
+-----------------------output
+{1=Product [productId=100, productName=Product#1, price=56.0, qtyOnHand=120, reorderLevel=10, reorderQty=50], 2=Product [productId=101, productName=Product#2, price=49.0, qtyOnHand=65, reorderLevel=10, reorderQty=50], 3=Product [productId=102, productName=Product#3, price=89.0, qtyOnHand=98, reorderLevel=10, reorderQty=50]}
+Selling Product #2 and sell Quantity:2
+Total amount : 98.0
+{1=Product [productId=100, productName=Product#1, price=56.0, qtyOnHand=120, reorderLevel=10, reorderQty=50], 2=Product [productId=101, productName=Product#2, price=49.0, qtyOnHand=63, reorderLevel=10, reorderQty=50], 3=Product [productId=102, productName=Product#3, price=89.0, qtyOnHand=98, reorderLevel=10, reorderQty=50]}
+Update Product #3 and by adding 2 items to existing stock
+Quantity in Hand 98
+Store [prodHashMap={1=Product [productId=100, productName=Product#1, price=56.0, qtyOnHand=120, reorderLevel=10, reorderQty=50], 2=Product [productId=101, productName=Product#2, price=49.0, qtyOnHand=63, reorderLevel=10, reorderQty=50], 3=Product [productId=102, productName=Product#3, price=89.0, qtyOnHand=100, reorderLevel=10, reorderQty=0]}]
+
