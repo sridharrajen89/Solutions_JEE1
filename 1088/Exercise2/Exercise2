@@ -1,0 +1,113 @@
+Project.java:
+package com.htc.exercise2;
+
+public class Project {
+	
+	private int projectId;
+	private String projectName;
+	private String projectHead;
+	private int noOfResources;
+	
+	/**
+	 * default constructor
+	 */
+	public Project() {
+		super();
+		this.projectId = 0;
+		this.projectName = "";
+		this.projectHead = "";
+		this.noOfResources = 0;
+	}
+	/**
+	 * @param projectId
+	 * @param projectName
+	 * @param projectHead
+	 * @param noOfResources
+	 */
+	public Project(int projectId, String projectName, String projectHead, int noOfResources) {
+		super();
+		this.projectId = projectId;
+		this.projectName = projectName;
+		this.projectHead = projectHead;
+		this.noOfResources = noOfResources;
+	}
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "Project [projectId=" + projectId + ", projectName=" + projectName + ", projectHead=" + projectHead
+				+ ", noOfResources=" + noOfResources + "]";
+	}
+	/**
+	 * @return the projectId
+	 */
+	public int getProjectId() {
+		return projectId;
+	}
+	/**
+	 * @param projectId the projectId to set
+	 */
+	public void setProjectId(int projectId) {
+		this.projectId = projectId;
+	}
+	/**
+	 * @return the projectName
+	 */
+	public String getProjectName() {
+		return projectName;
+	}
+	/**
+	 * @param projectName the projectName to set
+	 */
+	public void setProjectName(String projectName) {
+		this.projectName = projectName;
+	}
+	/**
+	 * @return the projectHead
+	 */
+	public String getProjectHead() {
+		return projectHead;
+	}
+	/**
+	 * @param projectHead the projectHead to set
+	 */
+	public void setProjectHead(String projectHead) {
+		this.projectHead = projectHead;
+	}
+	/**
+	 * @return the noOfResources
+	 */
+	public int getNoOfResources() {
+		return noOfResources;
+	}
+	/**
+	 * @param noOfResources the noOfResources to set
+	 */
+	public void setNoOfResources(int noOfResources) {
+		this.noOfResources = noOfResources;
+	}
+	
+ 
+}
+
+
+ProjectTest:
+package com.htc.exercise2;
+
+public class ProjectTest {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		
+		Project prg = new Project();
+		
+		prg.setProjectId(1);
+		prg.setProjectName("HTC Project");
+		prg.setProjectHead("HTC Global");
+		prg.setNoOfResources(100);	
+		
+		System.out.println("Project: " + prg);
+
+	}
+}
