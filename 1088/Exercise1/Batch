@@ -1,1 +1,315 @@
+Trainee.java:
+package com.htc.exercise1;
+
+public class Trainee {
+	private int traineeId;
+	private String traineeName;
+	private int contactNo;
+	private String email;
+	private String gender;
+	private int age;
+	
+	/**
+	 * Default constructor
+	 */
+	public Trainee() {
+		super();
+		this.traineeId = 0;
+		this.traineeName = "";
+		this.contactNo = 0;
+		this.email = "";
+		this.gender = "";
+		this.age = 0;
+	}
+
+	/**
+	 * overloaded  constructor
+	 */
+	public Trainee(int traineeId, String traineeName, int contactNo, String email, String gender, int age) {
+		super();
+		this.traineeId = traineeId;
+		this.traineeName = traineeName;
+		this.contactNo = contactNo;
+		this.email = email;
+		this.gender = gender;
+		this.age = age;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "Trainee [traineeId=" + traineeId + ", traineeName=" + traineeName + ", contactNo=" + contactNo
+				+ ", email=" + email + ", gender=" + gender + ", age=" + age + "]";
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + traineeId;
+		return result;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Trainee other = (Trainee) obj;
+		if (traineeId != other.traineeId)
+			return false;
+		return true;
+	}
+
+	/**
+	 * @return the traineeId
+	 */
+	public int getTraineeId() {
+		return traineeId;
+	}
+
+	/**
+	 * @param traineeId the traineeId to set
+	 */
+	public void setTraineeId(int traineeId) {
+		this.traineeId = traineeId;
+	}
+
+	/**
+	 * @return the traineeName
+	 */
+	public String getTraineeName() {
+		return traineeName;
+	}
+
+	/**
+	 * @param traineeName the traineeName to set
+	 */
+	public void setTraineeName(String traineeName) {
+		this.traineeName = traineeName;
+	}
+
+	/**
+	 * @return the contactNo
+	 */
+	public int getContactNo() {
+		return contactNo;
+	}
+
+	/**
+	 * @param contactNo the contactNo to set
+	 */
+	public void setContactNo(int contactNo) {
+		this.contactNo = contactNo;
+	}
+
+	/**
+	 * @return the email
+	 */
+	public String getEmail() {
+		return email;
+	}
+
+	/**
+	 * @param email the email to set
+	 */
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	/**
+	 * @return the gender
+	 */
+	public String getGender() {
+		return gender;
+	}
+
+	/**
+	 * @param gender the gender to set
+	 */
+	public void setGender(String gender) {
+		this.gender = gender;
+	}
+
+	/**
+	 * @return the age
+	 */
+	public int getAge() {
+		return age;
+	}
+
+	/**
+	 * @param age the age to set
+	 */
+	public void setAge(int age) {
+		this.age = age;
+	}
+
+}
+
+Batch.java:
+
+package com.htc.exercise1;
+
+import java.util.*;
+
+public class Batch{
+	
+	private String batchCode;
+	private String startdate;
+	private String enddate;
+	private Trainee[] trainees;
+	/**
+	 * Default Constructor
+	 */
+	public Batch() {
+		super();
+		this.batchCode = "";
+		this.startdate = "";
+		this.enddate = "";
+		this.trainees = null;
+	}
+	/**
+	 * @param batchCode
+	 * @param startdate
+	 * @param enddate
+	 * @param trainee
+	 */
+	public Batch(String batchCode, String startdate, String enddate, Trainee[] trainees) {
+		super();
+		this.batchCode = batchCode;
+		this.startdate = startdate;
+		this.enddate = enddate;
+		this.trainees = trainees;
+	}
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "Batch [batchCode=" + batchCode + ", startdate=" + startdate + ", enddate=" + enddate + ", trainees="
+				+ Arrays.toString(trainees) + "]";
+	}
+	/**
+	 * @return the batchCode
+	 */
+	public String getBatchCode() {
+		return batchCode;
+	}
+	/**
+	 * @param batchCode the batchCode to set
+	 */
+	public void setBatchCode(String batchCode) {
+		this.batchCode = batchCode;
+	}
+	/**
+	 * @return the startdate
+	 */
+	public String getStartdate() {
+		return startdate;
+	}
+	/**
+	 * @param startdate the startdate to set
+	 */
+	public void setStartdate(String startdate) {
+		this.startdate = startdate;
+	}
+	/**
+	 * @return the enddate
+	 */
+	public String getEnddate() {
+		return enddate;
+	}
+	/**
+	 * @param enddate the enddate to set
+	 */
+	public void setEnddate(String enddate) {
+		this.enddate = enddate;
+	}
+	/**
+	 * @return the trainees
+	 */
+		
+	public Trainee getTrainee(int traineeId) throws TraineeNotFoundException{
+		for(int i=0; i<trainees.length;i++) {
+			if(trainees[i].getTraineeId() == traineeId)
+			   return trainees[i];
+			}
+		throw new TraineeNotFoundException("Trainee not found");
+	}
+	
+	public Trainee[] getTrainees(String gender) {
+		Trainee[] genderList = new Trainee[5];
+		int j =0;
+		for(int i=0; i<trainees.length; i++) {
+			if(trainees[i].getGender() == gender) {
+				genderList[j] = trainees[i];
+				j++;		
+				}
+             }
+		return genderList;
+	}
+	
+	public static void main(String[] args) {
+	
+		 Trainee tr1 =  new Trainee(1, "Srini", 309807001, "Srini@gmail.com", "M", 30);
+		 Trainee tr2 =  new Trainee(2, "Srini2", 309807001, "Srini2@gmail.com", "M", 31);
+		 Trainee tr3 =  new Trainee(3, "Srini3", 309807001, "Srini3@gmail.com", "M", 32);
+		 Trainee tr4 =  new Trainee(4, "Sri", 309807001, "Sri@gmail.com", "F", 33);
+	
+		 Trainee[] traineeList = {tr1, tr2, tr3, tr4};
+		 
+		 Batch b1 = new Batch("JavaAdvance", "01/01/2018", "02/01/2018", traineeList);
+		 
+		 //getTrainee test 
+		 try {
+		     System.out.print(b1.getTrainee(20));
+		 }catch (TraineeNotFoundException e) {
+			 e.printStackTrace();
+		 }
+		 Trainee[] genderInfo = b1.getTrainees("F");
+		 
+		 for(int i=0;(i<genderInfo.length & genderInfo[i] != null); i++) {
+			 System.out.println(" ");
+			 System.out.println(genderInfo[i]);
+		 }
+		 
+	}
+
+}
+
+TraineeNotFoundException: 
+
+package com.htc.exercise1;
+
+public class TraineeNotFoundException extends Exception {
+	private final String errorMessage;
+
+	
+	/**
+	 * @param errorMessage
+	 */
+	public TraineeNotFoundException(String errorMessage) {
+		super(errorMessage);
+		this.errorMessage = errorMessage;
+	}
+
+	/**
+	 * @return the errorMessage
+	 */
+	public String getErrorMessage() {
+		return errorMessage;
+	}
+}
 
