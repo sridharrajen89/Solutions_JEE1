@@ -1,0 +1,108 @@
+import java.io.Serializable;
+
+@SuppressWarnings("serial")
+public class Employee implements Serializable, Comparable<Employee> {
+
+	private int employeeID;
+	private String employeeName;
+	private String password;
+	private double salary;
+	private String deptNO;
+
+	public Employee(int employeeID, String employeeName, String password, double salary, String deptNO) {
+		super();
+		this.employeeID = employeeID;
+		this.employeeName = employeeName;
+		this.password = password;
+		this.salary = salary;
+		this.deptNO = deptNO;
+	}
+
+	public int getEmployeeID() {
+		return employeeID;
+	}
+
+	public String getEmployeeName() {
+		return employeeName;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public double getSalary() {
+		return salary;
+	}
+
+	public String getDeptNO() {
+		return deptNO;
+	}
+
+	public void setEmployeeID(int employeeID) {
+		this.employeeID = employeeID;
+	}
+
+	public void setEmployeeName(String employeeName) {
+		this.employeeName = employeeName;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public void setSalary(double salary) {
+		this.salary = salary;
+	}
+
+	public void setDeptNO(String deptNO) {
+		this.deptNO = deptNO;
+	}
+
+	@Override
+	public String toString() {
+		return "Employee [employeeID=" + employeeID + ", employeeName=" + employeeName + ", password=" + password
+				+ ", salary=" + salary + ", deptNO=" + deptNO + "]";
+	}
+
+	@Override
+	public int compareTo(Employee employee) {
+		return this.deptNO.compareTo(employee.deptNO);
+
+	}
+
+}
+
+----------------------------------------------------------------------------------------------------------------------------------------
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+public class EmployeeSortTest {
+
+	public static void main(String[] args) {
+
+		List<Employee> listEmp = new ArrayList<Employee>();
+
+		Employee employee;
+		employee = new Employee(111, "Praba", "pass", 100.00, "200");
+		listEmp.add(employee);
+
+		employee = new Employee(231, "Karan", "pass", 200.00, "300");
+		listEmp.add(employee);
+
+		employee = new Employee(231, "Rama", "pass", 200.00, "100");
+		listEmp.add(employee);
+
+		employee = new Employee(231, "Samy", "pass", 200.00, "400");
+		listEmp.add(employee);
+
+		Collections.sort(listEmp);
+
+		for (Employee emp : listEmp) {
+			System.out.println(emp);
+		}
+
+	}
+
+}
