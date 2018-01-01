@@ -1,0 +1,78 @@
+***********************************************************************************************************************
+***	Insert procedure
+***********************************************************************************************************************
+CREATE OR REPLACE FUNCTION public.insertemprecord(
+    empid integer,
+    empname character varying,
+    empsalary double precision)
+  RETURNS boolean AS
+$BODY$
+DECLARE status BOOLEAN;
+BEGIN
+  status:=false;
+  INSERT INTO public."EMPLOYEE_DTLS" ("EMP_ID","EMP_NAME","EMP_SALARY") VALUES (empId,empName,empSalary);
+  status:=true;
+  RETURN status;
+END;
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100;
+ALTER FUNCTION public.insertemprecord(integer, character varying, double precision)
+  OWNER TO postgres;
+
+***********************************************************************************************************************
+***	Select procedure
+***********************************************************************************************************************
+CREATE OR REPLACE FUNCTION public.selectemprecord(IN empid integer)
+  RETURNS TABLE(empoyeeid integer, empname character varying, empsalary double precision) AS
+$BODY$
+BEGIN
+  RETURN QUERY 
+  SELECT "EMP_ID", "EMP_NAME","EMP_SALARY" FROM public."EMPLOYEE_DTLS" WHERE "EMP_ID"=empId;
+END;
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100
+  ROWS 1000;
+ALTER FUNCTION public.selectemprecord(integer)
+  OWNER TO postgres;
+
+***********************************************************************************************************************
+***	Update procedure
+***********************************************************************************************************************
+CREATE OR REPLACE FUNCTION public.updateemprecord(
+    empid integer,
+    empsalary double precision)
+  RETURNS boolean AS
+$BODY$
+DECLARE status BOOLEAN;
+BEGIN
+  status:=false;
+  UPDATE public."EMPLOYEE_DTLS" SET "EMP_SALARY" = empsalary WHERE "EMP_ID" = empid; 
+  status:=true;
+  RETURN status;
+END;
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100;
+ALTER FUNCTION public.updateemprecord(integer, double precision)
+  OWNER TO postgres;
+***********************************************************************************************************************
+***	Delete procedure
+***********************************************************************************************************************
+CREATE OR REPLACE FUNCTION public.deleteemprecord(empid integer)
+  RETURNS boolean AS
+$BODY$
+DECLARE status BOOLEAN;
+BEGIN
+  status:=false;
+  DELETE FROM public."EMPLOYEE_DTLS" WHERE "EMP_ID" = empid; 
+  status:=true;
+  RETURN status;
+END;
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100;
+ALTER FUNCTION public.deleteemprecord(integer)
+  OWNER TO postgres;
+
