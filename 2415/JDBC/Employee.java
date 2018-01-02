@@ -52,27 +52,26 @@ public class Employee implements Serializable {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Employee employee = (Employee) o;
-
-        if (employeeID != employee.employeeID) return false;
-        if (Double.compare(employee.salary, salary) != 0) return false;
-        return employeeName != null ? employeeName.equals(employee.employeeName) : employee.employeeName == null;
-    }
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Employee other = (Employee) obj;
+		if (employeeID != other.employeeID)
+			return false;
+		return true;
+	}
 
     @Override
-    public int hashCode() {
-        int result;
-        long temp;
-        result = employeeID;
-        result = 31 * result + (employeeName != null ? employeeName.hashCode() : 0);
-        temp = Double.doubleToLongBits(salary);
-        result = 31 * result + (int) (temp ^ (temp >>> 32));
-        return result;
-    }
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + employeeID;
+		return result;
+	}
 
     @Override
     public String toString() {
