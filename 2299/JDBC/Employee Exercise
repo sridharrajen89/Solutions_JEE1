@@ -1,0 +1,232 @@
+public class Employee {
+
+	private int employeeId;
+	private String employeeName;
+	private double employeeSalary;
+
+	public Employee(int employeeId, String employeeName, double employeeSalary) {
+		super();
+		this.employeeId = employeeId;
+		this.employeeName = employeeName;
+		this.employeeSalary = employeeSalary;
+	}
+
+	/**
+	 * @return the employeeId
+	 */
+	public int getEmployeeId() {
+		return employeeId;
+	}
+
+	/**
+	 * @return the employeeName
+	 */
+	public String getEmployeeName() {
+		return employeeName;
+	}
+
+	/**
+	 * @return the employeeSalary
+	 */
+	public double getEmployeeSalary() {
+		return employeeSalary;
+	}
+
+	/**
+	 * @param employeeId
+	 *            the employeeId to set
+	 */
+	public void setEmployeeId(int employeeId) {
+		this.employeeId = employeeId;
+	}
+
+	/**
+	 * @param employeeName
+	 *            the employeeName to set
+	 */
+	public void setEmployeeName(String employeeName) {
+		this.employeeName = employeeName;
+	}
+
+	/**
+	 * @param employeeSalary
+	 *            the employeeSalary to set
+	 */
+	public void setEmployeeSalary(double employeeSalary) {
+		this.employeeSalary = employeeSalary;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "Employee [employeeId=" + employeeId + ", employeeName=" + employeeName + ", employeeSalary="
+				+ employeeSalary + "]";
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + employeeId;
+		return result;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Employee other = (Employee) obj;
+		if (employeeId != other.employeeId)
+			return false;
+		return true;
+	}
+
+}
+----------------------------------------------------------------------------------------------------------------------------------------
+public class EmployeeNotFoundException extends Exception {
+
+	private static final long serialVersionUID = -5209769626271723057L;
+
+	private String errorMessage;
+
+	public EmployeeNotFoundException(String errorMessage) {
+		super();
+		this.errorMessage = errorMessage;
+		System.out.println(errorMessage);
+	}
+
+	public String getErrorMessage() {
+		return errorMessage;
+	}
+
+}
+----------------------------------------------------------------------------------------------------------------------------------------
+public class DuplicateEmployeeIDException extends Exception {
+
+	private static final long serialVersionUID = -5209769626271723057L;
+
+	private String errorMessage;
+
+	public DuplicateEmployeeIDException(String errorMessage) {
+		super();
+		this.errorMessage = errorMessage;
+	}
+
+	public String getErrorMessage() {
+		return errorMessage;
+	}
+
+}
+----------------------------------------------------------------------------------------------------------------------------------------
+public interface ICompanyServiceProvider {
+
+	public boolean createEmployee(Employee obj) throws DuplicateEmployeeIDException;
+
+	public Employee readEmployee(int employeeId) throws EmployeeNotFoundException;
+
+	public boolean updateEmployee(int employeeId, double newSalary) throws EmployeeNotFoundException;
+
+	public boolean deleteEmployee(int employeeId) throws EmployeeNotFoundException;
+
+}
+----------------------------------------------------------------------------------------------------------------------------------------
+public class HTCGlobalServicesDAO implements ICompanyServiceProvider {
+
+	Connection con = null;
+
+	public HTCGlobalServicesDAO(Connection con) {
+		super();
+		this.con = con;
+	}
+
+	@Override
+	public boolean createEmployee(Employee obj) throws DuplicateEmployeeIDException {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public Employee readEmployee(int employeeId) throws EmployeeNotFoundException {
+
+		PreparedStatement statement;
+		try {
+			statement = con.prepareStatement("SELECT EMPNO, EMPNAME, EMPSALARY FROM EMPLOYEE.EMP WHERE EMPNO=?");
+			statement.setInt(1, employeeId);
+			ResultSet rs = statement.executeQuery();
+			if (rs.next()) {
+				int empid = rs.getInt(1);
+				String empname = rs.getString(2);
+				double empsal = rs.getDouble(3);
+				return new Employee(empid, empname, empsal);
+			}
+			throw new EmployeeNotFoundException("Employee Not Found");
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	@Override
+	public boolean updateEmployee(int employeeId, double newSalary) throws EmployeeNotFoundException {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean deleteEmployee(int employeeId) throws EmployeeNotFoundException {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+}
+----------------------------------------------------------------------------------------------------------------------------------------
+public class MainHTCGlobalServicesJDBC {
+
+	public static void main(String[] args) throws SQLException, ClassNotFoundException, FileNotFoundException, IOException {
+		DBConnector DBConn = new DBConnector();
+		Connection con = DBConn.getConnection();
+
+		if (con != null) {
+			System.out.println("You made it, take control your database now!");
+		}
+		HTCGlobalServicesDAO company = new HTCGlobalServicesDAO(con);
+		try {
+			System.out.println(company.readEmployee(10));
+		} catch (EmployeeNotFoundException e) {
+			e.printStackTrace();
+		}
+
+	}
+
+}
+----------------------------------------------------------------------------------------------------------------------------------------
+
+public class DBConnector {
+
+	private Properties connectionProperties = new Properties();
+
+	public Connection getConnection() throws SQLException, ClassNotFoundException, FileNotFoundException, IOException {
+		connectionProperties.load(new FileInputStream("ConnectionFile.properties"));
+		Class.forName(connectionProperties.getProperty("driver"));
+		Connection connection = DriverManager.getConnection(connectionProperties.getProperty("url"),
+				connectionProperties.getProperty("username"), connectionProperties.getProperty("password"));
+		// System.out.println(connection);
+		return connection;
+
+	}
+
+}
