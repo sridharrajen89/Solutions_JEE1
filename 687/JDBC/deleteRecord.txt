@@ -1,0 +1,25 @@
+-- Function: public.deleterecord(integer)
+
+-- DROP FUNCTION public.deleterecord(integer);
+
+CREATE OR REPLACE FUNCTION public.deleterecord(employeenumber integer)
+  RETURNS boolean AS
+$BODY$
+DECLARE status BOOLEAN;
+
+BEGIN
+
+	status:=false;
+	
+        DELETE FROM public."Employee" WHERE "employeeNumber" = employeeNumber;
+
+        status:=true;
+
+	RETURN status;
+
+END;
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100;
+ALTER FUNCTION public.deleterecord(integer)
+  OWNER TO postgres;

@@ -1,0 +1,27 @@
+-- Function: public.updaterecord(integer, double precision)
+
+-- DROP FUNCTION public.updaterecord(integer, double precision);
+
+CREATE OR REPLACE FUNCTION public.updaterecord(
+    employeenumber integer,
+    employeesalary double precision)
+  RETURNS boolean AS
+$BODY$
+DECLARE status BOOLEAN;
+
+BEGIN
+
+	status:=false;
+	
+        UPDATE public."Employee" SET "employeeSalary" = employeeSalary WHERE "employeeNumber" = employeeNumber;
+
+        status:=true;
+
+	RETURN status;
+
+END;
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100;
+ALTER FUNCTION public.updaterecord(integer, double precision)
+  OWNER TO postgres;

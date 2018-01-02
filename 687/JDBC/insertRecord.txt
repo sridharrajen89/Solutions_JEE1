@@ -1,0 +1,28 @@
+-- Function: public.insertrecord(integer, character, double precision)
+
+-- DROP FUNCTION public.insertrecord(integer, character, double precision);
+
+CREATE OR REPLACE FUNCTION public.insertrecord(
+    employeenumber integer,
+    employeename character,
+    employeesalary double precision)
+  RETURNS boolean AS
+$BODY$
+DECLARE status BOOLEAN;
+
+BEGIN
+
+	status:=false;
+	
+        INSERT INTO public."Employee" ("employeeNumber","employeeName","employeeSalary") VALUES (employeeNumber,employeeName,employeeSalary);
+
+        status:=true;
+
+	RETURN status;
+
+END;
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100;
+ALTER FUNCTION public.insertrecord(integer, character, double precision)
+  OWNER TO postgres;

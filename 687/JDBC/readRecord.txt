@@ -1,0 +1,20 @@
+-- Function: public.readrecord(integer)
+
+-- DROP FUNCTION public.readrecord(integer);
+
+CREATE OR REPLACE FUNCTION public.readrecord(IN employeenumber integer)
+  RETURNS TABLE(empno integer, empname character, empsalary double precision) AS
+$BODY$
+
+BEGIN
+
+        RETURN QUERY 
+        SELECT "employeeNumber","employeeName","employeeSalary" FROM public."Employee" WHERE "employeeNumber" = employeeNumber;
+
+END;
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100
+  ROWS 1000;
+ALTER FUNCTION public.readrecord(integer)
+  OWNER TO postgres;
