@@ -1,0 +1,322 @@
+Connection Class
+=================
+package week3Exercise;
+
+import  java.sql.DriverManager; 
+public class Connection {
+	
+	driver:org.postgresql.Driver
+	url:jdbc:postgresql://localhost:5432/Users 
+	username:postgres 
+	password:Test1234 
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------- 
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------- 
+
+Employee Class
+==============
+package week3Exercise;
+
+public class Employee {
+	 private static int employeenumber;
+	 private String employeeName;
+	 private double employeeSalary;
+	 
+	public Employee() { }
+	 
+	public Employee(int employeenumber, String employeeName,
+			double employeeSalary) {
+		super();
+		this.employeenumber = employeenumber;
+		this.employeeName = employeeName;
+		this.employeeSalary = employeeSalary;
+	}
+
+	@Override
+	public String toString() {
+		return "Employee [employeenumber=" + employeenumber + ", employeeName="
+				+ employeeName + ", employeeSalary=" + employeeSalary + "]";
+	}
+
+	public static int getEmployeenumber() {
+		return employeenumber;
+	}
+
+	public void setEmployeenumber(int employeenumber) {
+		this.employeenumber = employeenumber;
+	}
+
+	public String getEmployeeName() {
+		return employeeName;
+	}
+
+	public void setEmployeeName(String employeeName) {
+		this.employeeName = employeeName;
+	}
+
+	public double getEmployeeSalary() {
+		return employeeSalary;
+	}
+
+	public void setEmployeeSalary(double employeeSalary) {
+		this.employeeSalary = employeeSalary;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+				+ ((employeeName == null) ? 0 : employeeName.hashCode());
+		long temp;
+		temp = Double.doubleToLongBits(employeeSalary);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		result = prime * result + employeenumber;
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Employee other = (Employee) obj;
+		if (employeeName == null) {
+			if (other.employeeName != null)
+				return false;
+		} else if (!employeeName.equals(other.employeeName))
+			return false;
+		if (Double.doubleToLongBits(employeeSalary) != Double
+				.doubleToLongBits(other.employeeSalary))
+			return false;
+		if (employeenumber != other.employeenumber)
+			return false;
+		return true;
+	}	  
+}
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------- 
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------- 
+Employee Not Found Exception Class
+==================================
+
+package week3Exercise;
+
+public class EmployeeNotFoundException extends Exception {
+	
+	public EmployeeNotFoundException ( ) {
+		
+		System.out.println("Employee Not Found Exception is triggerd");
+	}
+	
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------- 
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------- 
+Duplicate Record Exception Class
+=================================
+package week3Exercise;
+
+public class DuplicateEmployeeException extends Exception {
+	
+	public DuplicateEmployeeException () {
+		
+		System.out.println("Duplicate Employee Exception is Triggerd");
+	}
+	
+
+}
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------- 
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------- 
+Interface from CRUD Operations 
+==============================
+
+package week3Exercise;
+ 
+import java.io.IOException; 
+import  java.sql.SQLException; 
+import  java.sql.Connection; 
+import  java.sql.CallableStatement; 
+
+public interface IEmployeeServiceProvider {
+
+	boolean  insertRecord(Employee emp) throws SQLException, IOException, DuplicateEmployeeException;
+
+	Employee readRecord(int empid) throws EmployeeNotFoundException;
+	
+	boolean  updateRecord(int empid, double salary) throws EmployeeNotFoundException, SQLException, IOException;
+
+	boolean  deleteRecord(int empid) throws EmployeeNotFoundException;
+
+		
+}
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------- 
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------- 
+Interface from CRUD Operations 
+==============================
+package week3Exercise;
+import java.util.Scanner; 
+import java.io.IOException; 
+import java.sql.ResultSet;
+import  java.sql.SQLException; 
+import  java.sql.Connection; 
+import  java.sql.CallableStatement; 
+
+
+public class HTCGlobalServices extends Employee implements IEmployeeServiceProvider{
+	
+	 Connection con = null;
+	
+	@Override
+	public boolean insertRecord(Employee emp) throws SQLException,IOException,DuplicateEmployeeException {
+		
+		 
+		int empid = emp.getEmployeenumber();
+		String empName = emp.getEmployeeName();
+		double empSal = emp.getEmployeeSalary();	
+		
+		CallableStatement statement=con.prepareCall("{call insertRecord(?,?,?)}");
+		statement.setInt(1,empid);
+		statement.setString(2,empName);
+		statement.setDouble(3,empSal);
+		
+		int insertCount=statement.executeUpdate(); 
+		System.out.println(insertCount); 
+	
+     	
+		 if (empid == 0) { throw new DuplicateEmployeeException();  }
+		 
+			if(insertCount==0) {
+		 		 return true;}
+			
+			return false;
+ 	}
+
+	@Override
+	public Employee readRecord(int empid) throws EmployeeNotFoundException {
+		
+		CallableStatement statement=con.prepareCall("{call readRecord(?)}"); 
+		statement.setInt(1,empid); 
+		ResultSet rs = statement.executeQuery(); 
+		
+		SELECT "employeeNumber","employeeName","employeeSalary" FROM public."Employee" WHERE "employeeNumber" = employeeNumber;
+		
+		if(rs.next()) { 
+			empid=rs.getInt(1); 
+			empname=rs.getString(2); 
+			empsal=rs.getDouble(3); 
+			return new Employee(empid,empane,empsal); 
+			} 
+        
+		 if (empid == 0) { throw new EmployeeNotFoundException();  }
+
+	} 
+	 
+ 
+	@Override
+	public boolean updateRecord(int empid, double empsal) throws SQLException,IOException, EmployeeNotFoundException  {
+		double newSalary;
+	
+		CallableStatement statement=con.prepareCall("{call readRecord(?)}"); 
+		statement.setInt(1,empid); 
+		statement.setDouble(2,empsal); 
+		
+		int updateCount=statement.executeUpdate(); 
+		System.out.println("Count of updates - "+ updateCount);
+	 
+        UPDATE public."Employee" SET "employeeSalary" = employeeSalary WHERE "employeeNumber" = employeeNumber;
+		   
+	    throw  new EmployeeNotFoundException(); 
+		 
+	}
+
+	@Override
+	public boolean deleteRecord(int empid) throws EmployeeNotFoundException {
+		
+		DELETE FROM public."Employee" WHERE "employeeNumber" = employeeNumber;
+
+		return true;
+	}
+	
+	
+
+}
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------- 
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------- 
+Main Method
+===========
+package week3Exercise;
+
+import java.sql.Connection; 
+import java.sql.DriverManager; 
+import java.sql.PreparedStatement; 
+import java.sql.ResultSet; 
+import java.sql.Statement; 
+
+public class EmployeeTest {
+		
+	//JDBC Drivers//
+		final static String JDBC_DRIVER = "org.postgresql.Driver";   
+		final  String DB_URL = "jdbc:postgresql://localhost:5432/postgres"; 
+
+//Postgress database //
+		  final static String USER = "postgres"; 
+		   final String PASS = "Test1234"; 
+
+		 public static void main(String[] args) { 
+		 	Connection conn = null; 
+		 	Statement stmt = null; 
+		 	
+		 	try { 
+		 		 			System.out.println("Test SQL"); 
+		 		  			Class.forName(JDBC_DRIVER); 
+		 		  			conn = DriverManager.getConnection(DB_URL, USER, PASS); 
+		 		  			System.out.println(conn.getCatalog()); 
+		 		  			System.out.println(conn.getSchema()); 
+		 		  			 
+		 		  		     //select statement
+		 		  		      System.out.println("Creating statement..."); 
+		 		  		      stmt = conn.createStatement(); 
+		 		  		      System.out.println(stmt.getClass()); 
+		 		  		      String sql; 
+		 		  		      sql = "SELECT \"Employee\".\"employeeNumber\", " 
+		 		  		      		+ "\"Employee\".\"employeeName\", " 
+		 		  		      		+ "\"Employee\".\"employeeSalary\" " 
+		 		  		      		+ "FROM public.\"Employee\""; 
+		 		  		      ResultSet rs = stmt.executeQuery(sql); 
+		 		  
+		 		 
+		 		  		     //Read from employee table 
+		 		  		      while(rs.next()){ 
+		 		  		        
+		 		  		         int id  = rs.getInt("employeeNumber"); 
+		 		  		         String name = rs.getString("employeeName"); 
+		 		  		         Double sal = rs.getDouble("employeeSalary"); 
+		 		  
+		 		 
+		 		  		         //Display values 
+		 		  		         System.out.print("ID: " + id); 
+		 		  		         System.out.print(", name: " + name.trim()); 
+		 		  		         System.out.println(", salary: " + sal); 
+		 		  		      } 
+		 		  		  //  close statements 
+		 		  		      rs.close(); 
+		 		  		      stmt.close(); 
+		 		  		      conn.close(); 
+		 		  		}catch(Exception ex) { 
+		 		  			System.out.println(ex.getMessage()); 
+		 		  		} 
+		 		  
+		 		 
+		 		  	} 
+		 		  
+		 		 
+		 		  } 
+ 
+
+		
+	}
+
+}
