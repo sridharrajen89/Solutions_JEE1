@@ -1,0 +1,133 @@
+Insert Record Function
+======================
+
+-- Function: "InsertRecord"(integer, character, double precision)
+
+-- 
+
+DROP FUNCTION "InsertRecord"(integer, character, double precision);
+
+
+
+CREATE OR REPLACE FUNCTION "InsertRecord"("employeeNumber" integer, "employeeName" character, "employeeSal" double precision)
+  RETURNS boolean AS
+
+$BODY$
+Begin
+
+ INSERT INTO public."Employee" ("employeeNumber","employeeName","employeeSalary") VALUES (employeeNumber,employeeName,employeeSalary);
+
+
+END;
+
+ 
+$BODY$
+  
+LANGUAGE plpgsql VOLATILE
+  COST 100;
+
+ALTER FUNCTION "InsertRecord"(integer, character, double precision)
+  
+OWNER TO postgres;
+
+
+COMMENT ON FUNCTION "InsertRecord"(integer, character, double precision) IS 'To Insert Employee Records';
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Read Employee Record Function
+=============================
+
+-- Function: "ReadEmployee"()
+
+-- DROP FUNCTION "ReadEmployee"();
+
+
+CREATE OR REPLACE FUNCTION "ReadEmployee"()
+  
+RETURNS pg_tables AS
+
+$BODY$
+Begin
+
+
+  SELECT "employeeNumber","employeeName","employeeSalary" FROM public."Employee" WHERE "employeeNumber" = employeeNumber;
+
+End;
+$BODY$
+
+
+LANGUAGE plpgsql VOLATILE
+  COST 100;
+
+ALTER FUNCTION "ReadEmployee"()
+  OWNER TO postgres;
+
+COMMENT ON FUNCTION "ReadEmployee"() IS 'This Function is to read the Employee Details';
+
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Update Employee Record Function 
+===============================
+
+-- Function: "UpdateEmployee"(integer, double precision)
+
+-- 
+DROP FUNCTION "UpdateEmployee"(integer, double precision);
+
+CREATE OR REPLACE FUNCTION "UpdateEmployee"("employeeNumber" integer, "employeeSal" double precision)
+  
+RETURNS boolean AS
+$BODY$
+Begin
+
+
+Update publc."Employee"
+SET "employeeSalary" = employeeSalary 
+WHERE "employeeNumber" = employeeNumber;
+
+
+end;
+$BODY$
+ 
+LANGUAGE plpgsql VOLATILE
+  COST 100;
+
+ALTER FUNCTION "UpdateEmployee"(integer, double precision)
+  
+OWNER TO postgres;
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Delete Employee Record Function 
+===============================
+
+-- Function: "DeleteEmployee"(integer)
+
+-- 
+DROP FUNCTION "DeleteEmployee"(integer);
+
+
+CREATE OR REPLACE FUNCTION "DeleteEmployee"("employeeNumber" integer)
+ 
+RETURNS boolean AS
+$BODY$
+Begin
+
+
+Delete from public."Employee"
+
+Where "employeeNumber" = employeeNumber;
+
+
+End;
+$BODY$
+LANGUAGE plpgsql VOLATILE
+  COST 100;
+
+ALTER FUNCTION "DeleteEmployee"(integer)
+
+  OWNER TO postgres;
+
+COMMENT ON FUNCTION "DeleteEmployee"(integer) IS 'This function is to Delete the Employee record';
