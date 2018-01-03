@@ -1,0 +1,133 @@
+----------------------------Insert Employee Procedure
+
+CREATE OR REPLACE FUNCTION public.insertemp(
+
+    empid integer,
+
+    empname character varying,
+
+    empsalary double precision)
+
+  RETURNS boolean AS
+
+$BODY$
+
+DECLARE status BOOLEAN;
+
+BEGIN
+
+  status:=false;
+
+  INSERT INTO public."EMPLOYEE" ("EMP_ID","EMP_NAME","EMP_SALARY") VALUES (empId,empName,empSalary);
+
+  status:=true;
+
+  RETURN status;
+
+END;
+
+$BODY$
+
+  LANGUAGE plpgsql VOLATILE
+
+  COST 100;
+
+ALTER FUNCTION public.insertemp(integer, character varying, double precision)
+
+  OWNER TO postgres;
+
+----------------------------Update Employee Procedure
+
+CREATE OR REPLACE FUNCTION public.updateemp(
+
+    empid integer,
+
+    empsalary double precision)
+
+  RETURNS boolean AS
+
+$BODY$
+
+DECLARE status BOOLEAN;
+
+BEGIN
+
+  status:=false;
+
+  UPDATE public."EMPLOYEE" SET "EMP_SALARY" = empsalary WHERE "EMP_ID" = empid; 
+
+  status:=true;
+
+  RETURN status;
+
+END;
+
+$BODY$
+
+  LANGUAGE plpgsql VOLATILE
+
+  COST 100;
+
+ALTER FUNCTION public.updateemp(integer, double precision)
+
+  OWNER TO postgres;
+
+----------------------------Delete Employee Procedure
+
+CREATE OR REPLACE FUNCTION public.deleteemp(empid integer)
+
+  RETURNS boolean AS
+
+$BODY$
+
+DECLARE status BOOLEAN;
+
+BEGIN
+
+  status:=false;
+
+  DELETE FROM public."EMPLOYEE" WHERE "EMP_ID" = empid; 
+
+  status:=true;
+
+  RETURN status;
+
+END;
+
+$BODY$
+
+  LANGUAGE plpgsql VOLATILE
+
+  COST 100;
+
+ALTER FUNCTION public.deleteemp(integer)
+
+  OWNER TO postgres;
+----------------------------Select Employee Procedure
+
+CREATE OR REPLACE FUNCTION public.selectemp(IN empid integer)
+
+  RETURNS TABLE(empoyeeid integer, empname character varying, empsalary double precision) AS
+
+$BODY$
+
+BEGIN
+
+  RETURN QUERY 
+
+  SELECT "EMP_ID", "EMP_NAME","EMP_SALARY" FROM public."EMPLOYEE" WHERE "EMP_ID"=empId;
+
+END;
+
+$BODY$
+
+  LANGUAGE plpgsql VOLATILE
+
+  COST 100
+
+  ROWS 1000;
+
+ALTER FUNCTION public.selectemp(integer)
+
+  OWNER TO postgres;
+
