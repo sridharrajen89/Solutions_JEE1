@@ -1,4 +1,4 @@
-MAIN mETHOD:
+MAIN METHOD:
 +++++++++++
 
 package com.jdbc.assignment;
@@ -62,7 +62,7 @@ public class JDBCMain {
 
 _______________________________________________________________________________
 
-Methodfs:
+Methods:
 
 package com.jdbc.assignment;
 
