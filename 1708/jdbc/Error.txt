@@ -1,0 +1,33 @@
+basic CRUD operation on Employee Table
+Exception in thread "main" java.lang.NullPointerException
+	at com.htc.CoreJavaExercise3.HTCGlobalServices.insertRecord(Employee.java:193)
+	at com.htc.CoreJavaExercise3.TestCRUDEmployee.main(TestCRUDEmployee.java:23)
+
+
+
+Insert function 
+
+-- FUNCTION: public."insertRecord"(integer, character varying[], double precision)
+
+-- DROP FUNCTION public."insertRecord"(integer, character varying[], double precision);
+
+CREATE OR REPLACE FUNCTION public.insertRecord(
+	employeenumber integer,
+	employeename character varying[],
+	employeesalary double precision,
+	OUT result1 integer)
+    RETURNS integer
+    LANGUAGE 'sql'
+
+    COST 100
+    VOLATILE 
+    ROWS 0
+AS $BODY$
+
+insert into employee values(employeenumber,employeename,employeesalary) RETURNING employeeNumber;
+
+$BODY$;
+
+ALTER FUNCTION public."insertRecord"(integer, character varying[], double precision)
+    OWNER TO postgres;
+
