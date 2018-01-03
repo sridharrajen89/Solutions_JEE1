@@ -1,0 +1,283 @@
+MAIN mETHOD:
++++++++++++
+
+package com.jdbc.assignment;
+
+
+import java.sql.SQLException;
+import com.jdbc.assignment.EmployeeMethods;
+import com.jdbc.assignment.Employee;
+
+public class JDBCMain {
+
+	private static Employee updateRecord;
+
+	public static void main(String[] args) {
+
+		try {
+			Employee empl =new Employee(1003,"Michael",81000);
+			EmployeeMethods methods = new EmployeeMethods();
+			boolean flag=methods.insertRecord(empl);
+			System.out.println(flag);
+			
+			//retrieve existing Record
+			System.out.println();
+			Employee readEmp = methods.readRecord(1002);
+			System.out.println(readEmp);
+			
+			boolean deleteFlag=methods.deleteRecord(62);
+			System.out.println("DeleteFlag: "+deleteFlag);
+			
+			
+			updateRecord = null;
+			//updating Employee object
+			updateRecord.setEmployeeId(1001);
+			updateRecord.setEmployeeName("Johnson");
+			updateRecord.setEmployeeSalary(56789);
+			
+			boolean updateFlag=methods.updateRecord(123432, updateRecord);
+			System.out.println("UpdateFlag: "+updateFlag);
+			
+		
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		catch (DuplicateEmployeeException e) {
+			// TODO Auto-generated catch block
+			System.out.println("Duplicate employee found");
+		}
+		
+		catch (EmployeeNotFoundException e) {
+			// TODO Auto-generated catch block
+			System.out.println("Duplicate employee found");
+		}
+		
+		
+	}
+}
+
+
+_______________________________________________________________________________
+
+Methodfs:
+
+package com.jdbc.assignment;
+
+import java.sql.CallableStatement;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.sql.Types;
+import java.util.ArrayList;
+import com.htc.jdbc.connector.DBConnector;
+import com.htc.jdbc.mobile.MobileDTO;
+import com.jdbc.assignment.DuplicateEmployeeException;
+
+public class EmployeeMethods implements IEmployeeServiceProvider {
+
+
+	@Override
+	public boolean insertRecord(Employee newEmp) throws DuplicateEmployeeException, SQLException {
+		boolean result=false;
+		Connection con = DBConnector.getConnection();
+//		CallableStatement cstmt = con.prepareCall("{?=call INSERTEMPLOYEE(?,?,?)}");
+		
+		PreparedStatement cstmt = con.prepareStatement("INSERT INTO employee(EmployeeNumber,EmployeeName,Salary) VALUES(?,?,?)");
+		
+//		cstmt.registerOutParameter(1, java.sql.Types.INTEGER);
+		cstmt.setInt(1, newEmp.getEmployeeId());
+		cstmt.setString(2, newEmp.getEmployeeName());
+		cstmt.setDouble(3, newEmp.getEmployeeSalary());
+				
+		int insertCount=cstmt.executeUpdate();// actual execution happens 
+		System.out.println(insertCount);
+		if(insertCount ==1) 
+		{
+			result=true;
+			return result;
+		}
+			else {
+			throw new DuplicateEmployeeException();
+			}
+	}
+		
+	public Employee readRecord(int employeeId) throws EmployeeNotFoundException, SQLException {
+		Employee emp = null;
+		Connection con = DBConnector.getConnection();
+		PreparedStatement ps = con.prepareStatement("SELECT EmployeeNumber,EmployeeName,Salary FROM employee WHERE employeenumber=?");
+		ps.setInt(1, employeeId);
+		ResultSet rs = ps.executeQuery();
+		rs.next();  // to point the first record in the result set
+		return emp = new Employee(rs.getInt(1), rs.getString(2), rs.getDouble(3));
+	}
+	
+	public boolean deleteRecord(int employeeId) throws SQLException {
+		Connection con = DBConnector.getConnection();
+		CallableStatement cstmt = con.prepareCall("{?=call DELETEEMPLOYEE(?)}");
+		cstmt.registerOutParameter(1, Types.BOOLEAN);
+		cstmt.setInt(2, employeeId);
+		cstmt.execute();
+		if (cstmt.getBoolean(1)) {
+			return true;
+		} else
+			return false;
+	}
+
+	public boolean updateRecord(int employeeId, Employee updatedRecord) throws SQLException {
+		Connection con = DBConnector.getConnection();
+		CallableStatement cstmt = con.prepareCall("{?=call UPDATEEMPLOYEE(?,?,?)}");
+		cstmt.registerOutParameter(1, Types.BOOLEAN);
+		cstmt.setInt(2, updatedRecord.getEmployeeId());
+		cstmt.setString(4, updatedRecord.getEmployeeName());
+		cstmt.setDouble(5, updatedRecord.getEmployeeSalary());
+		cstmt.execute();
+		if (cstmt.getBoolean(1)) {
+			return true;
+		} else
+			return false;
+	}
+	public Employee getEmployee(int employeeId) throws SQLException {
+
+		return null;
+	}
+
+	public ArrayList<Employee> getAllEmployees() throws SQLException {
+		
+		return null;
+	}
+
+}
+
+
+___________________________________________________________________________________________
+
+package com.jdbc.assignment;
+
+public class DuplicateEmployeeException extends Exception{
+	
+	final String ERRORMESSAGE="Duplicate Employee Id, Consider new Id";
+
+	public String getERRORMESSAGE() {
+		return ERRORMESSAGE;
+	}
+
+}
+
+-----------------------------------------------------------------------------------------------
+
+package com.jdbc.assignment;
+
+public class EmployeeNotFoundException extends Exception{
+
+	private String errorMessage;
+
+	public EmployeeNotFoundException(String errorMessage) { 
+
+		super(); 
+		this.errorMessage = errorMessage; 
+	} 
+
+	public String getErrorMessage() { 
+		return errorMessage; 
+	} 
+
+	
+}
+
+___________________________________________________________________________________________
+
+package com.jdbc.assignment;
+
+import java.sql.SQLException;
+
+public interface IEmployeeServiceProvider {
+    boolean  insertRecord(Employee obj) throws DuplicateEmployeeException, SQLException;
+     Employee readRecord(int employeeId) throws EmployeeNotFoundException, SQLException;
+    boolean  updateRecord( int employeeId) throws EmployeeNotFoundException, SQLException;
+     boolean  deleteRecord(int employeeId) throws EmployeeNotFoundException, SQLException;
+}
+
+
+----------------------------------------------------------------------------------------
+
+package com.jdbc.assignment;
+
+import java.io.Serializable;
+
+public class Employee extends Object implements Serializable{
+	  
+	private int employeeId;
+	private String employeeName;
+	private double employeeSalary;
+	    
+	public Employee(int employeeId, String employeeName, double employeeSalary) {
+		super();
+		this.employeeId = employeeId;
+		this.employeeName = employeeName;
+		this.employeeSalary = employeeSalary;
+	}
+	
+	public Employee() {
+		super();
+		this.employeeId = 0;
+		this.employeeName = "";
+		this.employeeSalary = 0;
+	}
+	  
+	  public int getEmployeeId() {
+		return employeeId;
+	}
+
+	public void setEmployeeId(int employeeId) {
+		this.employeeId = employeeId;
+	}
+
+	public String getEmployeeName() {
+		return employeeName;
+	}
+
+	public void setEmployeeName(String employeeName) {
+		this.employeeName = employeeName;
+	}
+
+	public double getEmployeeSalary() {
+		return employeeSalary;
+	}
+
+	public void setEmployeeSalary(double employeeSalary) {
+		this.employeeSalary = employeeSalary;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + employeeId;
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Employee other = (Employee) obj;
+		if (employeeId != other.employeeId)
+			return false;
+		return true;
+	}
+	
+	@Override
+	public String toString() {
+		return "Employee [employeeId=" + employeeId + ", employeeName=" + employeeName + ", employeeSalary="
+				+ employeeSalary + "]";
+	}
+}
