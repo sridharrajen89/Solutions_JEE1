@@ -1,0 +1,11 @@
+CREATE OR REPLACE FUNCTION insertRecord(id int,name varchar(50),email varchar(50),age int)
+RETURNS BOOLEAN as $insertStatus$
+DECLARE 
+	status boolean;
+BEGIN
+	status:=false;
+	INSERT INTO person VALUES(id, name, email, age);
+	status:=true;
+	RETURN status;
+END;
+$insertStatus$ LANGUAGE PLPGSQL
