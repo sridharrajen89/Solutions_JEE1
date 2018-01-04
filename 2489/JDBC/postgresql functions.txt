@@ -1,0 +1,124 @@
+-- FUNCTION: public.readrecord(integer)
+
+-- DROP FUNCTION public.readrecord(integer);
+
+CREATE OR REPLACE FUNCTION public.readrecord(
+	empid integer)
+    RETURNS employee
+    LANGUAGE 'plpgsql'
+
+    COST 100
+    VOLATILE 
+    ROWS 0
+AS $BODY$
+
+DECLARE status BOOLEAN;
+info employee;
+BEGIN
+ 	status:=false; 
+         SELECT employeenumber,employeename,employeesalary INTO info FROM employee WHERE employeenumber=empid;
+         RETURN info;
+END;
+
+$BODY$;
+
+ALTER FUNCTION public.readrecord(integer)
+    OWNER TO postgres;
+
+*****************************************************************************************************************
+
+-- FUNCTION: public.insertrecord(integer, character varying, double precision)
+
+-- DROP FUNCTION public.insertrecord(integer, character varying, double precision);
+
+CREATE OR REPLACE FUNCTION public.insertrecord(
+	employeenumber integer,
+	employeename character varying,
+	employeesalary double precision)
+    RETURNS boolean
+    LANGUAGE 'plpgsql'
+
+    COST 100
+    VOLATILE 
+    ROWS 0
+AS $BODY$
+
+ DECLARE 
+ 		status BOOLEAN;
+ 
+ BEGIN
+ 
+ 	status:=false;
+         INSERT INTO employee (employeeNumber,employeeName,employeeSalary) VALUES (employeeNumber,employeeName,employeeSalary);
+         status:=true;
+ 	RETURN status;
+ 
+ END;
+$BODY$;
+
+ALTER FUNCTION public.insertrecord(integer, character varying, double precision)
+    OWNER TO postgres;
+-- FUNCTION: public.deleterecord(integer)
+
+-- DROP FUNCTION public.deleterecord(integer);
+
+CREATE OR REPLACE FUNCTION public.deleterecord(
+	employeenum integer)
+    RETURNS boolean
+    LANGUAGE 'plpgsql'
+
+    COST 100
+    VOLATILE 
+    ROWS 0
+AS $BODY$
+
+DECLARE status BOOLEAN;
+BEGIN
+status:=false;
+DELETE FROM employee
+ WHERE employeenumber = employeenum;
+IF FOUND THEN status:=true;
+		 ELSE status:=false;
+END IF;
+ 
+RETURN status; 
+END;
+ 
+$BODY$;
+
+ALTER FUNCTION public.deleterecord(integer)
+    OWNER TO postgres;
+
+*****************************************************************************************************************
+-- FUNCTION: public.updaterecord(integer, double precision)
+
+-- DROP FUNCTION public.updaterecord(integer, double precision);
+
+CREATE OR REPLACE FUNCTION public.updaterecord(
+	employeenum integer,
+	employeesal double precision)
+    RETURNS boolean
+    LANGUAGE 'plpgsql'
+
+    COST 100
+    VOLATILE 
+    ROWS 0
+AS $BODY$
+
+DECLARE status BOOLEAN;
+BEGIN
+status:=false;
+UPDATE employee
+SET employeesalary = employeesal
+ WHERE employeenumber = employeenum;
+status:=true;
+ 
+RETURN status; 
+END;
+ 
+$BODY$;
+
+ALTER FUNCTION public.updaterecord(integer, double precision)
+    OWNER TO postgres;
+
+*****************************************************************************************************************
