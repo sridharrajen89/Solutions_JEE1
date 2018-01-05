@@ -59,51 +59,6 @@ create table mobile(iemi integer, model varchar(20), brand varchar(20), cost flo
 
 select * from mobile;
 
-CREATE OR REPLACE FUNCTION insertmobile(iemi integer,model varchar(20),brand varchar(20),cost float8)
-RETURNS integer AS $insertFlag$
-DECLARE 
-	flag integer := 0;
- BEGIN	
-    INSERT INTO mobile VALUES(iemi, model, brand, cost);
-	flag := 1;
-    RETURN flag;
-END;
-$insertFlag$  LANGUAGE plpgsql;
-
-select * from mobile
-
-select insertmobile(12345,'iPhonex','Apple','999.99')
-select insertmobile(999,'iPhone','Appl','99.00')
-
-CREATE OR REPLACE FUNCTION UPDATEMOBILE(IEMI_No int,updatedModel varchar(20),updatedBrand varchar(20),updatedCost float8)
-RETURNS BOOLEAN AS $updateFlag$
-DECLARE 
-	flag BOOLEAN;
-BEGIN
-   flag:=false;
-	UPDATE Mobile SET model=updatedModel,brand=updatedBrand,cost=updatedCost WHERE IEMI=IEMI_No;
-	flag:=true;
-    RETURN flag;
-END;
-$updateFlag$  LANGUAGE plpgsql;
-
-select UPDATEMOBILE(12345,'iPhonex','Apple','1999.99')
-
-CREATE OR REPLACE FUNCTION DELETEMOBILE(IEMI_No int)
-RETURNS BOOLEAN AS $deleteFlag$
-DECLARE 
-	flag BOOLEAN;
-BEGIN
-	flag:=false;
-	DELETE FROM Mobile WHERE IEMI=IEMI_no;
-	flag:=true;
-        RETURN flag;
-END;
-$deleteFlag$  LANGUAGE plpgsql
-
-select DELETEMOBILE(999)
-
-
 CREATE OR REPLACE FUNCTION updateEmp(empNo INT, upemployeeName CHAR ,upemployeeSalary REAL)
 RETURNS  BOOLEAN  as $updateStatus$
 DECLARE
