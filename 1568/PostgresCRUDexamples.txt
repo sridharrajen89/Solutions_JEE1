@@ -55,9 +55,6 @@ select * from Employee
 
 SELECT readEmp(employeeNumber, employeeName ,employeeSalary )
 
-create table mobile(iemi integer, model varchar(20), brand varchar(20), cost float8);
-
-select * from mobile;
 
 CREATE OR REPLACE FUNCTION updateEmp(empNo INT, upemployeeName CHAR ,upemployeeSalary REAL)
 RETURNS  BOOLEAN  as $updateStatus$
