@@ -1,0 +1,47 @@
+Delete emp record:
+
+
+DECLARE status BOOLEAN;
+BEGIN
+  status:=false;
+  DELETE FROM public."Employee" WHERE "empId" = empid; 
+  status:=true;
+  RETURN status;
+END;
+
+
+======================================================================================
+
+insertemployee record
+
+DECLARE status BOOLEAN;
+BEGIN
+  status:=false;
+  INSERT INTO public."Employee" ("empId","empName","empSalary") VALUES (empId,empName,empSalary);
+  status:=true;
+  RETURN status;
+END;
+
+=======================================================================================
+
+selectemployee record
+
+BEGIN
+  RETURN QUERY 
+  SELECT "empId", "empName","empSalary" FROM public."Employee" WHERE "empId"=empId;
+END;
+
+============================================================================================
+
+update employee record
+
+DECLARE status BOOLEAN;
+BEGIN
+  status:=false;
+  UPDATE public."Employee" SET "empSalary" = empsalary WHERE "empId" = empid; 
+  status:=true;
+  RETURN status;
+END;
+
+
+
