@@ -5,7 +5,7 @@ import java.util.*;
 import java.lang.*;
 
 import java.io.*;
-//Service provider
+
 class StringServiceProvider {
 
 	public static void main(String[] args) {
