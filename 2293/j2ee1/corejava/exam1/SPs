@@ -1,0 +1,101 @@
+CREATE OR REPLACE FUNCTION public.selectproductrecord(IN prodid integer)
+
+  RETURNS TABLE(productid integer, productname character varying, productprice double precision) AS
+
+$BODY$
+
+BEGIN
+
+  RETURN QUERY 
+
+  SELECT "PRODUCT_ID", "PRODUCT_NAME", "PRODUCT_PRICE" FROM public."PRODUCT_DTLS" WHERE "PRODUCT_ID" = prodId;
+
+END;
+
+$BODY$
+
+  LANGUAGE plpgsql VOLATILE
+
+  COST 100
+
+  ROWS 1000;
+
+ALTER FUNCTION public.selectproductrecord(integer)
+
+  OWNER TO postgres;
+
+
+
+
+
+CREATE OR REPLACE FUNCTION public.updateproductrecord(
+
+    prodid integer,
+
+    prodprice double precision)
+
+  RETURNS boolean AS
+
+$BODY$
+
+DECLARE status BOOLEAN;
+
+BEGIN
+
+  status:=false;
+
+  UPDATE public."PRODUCT_DTLS" SET "PRODUCT_PRICE"=prodprice WHERE "PRODUCT_ID" = prodid;
+
+  status:=true;
+
+  RETURN status;
+
+END;
+
+$BODY$
+
+  LANGUAGE plpgsql VOLATILE
+
+  COST 100;
+
+ALTER FUNCTION public.updateproductrecord(integer, double precision)
+
+  OWNER TO postgres;
+  
+ CREATE OR REPLACE FUNCTION public.insertbookrecord(
+
+    bookid integer,
+
+    bookcategory character varying,
+
+    bookname character varying,
+
+    authorname character varying)
+
+  RETURNS boolean AS
+
+$BODY$
+
+DECLARE status BOOLEAN;
+
+BEGIN
+
+  status:=false;
+
+  INSERT INTO public."BOOK_DTLS" ("BOOK_ID", "BOOK_CATEGORY", "BOOK_NAME", "AUTHOR_NAME") VALUES (bookid,bookcategory,bookname,authorname);
+
+  status:=true;
+
+  RETURN status;
+
+END;
+
+$BODY$
+
+  LANGUAGE plpgsql VOLATILE
+
+  COST 100;
+
+ALTER FUNCTION public.insertbookrecord(integer, character varying, character varying, character varying)
+
+  OWNER TO postgres;
