@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<application  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="Application.xsd">
+	<module name="Purchases">
+		<menuitem1>Purchase Order</menuitem1> 
+		<menuitem2>Purchase Returns</menuitem2> 
+	</module> 
+	<module name="Sales"> 
+		<menuitem1>Sales Order</menuitem1> 
+		<menuitem2>Sales Returns</menuitem2> 
+	</module> 
+	<module name="Finance"> 
+		<menuitem1>Payments</menuitem1> 
+		<menuitem2>Receivables</menuitem2> 
+	</module> 
+</application>
