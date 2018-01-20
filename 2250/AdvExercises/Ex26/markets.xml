@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<markets>
+  <market>
+    <area>Paris</area>
+    <market-name>Burma Bazar</market-name>
+    <items>
+      <item>
+        <item-id>100</item-id>
+        <item-name>Pen Set</item-name>
+        <item-cost>500</item-cost>
+      </item>
+      <item>
+        <item-id>200</item-id>
+        <item-name>Flower</item-name>
+        <item-cost>120</item-cost>
+      </item>
+      <item>
+        <item-id>300</item-id>
+        <item-name>Books</item-name>
+        <item-cost>600</item-cost>
+      </item>
+    </items>
+  </market>
+</markets>

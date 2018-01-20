@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?><schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://www.example.org/markets/" targetNamespace="http://www.example.org/markets/">
+    <element name="markets" type="tns:markets_ty"></element>
+    
+    <complexType name="markets_ty">
+    	<sequence>
+    		<element name="market" type="tns:market_ty"></element>
+    	</sequence>
+    </complexType>
+
+    <complexType name="market_ty">
+    	<sequence>
+            <element name="area" type="string"></element>
+            <element name="market-name" type="string"></element>
+            <element name="items" type="tns:items_ty"></element>
+    	</sequence>
+    </complexType>
+
+    <complexType name="items_ty">
+    	<sequence>
+    		<element name="item" type="tns:item_ty"></element>
+    	</sequence>
+    </complexType>
+
+    <complexType name="item_ty">
+    	<sequence>
+    		<element name="item-id" type="string"></element>
+    		<element name="item-name" type="string"></element>
+    		<element name="item-cost" type="string"></element>
+    	</sequence>
+    </complexType>
+</schema>
