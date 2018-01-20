@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<trains xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="Trains.xsd">
+  <train no="TR12760">
+    <train-name>Chennai Express</train-name>
+    <from>from</from>
+    <to>to</to>
+    <journey-info>
+      <station no="1">
+        <name>name</name>
+        <arrival-time>arrival-time</arrival-time>
+        <departure-time>departure-time</departure-time>
+      </station>
+    </journey-info>
+  </train>
+</trains>
