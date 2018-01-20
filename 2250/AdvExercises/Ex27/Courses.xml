@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><engg-courses>
+     <engg-course>
+        <course-name>BE[ECE]</course-name>    
+     	<course-time>4 years</course-time> 
+        <theory-classes>
+            <subject>
+     			<name>maths</name>
+          	    <time>10A.M</time> 
+            </subject>
+            <subject>
+                 <name>physics</name>
+	       	     <time>11A.M</time> 
+            </subject>
+            <subject>
+             	     <name>material-science</name>
+                     <time>1P.M</time> 
+            </subject>
+            <subject>
+	                <name>Vector-algebra</name>
+              	    <time>2P.M</time> 
+            </subject>
+        </theory-classes>
+  		</engg-course>
+  </engg-courses>
