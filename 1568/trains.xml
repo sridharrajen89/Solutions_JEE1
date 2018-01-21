@@ -1,18 +1,20 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <trains>
-  	<train no="TR12760">
- 		 <train-name> Chennai Express </train-name>
- 		 <from>Chennai</from>
- 		 <to>Mumbai</to>
- 				<Journey-info>
- 					<station-no>CH1</station-no>
- 					<name>Kadapa</name>
- 					<arrival-time>10:00:00</arrival-time>
- 					<departure-time>10:10:00</departure-time>
- 					<station-no>CH2</station-no>
- 					<name>Tirupati</name>
- 					<arrival-time>13:00:00</arrival-time>
- 					<departure-time>13:10:00</departure-time>
- 				</Journey-info>
- 		</train>
- </trains>
+    <train no="TR12760">
+        <train-name> Chennai Express </train-name>
+        <from>Chennai</from>
+        <to>Mumbai</to>
+    </train>
+    <train no="TR11098">
+        <train-name>Rayalaseema Express</train-name>
+        <from>Tirupati</from>
+        <to>Chennai</to>
+        <journey-info>
+            <station no="TPT01">
+                <name>Kadapa</name>
+                <arrival-time>10:30:00.000-06:00</arrival-time>
+                <departure-time>07:10:00.000-06:00</departure-time>
+            </station>
+        </journey-info>
+    </train>
+</trains>
