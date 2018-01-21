@@ -1,0 +1,17 @@
+<?xml version="1.0" ?><tour>
+  	<place>
+ 		<attractions>
+ 			<attraction>
+ 				<name>Mysore Palace</name>
+ 				<timings>
+ 					<opening-time>10:00:00</opening-time>
+ 					<close-time>20:00:00</close-time>
+ 				</timings>
+ 				<entry-fees>
+ 					<adult>Rs. 50</adult>
+ 					<child>Rs. 20</child>
+ 				</entry-fees>
+ 			</attraction>
+ 		</attractions>
+ 	</place>
+ </tour>
