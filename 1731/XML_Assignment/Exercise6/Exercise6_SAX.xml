@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ipl>
+	<team id="t1"> 
+		<team-name>Mumbai Indians</team-name> 
+		<franchise id="f1"> 
+			<franchise-name>Reliance</franchise-name> 
+		</franchise>  
+		<players> 
+			<player id="p1"> 
+				<player-name>Rohith Sharma</player-name> 
+				<player-age>26</player-age> 
+				<player-type>Batsman</player-type> 
+				<career-best>264</career-best> 
+			</player> 
+			<player id="p2"> 
+				<player-name>Harbajan Singh</player-name> 
+				<player-age>29</player-age> 
+				<player-type>Bowler</player-type> 
+				<career-best>5-31</career-best> 
+			</player> 
+		</players>        
+	</team>
+</ipl>
+

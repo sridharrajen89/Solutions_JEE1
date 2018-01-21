@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<!DOCTYPE places [
+<!ELEMENT places (place)+>
+<!ELEMENT place (type,name,facility,temp)>
+<!ELEMENT type (#PCDATA)>
+<!ATTLIST place id ID #REQUIRED>
+<!ATTLIST place state CDATA #REQUIRED >
+<!ELEMENT name (#PCDATA)>
+<!ELEMENT NOP (#PCDATA)>
+<!ELEMENT facility (boarding,lodging)>
+<!ELEMENT boarding (#PCDATA)>
+<!ELEMENT lodging (#PCDATA)>
+<!ELEMENT temp (max,min)>
+<!ELEMENT max (#PCDATA)>
+<!ELEMENT min (#PCDATA)>
+]>
+ <places>   
+
+	<place id="T100" state="HimachalaPradesh">
+	  <type>Tourist</type>
+	  <name>KuluManali</name>
+	  
+	  <facility>
+	    <boarding>Available</boarding>
+	    <lodging>Available</lodging>
+      </facility>
+	  <temp>
+	     <max>32c</max>
+		 <min>-2c</min>
+	  </temp>
+	</place>
+</places>
