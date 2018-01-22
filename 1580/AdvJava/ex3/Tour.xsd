@@ -1,0 +1,44 @@
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="tour">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="place">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="attractions">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="attraction">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element type="xs:string" name="name"/>
+                          <xs:element name="timings">
+                            <xs:complexType>
+                              <xs:sequence>
+                                <xs:element type="xs:string" name="opening-time"/>
+                                <xs:element type="xs:string" name="close-time"/>
+                              </xs:sequence>
+                            </xs:complexType>
+                          </xs:element>
+                          <xs:element name="entry-fees">
+                            <xs:complexType>
+                              <xs:sequence>
+                                <xs:element type="xs:string" name="adult"/>
+                                <xs:element type="xs:string" name="child"/>
+                              </xs:sequence>
+                            </xs:complexType>
+                          </xs:element>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+            <xs:attribute type="xs:byte" name="Code"/>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>
