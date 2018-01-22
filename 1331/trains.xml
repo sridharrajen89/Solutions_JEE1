@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>                                                                                                                                                                                                                              
+
+<trains xmlns="http://www.htc.org/train" 
+       xmlns:ns="http://www.w3.org/2001/XMLSchema-instance" 
+       ns:schemaLocation="http://www.htc.org/train trains.xsd">
+
+	<train no="TR12760">
+			<train-name>Chennai Express</train-name>
+			<from> Chennai </from>
+			<to> Hyderabad </to>
+			<journey-info>
+					<station num="T1">
+						<name>Tirupathi</name>
+						<arrival-time>6pm</arrival-time>
+						<depature-time>9pm</depature-time>
+					</station>
+			</journey-info>
+	</train>	
+	
+	<train no="TR12761">
+			<train-name>HydExpress</train-name>
+			<from> Hyderabad </from>
+			<to> Delhi </to>
+			<journey-info>
+					<station num="T2">
+						<name>Renugnta</name>
+						<arrival-time>7pm</arrival-time>
+						<depature-time>9pm</depature-time>
+					</station>
+			</journey-info>
+	</train>							
+
+    <train no="TR12578">
+        <train-name>Goutami</train-name>
+        <from>Kakinada</from>
+        <to>Hyderabad</to>
+        <journey-info>
+            <station num="T3">
+                <name>Vijayawada</name>
+                <arrival-time>11am</arrival-time>
+                <depature-time>12pm</depature-time>
+            </station>
+            <station num="T4">
+                <name>Annavaram</name>
+                <arrival-time>12am</arrival-time>
+                <depature-time>1pm</depature-time>
+            </station>
+        </journey-info>
+    </train>
+</trains>

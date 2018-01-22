@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+	    targetNamespace="http://www.htc.org/train" 
+	    xmlns="http://www.htc.org/train" 
+	    elementFormDefault="qualified">
+
+	<xsd:element name="trains" type="TrainsType"/>
+	
+	<xsd:complexType name="TrainsType">
+			<xsd:sequence>
+				<xsd:element name="train" type="trainType" maxOccurs="unbounded"/>
+			</xsd:sequence>
+	</xsd:complexType>
+	
+	<xsd:complexType name="trainType">
+			<xsd:sequence>
+				<xsd:element name="train-name" type="xsd:string" maxOccurs="1"/>
+				<xsd:element name="from" type="xsd:string" maxOccurs="1"/>
+				<xsd:element name="to"   type="xsd:string" maxOccurs="1"/>
+				<xsd:element name="journey-info" type="journeyType" maxOccurs="1"/>
+			</xsd:sequence>
+			<xsd:attribute name="no" type="xsd:ID" use="required"/>
+	</xsd:complexType>
+	
+	<xsd:complexType name="journeyType">
+			<xsd:sequence>
+				<xsd:element name="station" type="stationType" maxOccurs="unbounded" />
+			</xsd:sequence>
+	</xsd:complexType>
+	
+	<xsd:complexType name="stationType">
+			<xsd:sequence>
+				<xsd:element name="name"         type="xsd:string" />
+				<xsd:element name="arrival-time" type="xsd:string"/>
+				<xsd:element name="depature-time" type="xsd:string" />
+			</xsd:sequence>
+			<xsd:attribute name="num" type="xsd:ID" use="required"/>
+	</xsd:complexType>
+	
+</xsd:schema>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>                                                                                                                                                                                                                              
+
+<tour xmlns="http://www.htc.org/tour" 
+       xmlns:ns="http://www.w3.org/2001/XMLSchema-instance" 
+       ns:schemaLocation="http://www.htc.org/tour tour.xsd">
+
+	<place code="T001">
+			<attractions>
+					<attraction>
+						<name>Mysore Palace</name>
+						<timings>
+								<opening-time>10:00 AM</opening-time>
+								<close-time>5:00 PM</close-time>
+						</timings>
+						<entry-fees>
+								<adult>Rs. 50</adult>
+								<child>Rs. 20</child>
+						</entry-fees>
+					</attraction>
+			</attractions>
+	</place>
+</tour>					
+
