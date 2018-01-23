@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<xsd:element name="trains" type="VehicleType"/>
+
+	<xsd:complexType name="VehicleType">
+			<xsd:sequence>
+				<xsd:element name="train" type="TrainType" maxOccurs="unbounded"/>
+			</xsd:sequence>
+	</xsd:complexType>
+	
+	<xsd:complexType name="TrainType">
+		<xsd:sequence>
+			<xsd:element name="train-name" type="xsd:string"/>
+			<xsd:element name="from" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="to" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="journey-info" type="JourneyType"/>
+		</xsd:sequence>
+		<xsd:attribute name="no" type="xsd:ID" use="required"/>
+	</xsd:complexType>	
+	
+	<xsd:complexType name="JourneyType">
+			<xsd:sequence>
+				<xsd:element name="station" type="StationType" maxOccurs="unbounded"/>
+			</xsd:sequence>
+	</xsd:complexType>
+	
+	<xsd:complexType name="StationType">
+		<xsd:sequence>
+			<xsd:element name="name" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="arrival-time" type="xsd:time" minOccurs="0"/>
+			<xsd:element name="departure-time" type="xsd:time" minOccurs="0"/>
+		</xsd:sequence>
+		<xsd:attribute name="no" type="xsd:ID" use="required"/>
+	</xsd:complexType>	
+	
+</xsd:schema>

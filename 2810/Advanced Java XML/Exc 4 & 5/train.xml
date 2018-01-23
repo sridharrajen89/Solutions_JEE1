@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<trains>
+    <train no="12797">
+        <train-name>Venkatadri Express</train-name>
+        <from>Chittor</from>
+        <to>Hyderabad</to>
+        <journey-info>
+            <station no="S01">
+                <name>Chittor</name>
+                <arrival-time>05:30:00</arrival-time>
+                <departure-time>06:00:00</departure-time>
+            </station>
+        </journey-info>
+    </train>
+    <train no="13527">
+        <train-name>Chennai Express</train-name>
+        <from>Chennai</from>
+        <to>Hyderbad</to>
+        <journey-info>
+            <station no="S02">
+                <name>Chennai</name>
+                <arrival-time>06:30:00.000-06:00</arrival-time>
+                <departure-time>07:00:00.000-06:00</departure-time>
+            </station>
+        </journey-info>
+    </train>
+</trains>

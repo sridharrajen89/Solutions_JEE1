@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+    <xs:element name="tour">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="place" type="place_ty" minOccurs="0"
+                    maxOccurs="unbounded"/>
+                <xs:element name="attractions" type="ats_ty" minOccurs="0"
+                    maxOccurs="unbounded"/> 
+                 <xs:element name="attraction" type="at_ty" minOccurs="0"
+                    maxOccurs="unbounded"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
+    <xs:complexType name="place_ty">
+    	<xs:sequence>
+    		<xs:element name="attractions" type="ats_ty"/>
+    	</xs:sequence>
+    	<xs:attribute name="Code" type="xs:string"></xs:attribute>
+    </xs:complexType>
+    
+    <xs:complexType name="ats_ty">
+        <xs:sequence>
+            <xs:element name="attraction" type="at_ty"/>
+        </xs:sequence>
+    </xs:complexType>
+    
+    <xs:complexType name="at_ty">
+        <xs:sequence>
+            <xs:element name="name" type="xs:string"/>
+            <xs:element name="timings" type="time_ty"/>
+            <xs:element name="entry-fees" type="entryfee_ty"/>
+        </xs:sequence>
+    </xs:complexType>
+    
+        <xs:complexType name="time_ty">
+        <xs:sequence>
+            <xs:element name="opening-time" type="xs:string"/>
+            <xs:element name="close-time" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    
+        <xs:complexType name="entryfee_ty">
+        <xs:sequence>
+            <xs:element name="adult" type="xs:string"/>
+            <xs:element name="child" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+</xs:schema>
