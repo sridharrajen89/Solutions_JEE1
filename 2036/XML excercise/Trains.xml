@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<trains>
+    <train>
+        <train-name>Cheran</train-name>
+        <from>CHN</from>
+        <to>TRC</to>
+        <journeyinfo>
+            <station>
+                <name>HYD</name>
+                <arrival-time>S12</arrival-time>
+                <departure-time>S13</departure-time>
+            </station>
+        </journeyinfo>
+    </train>
+</trains>

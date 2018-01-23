@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+  <xs:element name="trains">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="train" minOccurs="0" maxOccurs="unbounded" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="train">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="train-name" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:element ref="from" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:element ref="to" minOccurs="0" maxOccurs="unbounded" />
+        <xs:element ref="journeyinfo" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+      <xs:attribute name="no" use="required" type="xs:NCName"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="train-name" type="xs:NCName"/>
+  <xs:element name="from" type="xs:NCName"/>
+  <xs:element name="to" type="xs:NCName"/>
+  <xs:element name="journeyinfo">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="station"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="station">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="name"/>
+        <xs:element ref="arrival-time"/>
+        <xs:element ref="departure-time"/>
+      </xs:sequence>
+      <xs:attribute name="no" use="required"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="name" type="xs:NCName"/>
+  <xs:element name="arrival-time" type="xs:NCName"/>
+  <xs:element name="departure-time" type="xs:NCName"/>
+</xs:schema>
