@@ -1,0 +1,51 @@
+CREATE OR REPLACE FUNCTION public.insertregrecord(name character varying,dob character varying,gender character varying, picsloc character varying,profession character varying,email character varying,password character varying )
+    RETURNS boolean
+    LANGUAGE 'plpgsql'
+    VOLATILE
+    PARALLEL UNSAFE
+    COST 100
+AS $BODY$DECLARE status BOOLEAN;
+BEGIN
+  status:=false;
+  INSERT INTO public."Registration" ("uname","udob","ugender","upicsloc","uprofession","uemail","upassword") VALUES (name,dob,gender,picsloc,profession,email,password);
+  status:=true;
+  RETURN status;
+END;
+$BODY$;
+
+'abc', 
+	'2010-11-25', 
+	'female', 
+	'xyz', 
+	'abc', 
+	'abc@yahoo.com', 
+	'1245421'
+
+CREATE OR REPLACE FUNCTION public.selectregrecord(IN email1 character varying)
+    RETURNS TABLE(Name character varying,DOB character varying,Gender character varying, Picsloc character varying,Profession character varying,Email character varying,Password character varying)
+    LANGUAGE 'plpgsql'
+    VOLATILE
+    PARALLEL UNSAFE
+    COST 100    ROWS 1000 
+AS $BODY$BEGIN
+  RETURN QUERY 
+  SELECT "uname","udob","ugender","upicsloc","uprofession","uemail","upassword" FROM public."Registration" WHERE "uemail"=email1;
+END;
+$BODY$;
+
+CREATE OR REPLACE FUNCTION public.validateregrecord(email1 character varying, pwd character varying)
+    RETURNS TABLE(Name character varying,DOB character varying,Gender character varying, Picsloc character varying,Profession character varying,Email character varying,Password character varying)
+    LANGUAGE 'plpgsql'
+    VOLATILE
+    PARALLEL UNSAFE
+    COST 100    ROWS 1000 
+AS $BODY$BEGIN
+  RETURN QUERY 
+  SELECT "uname","udob","ugender","upicsloc","uprofession","uemail","upassword" FROM public."Registration" WHERE "uemail"=email1 and "upassword"=pwd;
+END;
+$BODY$;
+
+
+
+
+
