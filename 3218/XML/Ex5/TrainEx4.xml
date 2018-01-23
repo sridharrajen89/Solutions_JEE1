@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<trains>
+	<train no="TR12760">
+		<train-name>Chennai Express</train-name>
+		<from>Madurai</from>
+		<to>Salem</to>
+		<journey-info>
+			<station no="S01">
+				<name>Salem Town</name>
+				<arrival-time>02:00:00</arrival-time>
+				<departure-time>03:00:00</departure-time>
+			</station>
+		</journey-info>
+	</train>
+</trains>
