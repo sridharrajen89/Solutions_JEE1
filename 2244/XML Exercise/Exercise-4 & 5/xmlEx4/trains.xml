@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<trains>
+    <train>
+        <from>Chennai</from>
+        <info>
+            <station>
+                <arrivalTime>01/21</arrivalTime>
+                <departureTime>01/22</departureTime>
+                <name>Chennai</name>
+                <stationNo>1</stationNo>
+            </station>
+        </info>
+        <to>Ooty</to>
+        <trainName>Chennai Express</trainName>
+        <trainNo>TR12760</trainNo>
+    </train>
+</trains>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="Places.xsl"?>
+<places>
+	<place id="T100" state="Himachal Pradesh">
+		<type>Tourist</type>
+		<name>KuluManali</name>
+		<facility>
+			<boarding>Available</boarding>
+			<lodging>Available</lodging>
+		</facility>
+		<temp>
+			<max>32c</max>
+			<min>-2c</min>
+		</temp>
+	</place>
+</places>

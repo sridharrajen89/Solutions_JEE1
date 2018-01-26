@@ -1,0 +1,39 @@
+CREATE OR REPLACE FUNCTION public.insertRegister(name character varying,dob character varying,gender character varying, pictureloc character varying,profession character varying,emailID character varying,password character varying )
+    RETURNS boolean
+    LANGUAGE 'plpgsql'
+    VOLATILE
+    PARALLEL UNSAFE
+    COST 100
+AS $BODY$DECLARE status BOOLEAN;
+BEGIN
+  status:=false;
+  INSERT INTO public."Registration" ("uname","udob","ugender","upicsloc","uprofession","uemail","upassword") VALUES (name,dob,gender,pictureloc,profession,emailID,password);
+  status:=true;
+  RETURN status;
+END;
+$BODY$;
+--------------------------------------------------------------------------------------------
+CREATE OR REPLACE FUNCTION public.selectRegister(IN emailID character varying)
+    RETURNS TABLE(Name character varying,DOB character varying,Gender character varying, Picsloc character varying,Profession character varying,Email character varying,Password character varying)
+    LANGUAGE 'plpgsql'
+    VOLATILE
+    PARALLEL UNSAFE
+    COST 100    ROWS 1000 
+AS $BODY$BEGIN
+  RETURN QUERY 
+  SELECT "uname","udob","ugender","upicsloc","uprofession","uemail","upassword" FROM public."Registration" WHERE "uemail"=emailID;
+END;
+$BODY$;
+-----------------------------------------------------------------------------------------
+
+CREATE OR REPLACE FUNCTION public.validateRegister(emailID character varying, pwd character varying)
+    RETURNS TABLE(Name character varying,DOB character varying,Gender character varying, Picsloc character varying,Profession character varying,Email character varying,Password character varying)
+    LANGUAGE 'plpgsql'
+    VOLATILE
+    PARALLEL UNSAFE
+    COST 100    ROWS 1000 
+AS $BODY$BEGIN
+  RETURN QUERY 
+  SELECT "uname","udob","ugender","upicsloc","uprofession","uemail","upassword" FROM public."Registration" WHERE "uemail"=emailID and "upassword"=pwd;
+END;
+$BODY$;
