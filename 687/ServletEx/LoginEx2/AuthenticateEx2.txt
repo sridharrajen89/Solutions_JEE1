@@ -1,0 +1,67 @@
+Authentication Servlet 
+
+1) Design the screen 
+	LoginEx2.html
+
+2) Use the exsisting table RegisterTable
+	User
+
+3) Create InvalidCredentialsException class 
+ 
+
+4) Stored Procedure
+   bool authenticateUser(useid,pwd){
+      SELECT COUNT(*) into :hostvalriable FROM Registaruser
+      WHERE name:=name & password:=pwd
+      IF hostvaraible = 1
+        return 1;
+      else
+        return 0;
+
+5) Use the same enity class and same database connection class
+	User
+	dbConnector
+
+6) interface ILoginServiceProvider{
+     bool authenticateUser(user,password) thorws InvalidCredentialsException 
+   }
+  
+
+7) class MatrimonyServiceProvider implements ILoginServiceProvider{
+    constructor(){
+     establish teh connection ...
+    }
+    bool authenticateUser(user,password) thorws InvalidCredentialsException{
+      use the callable statament to call authenticateUser
+    }
+  }
+
+8)@WebServlet("/LoginSevlet")
+  public class LoginServlet extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+    
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		//response.getWriter().append("Served at: ").append(request.getContextPath());
+	
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+	       // doGet(request, response);
+        String usernamne=request.getParameter("username");
+        String password=request.getParameter("password");
+        
+        ILoginServiceProvider ilsp= new MatrimonyServiceProvider();
+        bool result=islp.authenticateUser(username,password);
+        if(result==true){
+            // code to redirect to next screen 
+        else
+            //code to print invalid  credentials        
+         
+		
+
+}

@@ -1,0 +1,48 @@
+CREATE OR REPLACE FUNCTION public.authenticateuser(
+    IN usernamein character,
+    IN userpwdin character)
+  RETURNS TABLE(username character, userpwd character) AS
+$BODY$
+
+BEGIN
+
+        RETURN QUERY 
+
+        SELECT "UserName","UserPwd" FROM public."User" WHERE "UserName" = userNameIn AND "UserPwd" = userPwdIn;
+
+END;
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100
+  ROWS 1000;
+ALTER FUNCTION public.authenticateuser(character, character)
+  OWNER TO postgres;
+
+============================================================================
+CREATE OR REPLACE FUNCTION public.registeruser(
+    username character,
+    userdob character,
+    usergender character,
+    userpicloc character,
+    userprof character,
+    useremailid character,
+    userpwd character)
+  RETURNS boolean AS
+$BODY$
+DECLARE status BOOLEAN;
+
+BEGIN
+
+        INSERT INTO public."User" ("UserName","UserDOB","UserGender","UserPicLoc","UserProf","UserEmailID","UserPwd") 
+        VALUES (UserName,UserDOB,UserGender,UserPicLoc,UserProf,UserEmailID,UserPwd);
+
+        status:=true;
+
+	RETURN status;
+
+END;
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100;
+ALTER FUNCTION public.registeruser(character, character, character, character, character, character, character)
+  OWNER TO postgres;
